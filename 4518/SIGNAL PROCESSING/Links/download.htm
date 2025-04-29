@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>AF Classification from a Short Single Lead ECG Recording: The PhysioNet/Computing in Cardiology Challenge 2017 v1.0.0</title>
+    
+  <!-- wfdb-python: <p>Version: 1.0.0</p> -->
+  
+
+    
+<link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.css"/>
+<link rel="stylesheet" type="text/css" href="/static/font-awesome/css/all.css"/>
+<link rel="stylesheet" type="text/css" href="/static/custom/css/physionet.css"/>
+    
+  <link rel="stylesheet" type="text/css" href="/static/project/css/project-content.css"/>
+  <link rel="stylesheet" type="text/css" href="/static/highlight/css/default.min.css"/>
+
+    
+<script src="/static/jquery/jquery.min.js"></script>
+<script src="/static/popper/popper.min.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-87592301-7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-87592301-7');
+</script>
+    
+  <script src="/static/mathjax/MathJax.js?config=MML_HTMLorMML"></script>
+  <script src="/static/highlight/js/highlight.min.js"></script>
+
+    <link rel="shortcut icon" type="image/png" href="/static/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+
+  
+  <body class="flexbody">
+    
+<nav class="navbar navbar-expand-md navbar-dark bg-dark d-flex justify-content-between" id="mainNav">
+	<label for="navicon" class="navbar-icon">&#9776;</label>
+	<input type="checkbox" id="navicon" class="navbar-check">
+
+	<a id="nav_home" class="navbar-brand" href="/">
+		PhysioNet
+	</a>
+
+	<div class="collapse navbar-collapse" id="navbarCollapse">
+		
+
+
+
+
+<ul class="navbar-nav mr-auto">
+
+  <li class="nav-item">
+    <a id="nav_index" class="nav-link" href="/content/">
+        Find
+    </a>
+  </li>
+
+  
+    
+      <li class="nav-item">
+        <a id="nav_share" class="nav-link" href="/about/publish/" >
+          Share
+        </a>
+      </li>
+    
+  
+    
+      <li class="nav-item">
+        <a id="nav_about" class="nav-link" href="/about/" >
+          About
+        </a>
+      </li>
+    
+  
+    
+  
+    
+  
+
+  <li class="nav-item">
+    <a id="nav_news" class="nav-link" href="/news/">
+      News
+    </a>
+  </li>
+</ul>
+
+<ul class="navbar-nav ml-auto">
+  
+
+<ul class="navbar-nav ml-auto">
+  
+
+  <li class="nav-item dropdown">
+      
+          
+            <a class="nav-link dropdown-toggle" href="#" id="nav_account_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Account
+            </a>
+            <div class="dropdown-menu" aria-labelledby="nav_account_dropdown">
+                <a id="nav_login" class="dropdown-item" href="/login/">
+                  Login
+                </a>
+                <a id="nav_register" class="dropdown-item" href="/register/">
+                  Register
+                </a>
+            </div>
+          
+      
+  </li>
+</ul>
+
+	</div>
+
+	<div class="navbar-search">
+		<form class="form-inline" action="/content/">
+	    	<input name="topic" class="search-input" type="text" placeholder="Search">
+		    <span class="input-group-btn">
+		      <button id="search-button" type="submit" class="btn-search my-2 my-sm-0" title="Search PhysioNet"><span class="fa fa-search"><span class="visually-hidden">Search PhysioNet</span></span></button>
+		    </span>
+	 	</form>
+	</div>
+</nav>
+
+
+    <main>
+  <div class="container">
+    
+
+    <p>
+      <span class="badge badge-dark"><i class="fa fa-bullseye"></i> Challenge</span>
+      <span class="badge badge-success"><i class="fas fa-lock-open"></i> Open Access</span>
+    </p>
+    <h1 class="form-signin-heading">AF Classification from a Short Single Lead ECG Recording: The PhysioNet/Computing in Cardiology Challenge 2017</h1>
+    <p>
+      <strong>
+      
+        <a class="author">Gari D. Clifford</a> <i class="fas fa-info-circle" data-toggle="popover" data-original-title="<strong>Author Info</strong>" data-placement="bottom" data-content="&lt;b&gt;Affiliations&lt;/b&gt;&lt;p&gt;Emory University &amp;amp; Georgia Institute of Technology, Atlanta, USA&lt;/p&gt;<p><b>Profile</b><br><a href=/users/gari target=_blank>gari</a></p>" data-html="true" style="cursor: pointer;"></i>
+        ,&nbsp;
+      
+        <a class="author">Chengyu Liu</a> <i class="fas fa-info-circle" data-toggle="popover" data-original-title="<strong>Author Info</strong>" data-placement="bottom" data-content="&lt;b&gt;Affiliations&lt;/b&gt;&lt;p&gt;Emory University &amp;amp; Georgia Institute of Technology, Atlanta, USA&lt;/p&gt;<p><b>Profile</b><br><a href=/users/bestlcy target=_blank>bestlcy</a></p>" data-html="true" style="cursor: pointer;"></i>
+        ,&nbsp;
+      
+        <a class="author">Benjamin Moody</a> <i class="fas fa-info-circle" data-toggle="popover" data-original-title="<strong>Author Info</strong>" data-placement="bottom" data-content="&lt;b&gt;Affiliations&lt;/b&gt;&lt;p&gt;MIT Laboratory for Computational Physiology, Cambridge, USA&lt;/p&gt;<p><b>Profile</b><br><a href=/users/benjamin target=_blank>benjamin</a></p>" data-html="true" style="cursor: pointer;"></i>
+        ,&nbsp;
+      
+        <a class="author">Li-wei Lehman</a> <i class="fas fa-info-circle" data-toggle="popover" data-original-title="<strong>Author Info</strong>" data-placement="bottom" data-content="&lt;b&gt;Affiliations&lt;/b&gt;&lt;p&gt;MIT Laboratory for Computational Physiology, Cambridge, USA&lt;/p&gt;<p><b>Profile</b><br><a href=/users/lilehman target=_blank>lilehman</a></p>" data-html="true" style="cursor: pointer;"></i>
+        ,&nbsp;
+      
+        <a class="author">Ikaro Silva</a> <i class="fas fa-info-circle" data-toggle="popover" data-original-title="<strong>Author Info</strong>" data-placement="bottom" data-content="&lt;b&gt;Affiliations&lt;/b&gt;&lt;p&gt;MIT Laboratory for Computational Physiology, Cambridge, USA&lt;/p&gt;<p><b>Profile</b><br><a href=/users/ikarosilva target=_blank>ikarosilva</a></p>" data-html="true" style="cursor: pointer;"></i>
+        ,&nbsp;
+      
+        <a class="author">Alistair Johnson</a> <i class="fas fa-info-circle" data-toggle="popover" data-original-title="<strong>Author Info</strong>" data-placement="bottom" data-content="&lt;b&gt;Affiliations&lt;/b&gt;&lt;p&gt;MIT Laboratory for Computational Physiology, Cambridge, USA&lt;/p&gt;<p><b>Profile</b><br><a href=/users/alistairewj target=_blank>alistairewj</a></p>" data-html="true" style="cursor: pointer;"></i>
+        ,&nbsp;
+      
+        <a class="author">Roger Mark</a> <i class="fas fa-info-circle" data-toggle="popover" data-original-title="<strong>Author Info</strong>" data-placement="bottom" data-content="&lt;b&gt;Affiliations&lt;/b&gt;&lt;p&gt;MIT Laboratory for Computational Physiology, Cambridge, USA&lt;/p&gt;<p><b>Profile</b><br><a href=/users/rgmark target=_blank>rgmark</a></p>" data-html="true" style="cursor: pointer;"></i>
+        
+      
+      </strong>
+    </p>
+
+    <p>Published: Feb. 1, 2017. Version:
+      1.0.0
+    </p>
+
+    
+    <hr>
+
+    <!-- Latest news and announcements -->
+    
+      <div class="alert alert-primary" role="alert">
+        
+        
+        
+          
+          <p>
+            <strong>Community forum for the 2017 PhysioNet/CinC Challenge</strong>
+            <em>(April 28, 2018, 2:10 p.m.)</em>
+            <p>If you have any questions or comments regarding this challenge, please post it directly in our&nbsp;<a href="https://groups.google.com/forum/#!forum/physionet-challenges">Community Discussion Forum</a>. This will increase transparency (benefiting all the competitors) and ensure that all the challenge organizers see your question.</p>
+            
+            
+            
+          </p>
+          
+        
+        
+          
+          <p>
+            <strong>2017 PhysioNet Challenge Papers Available</strong>
+            <em>(Feb. 2, 2018, midnight)</em>
+            <p>All the papers from the 2017 Challenge along with their corresponding PDFs are now available.</p>
+            
+            
+            
+          </p>
+          
+        
+        
+        <details>
+          <summary>More news</summary>
+          
+          
+          <p>
+            <strong>Slides describing the results of the 2017 PhysioNet/CinC Challenge</strong>
+            <em>(Oct. 23, 2017, 2:09 p.m.)</em>
+            <p>Slides presented at Computing in Cardiology in Rennes, France on the 26th-27th September 2017, and at the Annual Data Institute Conference at the USF Data Science Institute, San Francisco, CA, USA on the 17th October 2017 can be found&nbsp;<a href="/content/challenge-2017/1.0.0/Clifford_Physionet_Challenge2017_USF_DS_Conference_October_15-17-2017.pdf">here&nbsp;</a>.</p>
+            
+            
+            
+          </p>
+          
+        
+        
+          
+          <p>
+            <strong>Performance of algorithms in the 2017 PhysioNet/CinC Challenge</strong>
+            <em>(Oct. 10, 2017, 2:06 p.m.)</em>
+            <p>A more detailed breakdown of performance of each official algorithm is now available&nbsp;<a href="/content/challenge-2017/1.0.0/results_all_F1_scores_for_each_classification_type.csv">here.</a></p>
+            
+            
+            
+          </p>
+          
+        
+        
+          
+          <p>
+            <strong>Official results for the 2017 PhysioNet/CinC Challenge</strong>
+            <em>(Oct. 10, 2017, 2 p.m.)</em>
+            <p>The&nbsp;<a href="/content/challenge-2017/1.0.0/results.csv">official results</a>&nbsp;are now available, as well as a&nbsp;<a href="/content/challenge-2017/1.0.0/Clifford_et-al-challenge_2017_CinC_paper.pdf">summary paper of the Challenge</a>.</p>
+            
+            
+            
+          </p>
+          
+        
+        
+          
+          <p>
+            <strong>Winners announced for the 2017 PhysioNet/CinC Challenge</strong>
+            <em>(Sept. 27, 2017, 1:57 p.m.)</em>
+            <p>Winners were announced at Computing in Cardiology 2017 in Rennes, France! Four teams were tied for first place, with an overall score of 0.83:</p>
+
+<ul>
+	<li>Shreyasi Datta, Chetanya Puri, Ayan Mukherjee, Rohan Banerjee, Anirban Dutta Choudhury, Arijit Ukil, Soma Bandyopadhyay, Rituraj Singh, Arpan Pal, and Sundeep Khandelwal</li>
+	<li>Shenda Hong, Meng Wu, Yuxi Zhou, Qingyun Wang, Junyuan Shang, Hongyan Li, and Junqing Xie</li>
+	<li>Tom&aacute;s Teijeiro, Constantino A. Garc&iacute;a, Paulo F&eacute;lix, and Daniel Castro</li>
+	<li>Morteza Zabihi, Ali Bahrami Rad, Aggelos K. Katsaggelos, Serkan Kiranyaz, Susanna Narkilahti, and Moncef Gabbouj</li>
+</ul>
+            
+            
+            
+          </p>
+          
+        
+        
+          
+          <p>
+            <strong>PhysioNet/CinC Challenge 2017</strong>
+            <em>(Feb. 1, 2017, 5 p.m.)</em>
+            <p>We are excited to announce the opening of the annual PhysioNet/Computing in Cardiology Challenge for 2017: AF Classification from a short single lead ECG recording. A database of over 10,000 ECG recordings is being made freely available exclusively for this competition by AliveCor, and represent a serendipitous sample of patient-initiated recordings of one minute or less. They have all been labeled for rhythm by hand into one of four categories: Normal, Atrial Fibrillation, Other Rhythm or Too Noisy to Process. We challenge the public to develop the most accurate classifier of these data into these four categories. As usual, a portion of these data have been hidden from the public to allow us to objectively assess your algorithms.</p>
+            
+            </span>
+            
+          </p>
+          
+          
+        </details>
+        
+      </div>
+    
+
+    <div class="row">
+      <!-- Main column -->
+      <div class="col-md-8">
+        
+          <div class="alert alert-secondary">
+
+  
+    
+      <strong>When using this resource, please cite the original publication:</strong>
+      
+        <p><a href="https://doi.org/10.22489/CinC.2017.065-469">Clifford GD, Liu C, Moody B, Li-wei HL, Silva I, Li Q, Johnson AE, Mark RG. AF classification from a short single lead ECG recording: The PhysioNet/computing in cardiology challenge 2017. In 2017 Computing in Cardiology (CinC) 2017 Sep 24 (pp. 1-4). IEEE. https://doi.org/10.22489/CinC.2017.065-469</a></p>
+      
+    
+
+    
+  
+    
+      <p>
+        <strong>Please include the standard citation for PhysioNet:</strong>
+        <a href="#citationModalPlatform" data-toggle="modal">(show more options)</a>
+          <br><span>Goldberger, A., Amaral, L., Glass, L., Hausdorff, J., Ivanov, P. C., Mark, R., ... &amp; Stanley, H. E. (2000). PhysioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals. Circulation [Online]. 101 (23), pp. e215–e220.</span>
+      </p>
+    
+
+  <div class="modal fade" id="citationModalPlatform">
+  <div class="modal-dialog citation" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+  <table><tbody>
+    
+        
+          <tr>
+            <th>APA</th>
+            <td>Goldberger, A., Amaral, L., Glass, L., Hausdorff, J., Ivanov, P. C., Mark, R., ... &amp; Stanley, H. E. (2000). PhysioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals. Circulation [Online]. 101 (23), pp. e215–e220.</td>
+          </tr>
+        
+    
+        
+          <tr>
+            <th>MLA</th>
+            <td>Goldberger, A., et al. &quot;PhysioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals. Circulation [Online]. 101 (23), pp. e215–e220.&quot; (2000).</td>
+          </tr>
+        
+    
+        
+          <tr>
+            <th>CHICAGO</th>
+            <td>Goldberger, A., L. Amaral, L. Glass, J. Hausdorff, P. C. Ivanov, R. Mark, J. E. Mietus, G. B. Moody, C. K. Peng, and H. E. Stanley. &quot;PhysioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals. Circulation [Online]. 101 (23), pp. e215–e220.&quot; (2000).</td>
+          </tr>
+        
+    
+        
+          <tr>
+            <th>HARVARD</th>
+            <td>Goldberger, A., Amaral, L., Glass, L., Hausdorff, J., Ivanov, P.C., Mark, R., Mietus, J.E., Moody, G.B., Peng, C.K. and Stanley, H.E., 2000. PhysioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals. Circulation [Online]. 101 (23), pp. e215–e220.</td>
+          </tr>
+        
+    
+        
+          <tr>
+            <th>VANCOUVER</th>
+            <td>Goldberger A, Amaral L, Glass L, Hausdorff J, Ivanov PC, Mark R, Mietus JE, Moody GB, Peng CK, Stanley HE. PhysioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals. Circulation [Online]. 101 (23), pp. e215–e220.</td>
+          </tr>
+        
+    
+  </tbody></table>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+        
+
+        
+          <h3>Introduction</h3>
+
+<p>The 2017 PhysioNet/CinC Challenge aims to encourage the development of algorithms to classify, from a single short ECG lead recording (between 30 s and 60 s in length), whether the recording shows normal sinus rhythm, atrial fibrillation (AF), an alternative rhythm, or is too noisy to be classified.</p>
+
+<p>There are various types of cardiac arrhythmias that may be classified by:</p>
+
+<ul>
+	<li>Origin: atrial arrhythmia, junctional arrhythmia, or ventricular arrhythmia.</li>
+	<li>Rate: tachycardia ( &gt; 100 beats per minute (bpm) in adults) or bradycardia ( &lt; 60 bpm in adults).</li>
+	<li>Mechanism: automaticity, re-entry, triggered.</li>
+	<li>AV Conduction: normal, delayed, blocked.</li>
+	<li>Duration: non-sustained (less than 30 s) or sustained (30 s or longer).</li>
+</ul>
+
+<p>AF is defined as a &ldquo;tachyarrhythmia characterized by predominantly uncoordinated atrial activation with consequent deterioration of atrial mechanical function&rdquo; by the American College of Cardiology (ACC), the American Heart Association (AHA) and the European Society of Cardiology (ESC) [<a href="https://physionet.org/challenge/2017/#ref1">1</a>]. AF is the most common sustained cardiac arrhythmia, occurring in 1-2% of the general population [<a href="https://physionet.org/challenge/2017/#ref2">2</a>; <a href="https://physionet.org/challenge/2017/#ref3">3</a>] and is associated with significant mortality and morbidity through association of risk of death, stroke, hospitalization, heart failure and coronary artery disease, etc. [<a href="https://physionet.org/challenge/2017/#ref3">3</a>; <a href="https://physionet.org/challenge/2017/#ref4">4</a>]. More than 12 million Europeans and North Americans are estimated to suffer from AF, and its prevalence will likely triple in the next 30-50 years [<a href="https://physionet.org/challenge/2017/#ref5">5</a>]. More importantly, the incidence of AF increases with age, from less than 0.5% at 40-50 years of age, to 5-15% for 80 year olds [<a href="https://physionet.org/challenge/2017/#ref6">6</a>].</p>
+
+<p>Despite the enormity of this problem, AF detection remains problematic, because it may be episodic. AF detectors can be thought of belonging to one of two categories: atrial activity analysis-based or ventricular response analysis-based methods. Atrial activity analysis-based AF detectors are based on the analysis of the absence of P waves or the presence of fibrillatory <em>f waves</em> in the TQ interval. Published methods to do this include: an echo state neural network [<a href="https://physionet.org/challenge/2017/#ref7">7</a>], P-wave absence (PWA) based detection [<a href="https://physionet.org/challenge/2017/#ref8">8</a>], analysis of the average number of f waves [<a href="https://physionet.org/challenge/2017/#ref9">9</a>], P-wave-based insertable cardiac monitor application [<a href="https://physionet.org/challenge/2017/#ref10">10</a>], wavelet entropy [<a href="https://physionet.org/challenge/2017/#ref11">11</a>] [<a href="https://physionet.org/challenge/2017/#ref12">12</a>] and wavelet energy [<a href="https://physionet.org/challenge/2017/#ref13">13</a>]. Atrial activity analysis-based AF detectors can achieve high accuracy if the recorded ECG signals have little noise contamination and high resolution, but tend to suffer disproportionately from noise contamination [<a href="https://physionet.org/challenge/2017/#ref4">4</a>]. In contrast, ventricular response analysis is based on the predictability of the inter-beat timing (&lsquo;RR intervals&rsquo;) of the QRS complexes in the ECG. RR intervals are derived from the most obvious large amplitude feature in the ECG, the R-peak, the detection of which can be far more noise resistant. This approach may therefore be more suitable for automatic, real-time AF detection [<a href="https://physionet.org/challenge/2017/#ref14">14</a>]. Published methods include: Poincar&eacute; plot analysis [<a href="https://physionet.org/challenge/2017/#ref15">15</a>], Lorenz plot analysis [<a href="https://physionet.org/challenge/2017/#ref16">16</a>], analysis of cumulative distribution functions [<a href="https://physionet.org/challenge/2017/#ref17">17</a>], thresholding on the median absolute deviation (MAD) of RR intervals [<a href="https://physionet.org/challenge/2017/#ref18">18</a>], histogram of the first difference of RR intervals [<a href="https://physionet.org/challenge/2017/#ref19">19</a>], minimum of the corrected conditional entropy of RR interval sequence [<a href="https://physionet.org/challenge/2017/#ref20">20</a>], 8-beat sliding window RR interval irregularity detector [<a href="https://physionet.org/challenge/2017/#ref21">21</a>], symbolic dynamics and Shannon entropy [<a href="https://physionet.org/challenge/2017/#ref22">22</a>], sample entropy of RR intervals [<a href="https://physionet.org/challenge/2017/#ref23">23</a>; <a href="https://physionet.org/challenge/2017/#ref24">24</a>; <a href="https://physionet.org/challenge/2017/#ref25">25</a>], and normalized fuzzy entropy of RR intervals [<a href="https://physionet.org/challenge/2017/#ref26">26</a>].</p>
+
+<p>It is worth noting that AF detectors that combine both atrial activity and ventricular response could provide an enhanced performance by combining independent data from each part of the cardiac cycle. Such detection approaches have included: RR interval Markov modeling combined with PR interval variability and a P wave morphology similarity measure [<a href="https://physionet.org/challenge/2017/#ref27">27</a>] and a fuzzy logic classification method which uses the combination of RR interval irregularity, P-wave absence, f-wave presence, and noise level [<a href="https://physionet.org/challenge/2017/#ref28">28</a>]. It is also worth noting that multivariate approaches based on machine learning that combines several of the above single features can also provide enhanced AF detection [<a href="https://physionet.org/challenge/2017/#ref29">29</a>; <a href="https://physionet.org/challenge/2017/#ref30">30</a>; <a href="https://physionet.org/challenge/2017/#ref31">31</a>].</p>
+
+<p>Previous studies concerning AF classification are generally limited in applicability because 1) only classification of normal and AF rhythms were performed, 2) good performance was shown on carefully-selected often clean data, 3) a separate out of sample test dataset was not used, or 4) only a small number of patients were used. It is challenging to reliably detect AF from a single short lead of ECG, and the broad taxonomy of rhythms makes this particularly difficult. In particular, many non-AF rhythms exhibit irregular RR intervals that may be similar to AF. In this Challenge, we treat all non-AF abnormal rhythms as a single class and require the Challenge entrant to classify the rhythms as 1) Normal sinus rhythm, 2) AF, 3) Other rhythm, or 4) Too noisy to classify.</p>
+
+<h3>Quick Start</h3>
+
+<ol>
+	<li>Download the training set: <code>training2017.zip</code> and the sample MATLAB entry: <code>sample2017.zip</code>.</li>
+	<li>Develop your entry by making the following edits to <code>sample2017.zip</code>:
+	<ul>
+		<li>Modify the sample entry source code file <code>challenge.m</code> with your changes and improvements.&nbsp;</li>
+		<li>Modify the <code>AUTHORS.txt</code> file to include the names of all the team members.</li>
+		<li>Unzip <code>training2017.zip</code> and move all its files to the top directory of your entry directory (where <code>challenge.m</code> is located).</li>
+		<li>Run your modified source code file on the validation records in the training set by executing the script <code>generateValidationSet.m</code>. This will also build a file called <code>entry.zip</code>.</li>
+		<li>Optional: Include a file named <code>DRYRUN</code> in the top directory of your entry (where the <code>AUTHORS.txt</code> file is located) if you do not wish your entry to be scored and counted against your limit. This is useful in cases where you wish to make sure that the changes made do not result in any error.</li>
+	</ul>
+	</li>
+	<li>Submit your <code>entry.zip</code> for scoring through the PhysioNet/CinC Challenge 2017 project (Update: submissions are now closed). The contents of <code>entry.zip</code> must be laid out exactly as in the sample entry. <strong>Improperly-formatted entries will not be scored.</strong></li>
+</ol>
+
+<p>Join our community <a href="https://physionet.org/challenge/2017/#forum">Community Discussion Forum</a> to get the latest challenge news, technical help, or if you would like to find partners to collaborate with.</p>
+
+<h3>Rules and Deadlines</h3>
+
+<p>Participants are asked to classify one lead ECG recordings as normal rhythm, AF, other rhythm or noisy recordings.</p>
+
+<p>Entrants may have an overall total of up to 15 submitted entries over both the unofficial and official phases of the competition (see <a href="https://physionet.org/challenge/2017/#table1">Table 1</a>). Each participant may receive scores for up to five entries submitted during the unofficial phase and ten entries at the end of the official phase. Unused entries may not be carried over to later phases. Entries that cannot be scored (because of missing components, improper formatting, or excessive run time) are not counted against the entry limits.</p>
+
+<p>All deadlines occur at noon GMT (UTC) on the dates mentioned below. If you do not know the difference between GMT and your local time, find out what it is <em>before</em> the deadline!</p>
+
+<table>
+	<caption><strong>Table 1:</strong> Rules and deadlines.</caption>
+	<tbody>
+		<tr>
+			<th>&nbsp;</th>
+			<th><em>Start at noon GMT on</em></th>
+			<th><em>Entry limit</em></th>
+			<th><em>End at noon GMT on</em></th>
+		</tr>
+		<tr>
+			<th><strong>Unofficial Phase</strong></th>
+			<td>1 February</td>
+			<td>5</td>
+			<td>9 April</td>
+		</tr>
+		<tr>
+			<th>[Hiatus]</th>
+			<td>9 April</td>
+			<td>0</td>
+			<td>16 April</td>
+		</tr>
+		<tr>
+			<th><strong>Official Phase</strong></th>
+			<td>16 April</td>
+			<td>10</td>
+			<td>1 September</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>All official entries must be received no later than <strong>noon GMT on Friday, 1 September 2017</strong>. In the interest of fairness to all participants, late entries will not be accepted or scored. Entries that cannot be scored (because of missing components, improper formatting, or excessive run time) are not counted against the entry limits.</p>
+
+<p>To be eligible for the <strong>open-source award</strong>, you must do all of the following:</p>
+
+<ol>
+	<li>Submit at least one open-source entry that can be scored before the Phase I deadline <strong>(noon GMT on Sunday, 9 April 2017)</strong>.</li>
+	<li>Submit at least one entry during the second phase <strong>(between noon GMT on Sunday, 16 April 2017 and noon GMT on Friday, 1 September 2017)</strong>. <em>Only your final entry will count for ranking.</em></li>
+	<li><strong>Entering an Abstract to CinC</strong>: Submit an acceptable abstract (about 299 words) on your work on the Challenge to <a href="https://www.softconf.com/i/cinc2017/">Computing in Cardiology</a> no later than <strong>15 April 2017</strong>. Include the overall score for at least one Phase I entry in your abstract. Please select &ldquo;PhysioNet/CinC Challenge&rdquo; as the topic of your abstract, so it can be identified easily by the abstract review committee. You will be notified if your abstract has been accepted by email from CinC during the first week in June.</li>
+	<li>Submit a full (4-page) paper on your work on the Challenge to CinC no later than the deadline of conference paper submission.</li>
+	<li>Attend CinC 2017 (<strong>24&ndash;27 September 2017</strong>) in Rennes, France and present your work there.</li>
+</ol>
+
+<p>Please do not submit analysis of this year&rsquo;s Challenge data to other Conferences or Journals until after CinC 2017 has taken place, so the competitors are able to discuss the results in a single forum. We expect a special issue from the journal <a href="http://iopscience.iop.org/journal/0967-3334"><em>Physiological Measurement</em></a> to follow the conference and encourage all entrants (and those who missed the opportunity to compete or attend CinC 2017) to submit extended analysis and articles to that issue, taking into account the publications and discussions at CinC 2017.</p>
+
+<h3>Challenge Data</h3>
+
+<p>ECG recordings, collected using the AliveCor device, were generously donated for this Challenge by AliveCor. The training set contains 8,528 single lead ECG recordings lasting from 9 s to just over 60 s (see <a href="https://physionet.org/challenge/2017/#table2">Table 2</a>) and the test set contains 3,658 ECG recordings of similar lengths. The test set is unavailable to the public and will remain private for the purpose of scoring for the duration of the Challenge and for some period afterwards.</p>
+
+<p>ECG recordings were sampled as 300 Hz and they have been band pass filtered by the AliveCor device. All data are provided in MATLAB V4 WFDB-compliant format (each including a .mat file containing the ECG and a .hea file containing the waveform information). More details of the training set can be seen in <a href="https://physionet.org/challenge/2017/#table2">Table 2</a>. <a href="https://physionet.org/challenge/2017/#figure1">Figure 1</a> shows the examples of the ECG waveforms (lasting for 20 s) for the four classes in this Challenge. From top to bottom, they are ECG waveforms of normal rhythm, AF rhythm, other rhythm and noisy recordings.</p>
+
+<p><em>Please note, since all the classification was performed by a single expert, we are currently in the process of re-scoring a subset where our trust of the data is lowest. We will almost certainly update labels on some of data in both the training and test databases. We may also add new data in the future, although this is unlikely to change after we begin the official phase of the competition.</em></p>
+
+<p><em>Please also note that the scoring system currently treats all classes equally. It is likely we will update this for the official phase also. The point of the unnofficial phase is for us to iron out bugs in the competition, and you are a vital part of that. Please send us suggestions/queries to <a href="mailto:challenge@physionet.org">challenge@physionet.org</a>. We welcome suggestions for reclassifying a file, but please provide your reasoning. </em></p>
+
+<p>We strongly suggest you use the Google group public forum to ask questions unless you are asking us a question that is specific to your entry only and would reveal your methods to others. In general we post answers to the Google group to provide a level playing field.</p>
+
+<p>Please note that we are all volunteers with finite bandwidth, so we prioritize our responses and often discuss them as a group first. Inevitably some emails will have a response delay or may even slip through the net.</p>
+
+<table>
+	<caption><strong>Table 2:</strong> Data profile for the training set.</caption>
+	<tbody>
+		<tr>
+			<th rowspan="2">Type</th>
+			<th rowspan="2"># recording</th>
+			<th colspan="5" style="text-align: center;">Time length (s)</th>
+		</tr>
+		<tr>
+			<th>Mean</th>
+			<th>SD</th>
+			<th>Max</th>
+			<th>Median</th>
+			<th>Min</th>
+		</tr>
+		<tr>
+			<th>Normal</th>
+			<td>5154</td>
+			<td>31.9</td>
+			<td>10.0</td>
+			<td>61.0</td>
+			<td>30</td>
+			<td>9.0</td>
+		</tr>
+		<tr>
+			<th>AF</th>
+			<td>771</td>
+			<td>31.6</td>
+			<td>12.5</td>
+			<td>60</td>
+			<td>30</td>
+			<td>10.0</td>
+		</tr>
+		<tr>
+			<th>Other rhythm</th>
+			<td>2557</td>
+			<td>34.1</td>
+			<td>11.8</td>
+			<td>60.9</td>
+			<td>30</td>
+			<td>9.1</td>
+		</tr>
+		<tr>
+			<th>Noisy</th>
+			<td>46</td>
+			<td>27.1</td>
+			<td>9.0</td>
+			<td>60</td>
+			<td>30</td>
+			<td>10.2</td>
+		</tr>
+		<tr>
+			<th><strong>Total</strong></th>
+			<td><strong>8528</strong></td>
+			<td><strong>32.5</strong></td>
+			<td><strong>10.9</strong></td>
+			<td><strong>61.0</strong></td>
+			<td><strong>30</strong></td>
+			<td><strong>9.0</strong></td>
+		</tr>
+	</tbody>
+</table>
+
+<p><strong>Figure 1</strong>. Examples of the ECG waveforms.</p>
+
+<p>&nbsp;<img alt="[Examples of the ECG waveforms]" src="/files/challenge-2017/1.0.0/example_waveforms.svg"></p>
+
+<h3>Sample Submission</h3>
+
+<p>As a starting point we have provided an example entry (post here: <a href="/content/challenge-2017/1.0.0/sample2017.zip"><code>sample2017.zip</code></a>) which provides a state of the art detector based upon the method described by Sarkar et al [<a href="https://physionet.org/challenge/2017/#ref16">16</a>]. We note that this detector provides a classification of only Normal or AF rhythms. We leave it to the Challengers to add the other classes.</p>
+
+<p>You may want to begin with the sample detector, or discard it completely and start from scratch using more data-driven or physiological model-based approaches. Please note that the sample entry has been patented by their original authors and, although we provide an open source version of it for benchmarking, you should not hope to create intellectual property from derivatives of it. We therefore suggest you concentrate on developing alternative methods to this benchmark.</p>
+
+<p><strong>NOTE:</strong> You do not need any additional software, apart from Matlab or GNU Octave, to run the sample entry. You can use any programming languages or libraries you like when implementing your own submission.</p>
+
+<h3>Preparing an entry for the challenge</h3>
+
+<p>To participate in the challenge, you will need to create software that is able to read the test data and output the final classification result without user interaction in our test environment. One sample entry (<code>sample2017.zip</code>, written in MATLAB) is available to help you get started. In addition to MATLAB, you may use any programming language (or combination of languages) supported using open source compilers or interpreters on GNU/Linux, including C, C++, Fortran, Haskell, Java, Octave, Perl, Python, and R.</p>
+
+<p><em><strong>If your entry requires software that is not installed in our sandbox environment, we will work with you during Phase I to try to ensure your code can run. We will not modify the test environment after the start of Phase II of the challenge.</strong></em></p>
+
+<p>Participants should download the sample entry (<code>sample2017.zip</code>). Entries should have the exact layout of the sample entry; specifically, they must contain:</p>
+
+<ul>
+	<li><code>setup.sh</code>, a bash script runs once before any other code from the entry; use this to compile your code as needed.</li>
+	<li><code>next.sh</code>, a bash script runs once per training or test record; it should analyze the record using your code, saving the results as a text file for each record.</li>
+	<li><code>dependencies.txt</code>, a text file that lists additional Debian packages that must be installed prior to running your entry&rsquo;s <code>setup.sh</code> and <code>next.sh</code> scripts.</li>
+	<li><code>answers.txt</code>, a text file containing the results of running your program on each record in the validation set (part of training set, see below for details). These results are used for validation only, not for ranking entries.</li>
+	<li><code>AUTHORS.txt</code>, a plain text file listing the members of your team who contributed to your code, and their affiliations.</li>
+	<li><code>LICENSE.txt</code>, a text file containing the license for your software (the default is the <a href="https://www.gnu.org/licenses/gpl.html">GPL</a>). All entries are assumed to be open source and will eventually be released on PhysioNet (for closed source entries please see below).</li>
+</ul>
+
+<p>See the comments in the sample entry&rsquo;s <code>setup.sh</code> and <code>next.sh</code> if you wish to learn how to customize these scripts for your entry.</p>
+
+<p>We verify that your code is working as you intended, by running it on a small subset (validation set, 300 recordings) of the training set, then comparing the <code>answers.txt</code> file that you submit with your entry with answers produced by your code running in our test environment using the same records. Using a small portion of the training set means you will know whether your code passed or failed to run within a small time. If your code passes this validation test, it is then evaluated and scored using the hidden test set. The score in the hidden test set determines the ranking of the entries and the final outcome of the Challenge. Note that in the Official Phase of the challenge, more data may be added to both training and hidden test set. Your final entry in the Official Phase of the competition will be run on the entire test set, and so may take much longer than earlier entries.</p>
+
+<p>In addition to the required components, your entry may include a file named <code>DRYRUN</code>. If this file is present, your entry is not evaluated using the hidden test data, and it will not be counted against your limit of entries per phase; you will receive either a confirmation of success or a diagnostic report, but no scores. Use this feature to verify that none of the required components are missing, that your <code>setup.sh</code> script works in the test environment, and that your <code>next.sh</code> script produces the expected output for the training data within the time limits.</p>
+
+<h3>Closed Source Entries</h3>
+
+<p>Although the competition is only for open source entries, we also accept the submission of closed-source entries from industry or from individuals. If you enter closed source, we will not publish your code or score (unless you specifically request that we do so). However, the default entry is open source (GPL), so you must explicitly indicate that your entry is closed source by including with your entry a file called <code>CLOSEDSOURCE.txt</code> and modifying <code>LICENSE.txt</code> accordingly. If you submit an executable, it must be compiled to run in our testing environment (Debian 8.7, amd64.)</p>
+
+<p>Open source entry scores will not be posted until after the close of the Official Phase, and closed source entries will not be posted. You may choose to swap between being open source or closed source at any time up to the end of the Unofficial Phase by inserting or removing the <code>CLOSEDSOURCE.txt</code> file with your final entry prior to the end of the Unofficial Phase.</p>
+
+<h3>More on Licences and IP</h3>
+
+<p>We would like to note that the competition does not give the company donating the data any rights to algorithms or ideas developed by competitors. Any entity is free to contact a competitor to request a license to use their code for commercial purposes. Since the competitor must use an open source license to be eligible for a prize, it may be necessary for the competitor to produce another version of the code with a different license (as copyright holders they are at liberty to do so). This would in no way influence the posting of the open source code for the Challenge or its use for research purposes.</p>
+
+<h3>Scoring</h3>
+
+<p>If your entry is properly formatted, and nothing is missing, it is tested and scored automatically, and you will receive your scores when the test is complete (depending on your entry&rsquo;s run time, this may take an hour or more). If you receive an error message instead, read it carefully and correct the problem(s) before resubmitting. Missing answers are treated as noise labels.</p>
+
+<p>The scoring for this challenge uses a <span>F1</span> measure, which is an average of the four <span>F1</span> values from each classification type. The counting rules for the numbers of the variables are defined in <a href="https://physionet.org/challenge/2017/#table3">Table 3</a> as below:</p>
+
+<div>
+<p><strong>Table 3</strong>. Counting rules for the numbers of the variables.</p></div>
+
+<img alt="Table 3" src="/files/challenge-2017/1.0.0/table3.png"><p></p>
+
+<p>For each of the four types, <span>F1</span> is defined as:</p>
+
+<ul>
+	<li>Normal rhythm:&nbsp;
+	<div><math display="block"> <semantics> <mrow> <msub> <mi>F</mi> <mrow class="MJX-TeXAtom-ORD"> <mn>1</mn> <mi>n</mi> </mrow> </msub> <mo>=</mo> <mfrac> <mrow> <mn>2</mn> <mo>×</mo> <mi>N</mi> <mi>n</mi> </mrow> <mrow> <mo stretchy="false">(</mo> <msub> <mo>∑</mo> <mi>N</mi> </msub> <mo>+</mo> <msub> <mo>∑</mo> <mi>n</mi> </msub> <mo stretchy="false">)</mo> </mrow> </mfrac> </mrow> <annotation encoding="application/x-tex">F_{1n} = \frac{2&nbsp;×&nbsp;Nn} {(∑_N&nbsp;+&nbsp;∑_n)}</annotation> </semantics> </math></div>
+
+	<p>&nbsp;</p>
+	</li>
+	<li>AF rhythm:&nbsp;
+	<div><math display="block"> <semantics> <mrow> <msub> <mi>F</mi> <mrow class="MJX-TeXAtom-ORD"> <mn>1</mn> <mi>a</mi> </mrow> </msub> <mo>=</mo> <mfrac> <mrow> <mn>2</mn> <mo>×</mo> <mi>A</mi> <mi>a</mi> </mrow> <mrow> <mo stretchy="false">(</mo> <msub> <mo>∑</mo> <mi>A</mi> </msub> <mo>+</mo> <msub> <mo>∑</mo> <mi>a</mi> </msub> <mo stretchy="false">)</mo> </mrow> </mfrac> </mrow> <annotation encoding="application/x-tex">F_{1a} = \frac{2&nbsp;×&nbsp;Aa} {(∑_A&nbsp;+&nbsp;∑_a)}</annotation> </semantics> </math></div>
+
+	<p>&nbsp;</p>
+	</li>
+	<li>Other rhythm:&nbsp;
+	<div><math display="block"> <semantics> <mrow> <msub> <mi>F</mi> <mrow class="MJX-TeXAtom-ORD"> <mn>1</mn> <mi>o</mi> </mrow> </msub> <mo>=</mo> <mfrac> <mrow> <mn>2</mn> <mo>×</mo> <mi>O</mi> <mi>o</mi> </mrow> <mrow> <mo stretchy="false">(</mo> <msub> <mo>∑</mo> <mi>O</mi> </msub> <mo>+</mo> <msub> <mo>∑</mo> <mi>o</mi> </msub> <mo stretchy="false">)</mo> </mrow> </mfrac> </mrow> <annotation encoding="application/x-tex">F_{1o} = \frac{2&nbsp;×&nbsp;Oo} {(∑_O&nbsp;+&nbsp;∑_o)}</annotation> </semantics> </math></div>
+
+	<p>&nbsp;</p>
+	</li>
+	<li>Noisy:&nbsp;
+	<div><math display="block"> <semantics> <mrow> <msub> <mi>F</mi> <mrow class="MJX-TeXAtom-ORD"> <mn>1</mn> <mi>p</mi> </mrow> </msub> <mo>=</mo> <mfrac> <mrow> <mn>2</mn> <mo>×</mo> <mi>P</mi> <mi>p</mi> </mrow> <mrow> <mo stretchy="false">(</mo> <msub> <mo>∑</mo> <mi>P</mi> </msub> <mo>+</mo> <msub> <mo>∑</mo> <mi>p</mi> </msub> <mo stretchy="false">)</mo> </mrow> </mfrac> </mrow> <annotation encoding="application/x-tex">F_{1p} = \frac{2&nbsp;×&nbsp;Pp} {(∑_P&nbsp;+&nbsp;∑_p)}</annotation> </semantics> </math></div>
+
+	<p>&nbsp;</p>
+	</li>
+</ul>
+
+<p>The script <code>score2017Challenge.m</code> in the sample entry, <code>sample2017.zip</code>, generates the final challenge score as follows:</p>
+
+<div><math display="block"> <semantics> <mrow> <mi>F</mi> <mn>1</mn> <mo>=</mo> <mfrac> <mrow> <mo stretchy="false">(</mo> <msub> <mi>F</mi> <mrow class="MJX-TeXAtom-ORD"> <mn>1</mn> <mi>n</mi> </mrow> </msub> <mo>+</mo> <msub> <mi>F</mi> <mrow class="MJX-TeXAtom-ORD"> <mn>1</mn> <mi>a</mi> </mrow> </msub> <mo>+</mo> <msub> <mi>F</mi> <mrow class="MJX-TeXAtom-ORD"> <mn>1</mn> <mi>o</mi> </mrow> </msub> <mo>+</mo> <msub> <mi>F</mi> <mrow class="MJX-TeXAtom-ORD"> <mn>1</mn> <mi>p</mi> </mrow> </msub> <mo stretchy="false">)</mo> </mrow> <mn>4</mn> </mfrac> </mrow> <annotation encoding="application/x-tex">F1 = \frac{(F_{1n}&nbsp;+&nbsp;F_{1a}&nbsp;+&nbsp;F_{1o}&nbsp;+&nbsp;F_{1p})}{4}</annotation> </semantics> </math></div>
+
+<p>The score on the hidden data represents your algorithm&rsquo;s performance on a subset of the data. We will assess your performance on all of the hidden data only on your final entry in the official phase of the competition. The reason we do this is to prevent you over training on the hidden data. To improve your algorithm, you must assess your algorithm&rsquo;s performance on the training data using cross validation.</p>
+
+<p>We are arbitrarily following the olympic model (for swimming events). Anyone with exactly the same score would split the &#39;medals&#39; as normal. If two tie for gold (1st place) then we skip silver and the prize money for first and second place are divided equally between the 1st place winners. The 3rd place is awarded as normal. If three or more tie for gold then we award no other places and the entire cash prize for all three places is split equally. If any number tie for silver we skip bronze and split the silver and bronze cash prizes equally between all the 2nd place teams. If several tie for bronze then they all are awarded 3rd place share the 3rd place prize money equally.</p>
+
+<p>So if a team scored 0.95 and then two teams scored 0.91, and others scored 0.85 (say) the first prize would go to the team with 0.95 and the second place would be equally awarded to the two teams scoring 0.91. No &#39;third place&#39; team would be identified.</p>
+
+<p>Note that the third decimal place in the scoring system probably isn&#39;t statistically significant, which is why our leader board doesn&#39;t show it beyond two decimal places (like they do in olympic swimming events).</p>
+
+<h3>Abstract Submission</h3>
+
+<p>Don&#39;t forget you must also submit an abstract to Computing in Cardiology before the imminent deadline on the 15th of April and attend the conference in September where we will announce the winner. See <a href="http://cinc.org">cinc.org</a>. Note that your methods and score, and therefore your abstract, will most likely change by the end of summer. That is acceptable and expected. If you don&#39;t submit now though, you won&#39;t reserve your place to discuss your methods at the conference. Please note that abstracts should include your current methods and score. We encourage you to include cross validation stats on the training data too to show the reviewers you know what you are doing. In many ways toys is far more important than your test set score we give you at this stage, so if you have a poor challenge score but a great cross validated score then you are well on your way!</p>
+
+<p>Incoherent or information poor abstracts are unlikely to be accepted as they indicate low quality approaches and an inability to communicate ideas. A well thought out abstract indicates a high likelihood of a good presentation and high quality scientific approach. Do not include a description of the competition in the abstract (it&#39;s very clear what the competition is about) ... focus on your methods and results.</p>
+
+<p>Please make sure you select the Physionet Challenge category in the abstract submission. If you don&#39;t it may get reviewed outside of the challenge track and get rejected.</p>
+
+<p>Also, please do not title your paper something similar to the challenge itself .... I&#39;ll ask you to change your title and it wastes both of our time. To be clear, our paper will be called:</p>
+
+<blockquote>
+<div>AF classification from a short single lead ECG recording: The Physionet Computing in Cardiology Challenge 2017.</div>
+</blockquote>
+
+<p>... so please do not include the phrases Physionet, Computing in Cardiology, or Challenge 2017 in your title. Please make your title specific to your technique. E.g.: &quot;AF detection using cepstral coefficients, higher order moments and an SVM&quot; would be fine .... but &quot;deep learning for AF detection&quot; is too general and will make your title indistinguishable from half the entries. Think about what makes your approach different.</p>
+
+<h3>Final Entry</h3>
+
+<p>All competitors are required to identify which of their entries they believe is their best performing entry by September 6 at 11am UTC. We will then assess this code on the entire hidden data. You will be able to change your selection at any time before September 6. If you do not designate a final entry by September 6 at 11:00 AM, we will use your last successfully-submitted entry.</p>
+
+<h3>Papers, Presentations and Posters for CinC</h3>
+
+<h3>Creating your conference paper</h3>
+
+<p>You should post a 99% complete version of your paper at least one week before the conference and mark it openly available for others to read. You obviously can&rsquo;t insert your final score in there until after the conference, and so you will have 3&ndash;4 days after the conference to update your paper. However, you must submit an acceptable and ostensibly complete 4 page paper that will not undergo any revisions after the conference, except to add the final score. Why? Well we don&rsquo;t want you spending time addressing other groups entries. You don&rsquo;t have the time to do it, nor will you have enough detailed information to do so. The time to do that is in the follow-on Physiological Measurement special issue, where we expect you to submit a full paper (as long as you like, as long as it&rsquo;s all pertinent) where you can revisit your algorithm in light of the feedback at the conference, or even improve it by using other competitor&rsquo;s ideas! It would be unfair to do so in the conference article. However, this is exactly how science progresses (after the conference) , and indeed, we hope that this conference facilitates you to swap ideas, question each other, improve, collaborate, compete if you wish (in a kind spirited manner), publish and share.</p>
+
+<p>We strongly advise you to click the box requesting that your article be pushed to the preprint site for the conference&mdash;it will help others understand more clearly what you did, and why you did it (10 minutes or a poster is rarely long enough to explain yourself). Please dedicate your article almost entirely to your methods, including the preprocessing, feature extraction, model pruning, data relabelling, external data sets used, and training cross validation. There is absolutely no need to describe the competition&mdash;we will do that in detail and you can directly reference the challenge website and the article we will publish:</p>
+
+<blockquote>
+<div>Gari Clifford, Chengyu Liu, Benjamin Moody, Li-wei H. Lehman, Ikaro Silva, Qiao Li, Alistair Johnson, Roger G. Mark. AF Classification from a Short Single Lead ECG Recording: the PhysioNet Computing in Cardiology Challenge 2017. <em>Computing in Cardiology</em> (Rennes: IEEE), Vol 44, 2017 (In Press).</div>
+</blockquote>
+
+<p>We strongly encourage you to reference this article, because it will provide the reader of your article with details missing from the website. We will post a pre-print of this in mid September (at least a week before the conference and possibly two). It will <strong>not</strong> include the list of winners and the final rankings, although we will add this in the final version immediately after the conference.</p>
+
+<p>Since you do not know who the winner will be, and what your final ranking will be, please do not indicate your position in the rankings until after the competition when the final scores are known. It is misleading to include your rankings either in the unofficial phase or at any time in the official phase. Only the final scores are meaningful, as they will have been assessed on the most accurate version of the (entire) hidden test data.</p>
+
+<p>When creating your 4 page conference article please use this latex example as a template, or download the template from <a href="http://cinc.mit.edu/authors_kit/papers/">http://cinc.mit.edu/authors_kit/papers/</a> which also includes a Word template (if you feel the need to use that). Further instructions can be found at that URL, and include details such as capitalization of subheadings, etc. Do not play with the margins, font or other parameters. The PDF generated from the source will be auto-checked for format conformity and rejected if the margins are wrong, it is too long or otherwise contravenes the instructions.</p>
+
+<h3>Creating your conference presentation</h3>
+
+<p>Be concise&mdash;no-one should discuss the aims of the competition or the databases. The challenge organizers will have done that in the first presentation of each session. Instead, focus on what you did&mdash;how you trained your algorithm, what features you selected, which open source algorithms you used, and how you stratified the data. Make sure you present cross fold validation results from the training data (as well as your overall ranking in the official competition). Stratify by patient <strong>and</strong> by database (if you have used external databases). Do not include the scores from the unofficial phase; these are unimportant. Be sure to indicate if your algorithm is open source or not.</p>
+
+<p>Do compare your results to others and be realistic about your performance on the test data. Explain what was novel in your algorithm and what made it work, and also what didn&rsquo;t work too well.</p>
+
+<p>Use pictures on each slide to draw the eye; <strong>please</strong> don&rsquo;t list a series of bullet points and repeat them verbatim. They should be short sentences&mdash;just enough to remind you what you wanted to say. The fewer words the better.</p>
+
+<p>Diagrams are beautiful, so do include them ... but <strong>please</strong> make sure we can read all the captions from the back of the room. Use high contrast <strong>thick</strong> lines; it&rsquo;s usually a long room. Try it out in your biggest auditorium before coming to the conference.</p>
+
+<p>Above all, don&rsquo;t run over; you will look unprofessional and fail to convey your message. Keep it down to 7 slides at most&mdash;you only have 10 minutes and you <strong>will be</strong> cut off after that. (It&rsquo;s unfair to use up other people&rsquo;s time, and you must allow a few minutes for questions). You can add slides afterwards to answer questions, or add a postscript if you want.</p>
+
+<p>So&mdash;make sure you practice your presentation content and timing before you come! Ask your colleagues to listen to you and critique the slides&mdash;if they don&rsquo;t understand you, we probably won&rsquo;t.</p>
+
+<h3>Creating your poster presentation</h3>
+
+<p>If you were selected for a poster presentation, don&rsquo;t worry&mdash;you still have to write a paper which is listed with <em>IEEE Explore</em> and Google Scholar, and it counts as much as if you had presented in an oral session. (There&rsquo;s no way to retrospectively find out if your 4 page paper was presented orally or as a poster).</p>
+
+<p>The maximum size was 85 cm (33&quot;) wide by 115 cm (45&quot;) tall for CinC 2016. Note that poster dimensions vary from year to year so don&rsquo;t assume that a size that fit last year will fit this year. You will receive email instructions from the conference organizers explaining this year&rsquo;s restrictions. Please make every attempt to build a visually appealing presentation, which conveys the right points.</p>
+
+<p>More information can be found here: <a href="http://cinc.mit.edu/authors_kit/presentations/">http://cinc.mit.edu/authors_kit/presentations/</a>. You may want to read these resources from researchers at <a href="http://hsp.berkeley.edu/sites/default/files/ScientificPosters.pdf">Cornell</a> and <a href="https://weblearn.ox.ac.uk/access/content/group/e05e05d2-f4ce-4a24-a008-031832bd1509/LearningRes_Open/Course_Book_Ppt_TIUD_Conference_Posters10.pdf">Oxford</a>.</p>
+
+<p>There is a prize for the best poster, so do take it seriously, and make sure you stand by it during your session if you want to be in the running!</p>
+
+<h3>After the Challenge</h3>
+
+<p>As is customary, we hope to run a special issue in <a href="http://iopscience.iop.org/journal/0967-3334"><em>Physiological Measurement</em></a> with a closing date of 31 January 2018. We will therefore encourage competitors (and non-competitors) to submit updates and further reworks based on the Challenge after the award ceremony at the Computing in Cardiology Conference in Rennes in September.</p>
+
+<h3>Obtaining complimentary MATLAB licenses</h3>
+
+<p><a href="http://www.mathworks.com/">The MathWorks</a> has kindly decided to sponsor Physionet&rsquo;s 2017 Challenge providing both prize money and licenses. The MathWorks is offering to all teams that wish to use MATLAB, complimentary licenses. User can apply for a license and learn more about MATLAB support through The Mathwork&rsquo;s <a href="https://www.mathworks.com/academia/student-competitions/physionet.html">PhysioNet Challenge</a> link. If you have questions or need technical support, please contact The MathWorks at <a href="mailto:academicsupport@mathworks.com">academicsupport@mathworks.com</a>.</p>
+
+<h3>Challenge Results</h3>
+
+<p>The top-scoring programs submitted in the <a href="https://physionet.org/challenge/2017/">PhysioNet/Computing in Cardiology Challenge 2017</a>&nbsp;are <a href="/content/challenge-2017/1.0.0/results.csv">listed here</a>. For more information about the details of these algorithms, see <a href="/files/challenge-2017/1.0.0/papers/index.html">the corresponding papers</a>.</p>
+
+<p>2017 Challenge Entries</p>
+
+<table>
+	<tbody>
+		<tr>
+			<th>Score</th>
+			<th>Authors</th>
+		</tr>
+		<tr>
+			<td>0.83</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/shreyasi-datta-209.zip">Shreyasi Datta, Chetanya Puri, Ayan Mukherjee, Rohan Banerjee, Anirban Dutta Choudhury, Arijit Ukil, Soma Bandyopadhyay, Rituraj Singh, Arpan Pal, Sundeep Khandelwal</a></td>
+		</tr>
+		<tr>
+			<td>0.83</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/shenda-hong-221.zip">Shenda Hong, Yuxi Zhou, Qingyun Wang, Meng Wu, Junyuan Shang</a></td>
+		</tr>
+		<tr>
+			<td>0.83</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/tomas-teijeiro-220.tar.gz">Tom&aacute;s Teijeiro, Constantino A. Garc&iacute;a, Paulo F&eacute;lix, Daniel Castro</a></td>
+		</tr>
+		<tr>
+			<td>0.83</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/morteza-zabihi-208.zip">Morteza Zabihi, Ali Bahrami Rad</a></td>
+		</tr>
+		<tr>
+			<td><em>0.83</em></td>
+			<td><em>&dagger; <a href="/content/challenge-2017/1.0.0/sources/ruhi-mahajan-209.zip">Ruhi Mahajan, Oguz Akbilgic, Rishikesan Kamaleswaran, J. Andrew Howe</a></em></td>
+		</tr>
+		<tr>
+			<td>0.82</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/mohammed-baydoun-208.zip">Mohammed Baydoun, Lise Safatly, Hassan Ghaziri, Ali El-Hajj</a></td>
+		</tr>
+		<tr>
+			<td>0.82</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/guangyu-bin-211.zip">Guangyu Bin, Minggang Shao, Jiao Huang, Guanghong Bin</a></td>
+		</tr>
+		<tr>
+			<td>0.82</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/zhaohan-xiong-282.zip">Zhaohan Xiong, Dr Jichao Zhao</a></td>
+		</tr>
+		<tr>
+			<td>0.82</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/martin-zihlmann-209.zip">Martin Zihlmann, Michael Tschannen, Dmytro Perekrestenko</a></td>
+		</tr>
+		<tr>
+			<td>0.81</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/sebastian-goodfellow-254.zip">Sebastian D. Goodfellow, Dr. Danny Eytan, Andrew Goodwin, Robert Greer, Dr. Peter Laussen, Dr. Mjaye Mazwi</a></td>
+		</tr>
+		<tr>
+			<td>0.81</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/martin-kropf-205.zip">Martin Kropf, Dieter Hayn, G&uuml;nter Schreier</a></td>
+		</tr>
+		<tr>
+			<td>0.81</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/filip-plesinger-210.zip">Filip Plesinger, Petr Nejedly, Josef Halamek, Ivo Viscor, Pavel Jurak</a></td>
+		</tr>
+		<tr>
+			<td>0.81</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/ashish-sharma-210.zip">Ashish Sharma, Dr Shivnarayan Patidar</a></td>
+		</tr>
+		<tr>
+			<td>0.81</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/dawid-smolen-206.tar.gz">Dawid Smoleń</a></td>
+		</tr>
+		<tr>
+			<td>0.81</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/marcus-vollmer-240.zip">Marcus Vollmer, Philipp Sodmann, Neetika Nath, Leonard Caanitz</a></td>
+		</tr>
+		<tr>
+			<td>0.81</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/chen-yao-276.zip">Chen Yao, Liu Dayiheng, Cheng dongdong, Hu Wei, Xu Kun, Yang Kexin, Wang Jian, Jiang Zhe</a></td>
+		</tr>
+		<tr>
+			<td><em>0.81</em></td>
+			<td><em>* <a href="/content/challenge-2017/1.0.0/sources/radovan-smisek-213.zip">Radovan Sm&iacute;&scaron;ek, Luk&aacute;&scaron; Smital, Martin V&iacute;tek, Marina Ronzhina, Jakub Hejč, Andrea Němcov&aacute;, Lucie Mar&scaron;&aacute;nov&aacute;, Jiř&iacute; Chmel&iacute;k, Jana Kol&aacute;řov&aacute;, Ivo Provazn&iacute;k</a></em></td>
+		</tr>
+		<tr>
+			<td><em>0.81</em></td>
+			<td><em>* <a href="/content/challenge-2017/1.0.0/sources/maurizio-varanini-213.zip">Maurizio Varanini, Lucia Billeci</a></em></td>
+		</tr>
+		<tr>
+			<td>0.80</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/joachim-behar-214.zip">Joachim A. Behar, Aviv Rosenberg, Yael Yaniv, Julien Oster</a></td>
+		</tr>
+		<tr>
+			<td>0.80</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/ivaylo-christov-204.zip">Ivaylo Christov, Vessela Krasteva, Iana Simova, Tatyana Neycheva, Ramun Schmid</a></td>
+		</tr>
+		<tr>
+			<td>0.80</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/chen-jiayu-202.zip">Chen Jiayu, Nigel Lovell, Stephen Redmond, Heba Khamis</a></td>
+		</tr>
+		<tr>
+			<td>0.80</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/jonathan-rubin-226.zip">Jonathan Rubin, Saman Parvaneh, Asif Rahman, Saeed Babaeizadeh, Bryan Conroy</a></td>
+		</tr>
+		<tr>
+			<td>0.80</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/dionisije-sopic-208.zip">Dionisije Sopic, Elisabetta De Giovanni, Amir Aminifar, David Atienza</a></td>
+		</tr>
+		<tr>
+			<td>0.80</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/gliner-vadim-210.zip">Gliner Vadim, Yaniv Yael</a></td>
+		</tr>
+		<tr>
+			<td>0.80</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/philip-warrick-204.zip">Philip A. Warrick, Masun Nabhan Homsi</a></td>
+		</tr>
+		<tr>
+			<td><em>0.80</em></td>
+			<td><em>&dagger; <a href="/content/challenge-2017/1.0.0/sources/na-liu-210.zip">Na Liu</a></em></td>
+		</tr>
+		<tr>
+			<td>0.79</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/fernando-andreotti-222.zip">Fernando Andreotti, Oliver Carr, Marco A. F. Pimentel, Adam Mahdi, Maarten De Vos</a></td>
+		</tr>
+		<tr>
+			<td>0.79</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/csaba-botos-247.zip">Csaba Botos, M&aacute;rton &Aacute;ron Goda, Tam&aacute;s Hakkel, Szilvia Herczeg, Istv&aacute;n Osztheimer, Andr&aacute;s Horv&aacute;th</a></td>
+		</tr>
+		<tr>
+			<td>0.79</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/marco-delai-245.zip">Marco Delai, Gaetano Scebba, Patrick Schwab, Jia Zhang</a></td>
+		</tr>
+		<tr>
+			<td>0.79</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/sasan-yazdani-204.zip">Sasan Yazdani, Jean-Marc Vesin</a></td>
+		</tr>
+		<tr>
+			<td>0.78</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/christoph-hoog-antink-207.zip">Christoph Hoog Antink, Anne Kristin Braczynski, Steffen Leonhardt, Marian Walter</a></td>
+		</tr>
+		<tr>
+			<td>0.78</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/runnan-he-210.zip">Runnan He, Yang Liu</a></td>
+		</tr>
+		<tr>
+			<td>0.78</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/vykintas-maknickas-210.zip">Vykintas Maknickas, Algirdas Maknickas</a></td>
+		</tr>
+		<tr>
+			<td>0.78</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/nadi-sadr-208.zip">Nadi Sadr, Thuy Pham, Madhuka Jayawardhana, Asghar Balaie, Rui Tang, Philip de Chazal</a></td>
+		</tr>
+		<tr>
+			<td><em>0.78</em></td>
+			<td><em>*&dagger; <a href="/content/challenge-2017/1.0.0/sources/oguz-akbilgic-219.zip">Ruhi Mahajan, Oguz Akbilgic, Rishikesan Kamaleswaran, J. Andrew Howe</a></em></td>
+		</tr>
+		<tr>
+			<td>0.77</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/mohamed-limam-237.zip">Mohamed Limam, Frederic Precioso</a></td>
+		</tr>
+		<tr>
+			<td>0.77</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/miguel-lozano-220.zip">Miguel Lozano, Viktor Kifer, Francisco Martinez-Gil</a></td>
+		</tr>
+		<tr>
+			<td>0.77</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/elena-simarro-mondejar-216.zip">Elena Simarro Mond&eacute;jar, Santiago Jim&eacute;nez Serrano, Jaime Yag&uuml;e Mayans, Conrado J. Calvo, Paco Castells, Jos&eacute; Millet Roig</a></td>
+		</tr>
+		<tr>
+			<td>0.77</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/bradley-whitaker-214.zip">Bradley M Whitaker, Muhammed Rizwan, V Burak Aydemir, David V Anderson</a></td>
+		</tr>
+		<tr>
+			<td>0.76</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/teo-soo-kng-244.zip">Teo Soo-Kng, Yang Xulei, Nguyen Phu Binh, Gabriel Tjio, Feng Ling, Su Yi, Lim Toon Wei</a></td>
+		</tr>
+		<tr>
+			<td>0.75</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/joel-karel-203.zip">Joel Karel, Pietro Bonizzi, Kurt Driessens</a></td>
+		</tr>
+		<tr>
+			<td>0.75</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/zhenning-mei-209.zip">Zhenning Mei, Hongyu Chen, Xiao Gu, Wei Chen</a></td>
+		</tr>
+		<tr>
+			<td>0.75</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/rymko-207.zip">Rymko, Perka, Solinski, Rosinski, Lepek</a></td>
+		</tr>
+		<tr>
+			<td>0.75</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/katarzyna-stepien-209.zip">Katarzyna Stepien, Iga Grzegorczyk</a></td>
+		</tr>
+		<tr>
+			<td>0.74</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/griet-goovaerts-206.zip">Griet Goovaerts, Martijn Bouss&eacute;, Otto Debals, Lieven De Lathauwer, Sabine Van Huffel</a></td>
+		</tr>
+		<tr>
+			<td>0.73</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/pedro-alvarez-204.zip">Pedro &Aacute;lvarez, Andreu M. Climent, Mar&iacute;a S. Guillem</a></td>
+		</tr>
+		<tr>
+			<td>0.73</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/javier-de-la-torre-costa-205.zip">Javier de la Torre Costa, Alfredo Torregrosa Lloret, Aitana Pascual Belda, Gabriel Garc&iacute;a Pardo</a></td>
+		</tr>
+		<tr>
+			<td>0.73</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/victor-manuel-jose-ocoa-202.zip">Victor Manuel Jos&eacute; Ocoa</a></td>
+		</tr>
+		<tr>
+			<td>0.73</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/heikki-vaananen-201.zip">Heikki V&auml;&auml;n&auml;nen, Jarno M&auml;kel&auml;</a></td>
+		</tr>
+		<tr>
+			<td>0.72</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/vignesh-kalidas-204.zip">Vignesh Kalidas</a></td>
+		</tr>
+		<tr>
+			<td>0.71</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/kamran-kiani-203.zip">Kamran Kiani, Shadi Ghiasi, Mostafa Abdollahpur, Nasim Madani</a></td>
+		</tr>
+		<tr>
+			<td>0.71</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/jos-van-der-westhuizen-206.zip">Jos van der Westhuizen</a></td>
+		</tr>
+		<tr>
+			<td><em>0.71</em></td>
+			<td><em>&dagger; <a href="/content/challenge-2017/1.0.0/sources/b-s-chandra-207.zip">B S Chandra</a></em></td>
+		</tr>
+		<tr>
+			<td><em>0.71</em></td>
+			<td><em>&dagger; <a href="/content/challenge-2017/1.0.0/sources/yonghan-jung-274.zip">Yonghan Jung, Mohammad Adibuzzaman, Yao Chen, Yuehwern Yih</a></em></td>
+		</tr>
+		<tr>
+			<td><em>0.71</em></td>
+			<td><em>&dagger; <a href="/content/challenge-2017/1.0.0/sources/ludi-wang-206.zip">Ludi Wang</a></em></td>
+		</tr>
+		<tr>
+			<td>0.69</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/ahmad-hassanat-206.zip">Ahmad B. A. Hassanat, Ghada Awad Altarawneh</a></td>
+		</tr>
+		<tr>
+			<td>0.64</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/sources/irena-jekova-204.zip">Irena Jekova, Todor Stoyanov, Ivan Dotsinsky</a></td>
+		</tr>
+		<tr>
+			<td>0.63</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/lluis-borras-ferris-205.zip">Llu&iacute;s Borr&agrave;s Ferr&iacute;s, Ignacio Jos&eacute; Pascual Fern&aacute;ndez, Julio Jos&eacute; Silva Rodr&iacute;guez, Roberto Zazo Manzaneque</a></td>
+		</tr>
+		<tr>
+			<td>0.61</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/ruhallah-amandi-205.zip">Ruhallah Amandi M, Mohammad Farhadi, A.J. Zarrin</a></td>
+		</tr>
+		<tr>
+			<td>0.61</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/ilya-potapov-245.zip">Ilya Potapov, Otto Pulkkinen, Esa R&auml;s&auml;nen</a></td>
+		</tr>
+		<tr>
+			<td>0.58</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/matthieu-da-silva-filarder-204.zip">Matthieu Da Silva-Filarder, Faezeh Marzbanrad</a></td>
+		</tr>
+		<tr>
+			<td>0.56</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/maria-rebeca-lliguin-leon-204.zip">Mar&iacute;a Rebeca Lliguin Le&oacute;n, Marta Mares Garc&iacute;a, Juliana Andrea Su&aacute;rez Hern&aacute;ndez</a></td>
+		</tr>
+		<tr>
+			<td>0.55</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/erin-coppola-202.zip">Erin Coppola</a></td>
+		</tr>
+		<tr>
+			<td>0.53</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/octavian-lucian-hasna-202.zip">Octavian-Lucian Hasna, Rodica Potolea</a></td>
+		</tr>
+		<tr>
+			<td>0.53</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/carlos-fambuena-santos-202.zip">Carlos Fambuena Santos, Carlos Lopez Gomez, Pablo Abad Martinez, Gonzalo Collantes Pablo, Jose Millet Roig, Francisco Sales Castells Ramon</a></td>
+		</tr>
+		<tr>
+			<td>0.51</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/ines-chavarria-marques-204.zip">Ines Chavarria Marques, Irene Cuenca Ortola, Laura Ferrero Montes, Eva Gil San Antonio</a></td>
+		</tr>
+		<tr>
+			<td>0.50</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/mihalis-nicolaou-226.zip">Mihalis Nicolaou, Hooman Oroojeni Mohamad Javad</a></td>
+		</tr>
+		<tr>
+			<td>0.25</td>
+			<td><a href="/content/challenge-2017/1.0.0/sources/raviteja-mullapudi-203.zip">Raviteja Mullapudi, Rajarao Mullapudi, Phanikiran Chintalapati</a></td>
+		</tr>
+	</tbody>
+</table>
+
+<p><em>* These entries were disqualified because they included code that was not freely licensed, contrary to the Challenge rules. The code in question has been removed from the archives linked above.</em></p>
+
+<p><em>&dagger; These entries were disqualified because their authors submitted more than ten entries in total, contrary to the Challenge rules.</em></p>
+
+<h3>Papers</h3>
+
+<div>
+<p>The following&nbsp;paper is an introduction to the challenge topic, with a summary of the challenge results and a discussion of their implications.&nbsp;Please cite this publication when referencing the Challenge.</p>
+</div>
+
+<blockquote>
+<div><span>Gari Clifford, Chengyu Liu, Benjamin Moody, Li-Wei Lehman, Ikaro Silva, Qiao Li, Alistair Johnson, Roger Mark.</span> <span><a href="http://www.cinc.org/archives/2017/pdf/065-469.pdf" title="065-469.pdf(in new window)">AF Classification from a Short Single Lead ECG Recording: the Physionet Computing in Cardiology Challenge 2017.</a></span></div>
+</blockquote>
+
+<p>Over 40 papers were presented by participants at <a href="http://www.cinc.org/"><em>Computers in Cardiology 2017</em></a>. These papers have been made available by their authors under the terms of the Creative Commons Attribution License 3.0 (<a href="http://creativecommons.org/licenses/by/3.0/">CCAL</a>). See <a href="/files/challenge-2017/1.0.0/papers/index.html">this page</a> for a list of the papers. We wish to thank all of the authors for their contributions.</p><h2>References</h2><p><div id="ref1">[1]</div>V. Fuster, L.E. Ryden, R.W. Asinger, D.S. Cannom, H.J. Crijns, R.L. Frye, J.L. Halperin, N.G. Kay, W.W. Klein, S. Lévy, R.L. McNamara, E.N. Prystowsky, L.S. Wann, D.G. Wyse, R.J. Gibbons, E.M. Antman, J.S. Alpert, D.P. Faxon, V. Fuster, G. Gregoratos, L.F. Hiratzka, A.K. Jacobs, R.O. Russell, S.C. Smith, W.W. Klein, A. Alonso-Garcia, C. Blomström-Lundqvist, G. De Backer, M. Flather, J. Hradec, A. Oto, A. Parkhomenko, S. Silber, A. Torbicki, ACC/AHA/ESC guidelines for the management of patients with atrial fibrillation: executive summary, J Am Coll Cardiol 38 (4) (2001) 1231–1265.<br /><div id="ref2">[2]</div>G.Y.H. Lip, L. Fauchier, S.B. Freedman, I. Van Gelder, A. Natale, C. Gianni, S. Nattel, T. Potpara, M. Rienstra, H. Tse, D.A. Lane, Atrial fibrillation, Nature Reviews Disease Primers 2  (2016) 16016.<br /><div id="ref3">[3]</div>A.J. Camm, P. Kirchhof, G.Y. Lip, U. Schotten, I. Savelieva, S. Ernst, I.C. Van Gelder, N. Al-Attar, G. Hindricks, B. Prendergast, H. Heidbuchel, O. Alfieri, A. Angelini, D. Atar, P. Colonna, R. De Caterina, J. De Sutter, A. Goette, B. Gorenek, M. Heldal, S.H. Hohloser, P. Kolh, J.Y. Le Heuzey, P. Ponikowski, F.H. Rutten, Guidelines for the management of atrial fibrillation: the Task Force for the Management of Atrial Fibrillation of the European Society of Cardiology (ESC), Eur Heart J 31 (19) (2010) 2369–2429.<br /><div id="ref4">[4]</div>R. Colloca. (Sup. by L. Minardi &G. D. Clifford) Implementation and testing of atrial fibrillationdetectors for a mobile phone application.  M.Sc. Thesis, Politecnicodi Milano and University of Oxford, 2013.<br /><div id="ref5">[5]</div>I. Savelieva, J. Camm, Update on atrial fibrillation: part I, Clin Cardiol 31 (2) (2008) 55–62.<br /><div id="ref6">[6]</div>G.V. Naccarelli, H. Varker, J. Lin, K.L. Schulman, Increasing prevalence of atrial fibrillation and flutter in the United States, Am J Cardiol 104 (11) (2009) 1534–1539.<br /><div id="ref7">[7]</div>A. Petrėnas, V. Marozas, L. Sörnmo, A. Lukosevicius, An echo state neural network for QRST cancellation during atrial fibrillation, IEEE Trans Biomed Eng 59 (10) (2012) 2950–2957.<br /><div id="ref8">[8]</div>S. Ladavich, B. Ghoraani, Rate-independent detection of atrial fibrillation by statistical modeling of atrial activity, Biomed Signal Process Control 18 (4) (2015) 274–281.<br /><div id="ref9">[9]</div>X. Du, N. Rao, M. Qian, D. Liu, J. Li, W. Feng, L. Yin, X. Chen, A novel method for real-time atrial fibrillation detection in electrocardiograms using multiple parameters, Ann Noninvasive Electrocardiol 19 (3) (2014) 217–225.<br /><div id="ref10">[10]</div>H. Pürerfellner, E. Pokushalov, S. Sarkar, J. Koehler, R. Zhou, L. Urban, G. Hindricks, P-wave evidence as a method for improving algorithm to detect atrial fibrillation in insertable cardiac monitors, Heart Rhythm 11 (9) (2014) 1575–1583.<br /><div id="ref11">[11]</div>R. Alcaraz, C. Vaya, R. Cervigon, C. Sanchez, J.J. Rieta. Wavelet sample entropy: A new approach to predict termination of atrial fibrillation. In: <em>Computing in Cardiology,</em> ed A Murray: IEEE) 2006,  pp. 597–600.<br /><div id="ref12">[12]</div>J. Ródenas, M. García, R. Alcaraz, J.J. Rieta, Wavelet entropy automatically detects episodes of atrial fibrillation from single-lead electrocardiograms, Entropy 17 (9) (2015) 6179–6199.<br /><div id="ref13">[13]</div>M. García, J. Ródenas, R. Alcaraz, J.J. Rieta, Application of the relative wavelet energy to heart rate independent detection of atrial fibrillation, Comput Methods Programs Biomed 131 (7) (2016) 157–168.<br /><div id="ref14">[14]</div>M. Carrara, L. Carozzi, T.J. Moss, M. De Pasquale, S. Cerutti, M. Ferrario, D.E. Lake, J.R. Moorman, Heart rate dynamics distinguish among atrial fibrillation, normal sinus rhythm and sinus rhythm with frequent ectopy, Physiol Meas 36 (9) (2015) 1873–1888.<br /><div id="ref15">[15]</div>J. Park, S. Lee, M. Jeon, Atrial fibrillation detection by heart rate variability in Poincare plot, Biomed Eng Online 8  (2009) 38.<br /><div id="ref16">[16]</div>S. Sarkar, D. Ritscher, R. Mehra, A detector for a chronic implantable atrial tachyarrhythmia monitor, IEEE Trans Biomed Eng 55 (3) (2008) 1219–1224.<br /><div id="ref17">[17]</div>K. Tateno, L. Glass, Automatic detection of atrial fibrillation using the coefficient of variation and density histograms of RR and deltaRR intervals, Med Biol Eng Comput 39 (6) (2001) 664–671.<br /><div id="ref18">[18]</div>D.T. Linker, <a href="https://www.ncbi.nlm.nih.gov/pubmed/26850411#" target="_blank">Accurate, Automated Detection of Atrial Fibrillation in  Ambulatory Recordings</a>, Cardiovasc Eng Technol  2016 Jun;7(2):182-9. doi: 10.1007/s13239-016-0256-z. Epub 2016 Feb 5.<br /><div id="ref19">[19]</div>C. Huang, S. Ye, H. Chen, D. Li, F. He, Y. Tu, A novel method for detection of the transition between atrial fibrillation and sinus rhythm, IEEE Trans Biomed Eng 58 (4) (2011) 1113–1119.<br /><div id="ref20">[20]</div>S. Cerutti, L. Mainardi, L. Sörnmo. <em>Understanding atrial fibrillation: the signal processing contribution.</em>2008: Morgan and Claypool Publishers).<br /><div id="ref21">[21]</div>A. Petrėnas, V. Marozas, L. Sörnmo, Low-complexity detection of atrial fibrillation in continuous long-term monitoring, Comput Biol Med 65 (10) (2015) 184–191.<br /><div id="ref22">[22]</div>X. Zhou, H. Ding, B. Ung, E. Pickwell-MacPherson, Y.T. Zhang, Automatic online detection of atrial fibrillation based on symbolic dynamics and Shannon entropy, Biomed Eng Online 13 (1) (2014) 18.<br /><div id="ref23">[23]</div>R. Alcaraz, D. Abásolo, R. Hornero, J.J. Rieta, Optimal parameters study for sample entropy-based atrial fibrillation organization analysis, Comput Methods Programs Biomed 99 (1) (2010) 124–132.<br /><div id="ref24">[24]</div>D.E. Lake, J.R. Moorman, Accurate estimation of entropy in very short physiological time series: the problem of atrial fibrillation detection in implanted ventricular devices, Am J Physiol Heart Circ Physiol 300 (1) (2011) H319-H325.<br /><div id="ref25">[25]</div>D. DeMazumder, D.E. Lake, A. Cheng, T.J. Moss, E. Guallar, R.G. Weiss, S.R. Jones, G.F. Tomaselli, J.R. Moorman, Dynamic analysis of cardiac rhythms for discriminating atrial fibrillation from lethal ventricular arrhythmias, Circ Arrhythm Electrophysiol 6 (3) (2013) 555–561.<br /><div id="ref27">[27]</div>S. Babaeizadeh, R.E. Gregg, E.D. Helfenbein, J.M. Lindauer, S.H. Zhou, Improvements in atrial fibrillation detection for real-time monitoring, J Electrocardiol 42 (6) (2009) 522–526.<br /><div id="ref28">[28]</div>A. Petrėnas, L. Sörnmo, A. Lukoševicius, V. Marozas, Detection of occult paroxysmal atrial fibrillation, Med Biol Eng Comput 53 (4) (2015) 287–297.<br /><div id="ref29">[29]</div>J. Oster, G.D. Clifford, Impact of the presence of noise on RR interval-based atrial fibrillation detection, J Electrocardiol 48 (6) (2015) 947–951.<br /><div id="ref30">[30]</div>R. Colloca, A.E.W. Johnson, L. Mainardi, G.D. Clifford. A support vector machine approach for reliable detection of atrial fibrillation events. In: <em>Computing in Cardiology,</em> ed A Murray (Zaragoza, Spain 2013, 1047–1050.<br /><div id="ref31">[31]</div>Q. Li, C.Y. Liu, J. Oster, G.D. Clifford. Signal processing and feature selection preprocessing for classification in noisy healthcare data. In: <em>Machine Learning for Healthcare Technologies.</em> ed D.A. Clifton  (London: The Institution of Engineering and Technology, 2016), 33-58.</p>
+        <hr>
+        
+      </div>
+      <!-- /.main column -->
+
+      <!-- Sidebar Column -->
+      <div class="col-md-4">
+        
+        
+
+        
+
+        <div class="card my-4">
+          <h5 class="card-header">Share</h5>
+          <div class="card-body">
+            <a class="btn btn-sm share-email sharebtn"
+              href="mailto:?subject=AF%20Classification%20from%20a%20Short%20Single%20Lead%20ECG%20Recording%3A%20The%20PhysioNet/Computing%20in%20Cardiology%20Challenge%202017&body=https://physionet.org/content/challenge-2017/1.0.0/"
+              role="button" title="Share with email"><i class="far fa-envelope"></i></a>
+            <a class="btn btn-sm facebook sharebtn"
+              href="http://www.facebook.com/sharer.php?u=https://physionet.org/content/challenge-2017/1.0.0/" role="button"
+              title="Share on Facebook"><i class="fab fa-facebook"></i></a>
+            <a class="btn btn-sm linkedin sharebtn"
+              href="https://www.linkedin.com/shareArticle?url=https://physionet.org/content/challenge-2017/1.0.0/"
+              role="button" title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a class="btn btn-sm reddit sharebtn"
+              href="https://www.reddit.com/submit?url=https://physionet.org/content/challenge-2017/1.0.0/&title=AF%20Classification%20from%20a%20Short%20Single%20Lead%20ECG%20Recording%3A%20The%20PhysioNet/Computing%20in%20Cardiology%20Challenge%202017"
+              role="button" title="Share on Reddit"><i class="fab fa-reddit"></i></a>
+            <a class="btn btn-sm twitter sharebtn"
+              href="https://twitter.com/intent/tweet?text=AF%20Classification%20from%20a%20Short%20Single%20Lead%20ECG%20Recording%3A%20The%20PhysioNet/Computing%20in%20Cardiology%20Challenge%202017. https://physionet.org/content/challenge-2017/1.0.0/"
+              role="button" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+
+        <div class="card my-4">
+          <h5 class="card-header">Access</h5>
+          <div class="card-body">
+            <p>
+              <strong>Access Policy:</strong>
+              <br>
+              Anyone can access the files, as long as they conform to the terms of the specified license.
+            </p>
+            <p>
+              <strong>License (for files):</strong>
+              <br>
+              <a href="/content/challenge-2017/view-license/1.0.0/">Open Data Commons Attribution License v1.0</a>
+            </p>
+            
+
+            
+          </div>
+        </div>
+        <div class="card my-4">
+          <h5 class="card-header">Discovery</h5>
+          <div class="card-body">
+            
+
+            
+
+            
+              <p><strong>Topics:</strong>
+                <br>
+                
+                  <a href="/content/?topic=atrial+fibrillation"><span class="badge badge-pn">atrial fibrillation</span></a>
+                
+                  <a href="/content/?topic=challenge"><span class="badge badge-pn">challenge</span></a>
+                
+                  <a href="/content/?topic=ecg"><span class="badge badge-pn">ecg</span></a>
+                
+              </p>
+            
+
+            
+          </div>
+        </div>
+
+        <div class="card my-4">
+          <h5 class="card-header">Corresponding Author</h5>
+          <div class="card-body">
+            
+              <em>You must be logged in to view the contact information.</em>
+            
+          </div>
+        </div>
+        
+
+      </div>
+      <!-- /.sidebar -->
+    </div>
+    <h2 id="files">Files</h2>
+    
+      
+        
+        
+        <p>Total uncompressed size: 0 B.</p>
+        
+        <h5>Access the files</h5>
+        
+
+        <ul>
+          
+            
+              
+                <li><a href="/static/published-projects/challenge-2017/af-classification-from-a-short-single-lead-ecg-recording-the-physionetcomputing-in-cardiology-challenge-2017-1.0.0.zip">Download the ZIP file</a>
+                  (1.4 GB)
+                </li>
+              
+              
+                <li>Access the files using the Google Cloud Storage Browser <a
+                  href="https://console.cloud.google.com/storage/browser/challenge-2017-1.0.0.physionet.org/">here</a>.
+                  Login with a Google account is required.
+                <li>
+                  Access the data using the Google Cloud command line tools (please refer to the <a
+                    href="https://cloud.google.com/storage/docs/gsutil_install">gsutil</a>
+                  documentation for guidance):
+                  <pre class="shell-command">gsutil -m -u YOUR_PROJECT_ID cp -r gs://challenge-2017-1.0.0.physionet.org DESTINATION</pre>
+                </li>
+              
+            
+          
+           
+
+          
+            <li>
+              Download the files using your terminal:
+              <pre class="shell-command">wget -r -N -c -np https://physionet.org/files/challenge-2017/1.0.0/</pre>
+            </li>
+          
+
+        </ul>
+        
+
+        
+          
+        
+
+        <div id="files-panel" class="card">
+          <div class="card-header">
+  Folder Navigation:
+  <span class="dir-breadcrumbs"><span class="dir-breadcrumb-self">&lt;base&gt;</span></span>
+</div>
+
+  
+<table class="files-panel">
+  <col class="files-panel-name"></col>
+  <col class="files-panel-size"></col>
+  <col class="files-panel-date"></col>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Size</th>
+      <th>Modified</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+  
+    <tr class="subdir">
+      <td><a href="papers/#files-panel" onclick="return navigateDir('papers')">papers</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+  
+    <tr class="subdir">
+      <td><a href="sources/#files-panel" onclick="return navigateDir('sources')">sources</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+  
+    <tr class="subdir">
+      <td><a href="training/#files-panel" onclick="return navigateDir('training')">training</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+  
+    <tr class="subdir">
+      <td><a href="validation/#files-panel" onclick="return navigateDir('validation')">validation</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+  
+  
+    <tr>
+      <td><a href="/content/challenge-2017/1.0.0/Clifford_Physionet_Challenge2017_USF_DS_Conference_October_15-17-2017.pdf">Clifford_Physionet_Challenge2017_USF_DS_Conference_October_15-17-2017.pdf</a>
+        <a class="download" href="/files/challenge-2017/1.0.0/Clifford_Physionet_Challenge2017_USF_DS_Conference_October_15-17-2017.pdf?download"
+           title="Download Clifford_Physionet_Challenge2017_USF_DS_Conference_October_15-17-2017.pdf">
+          <span class="visually-hidden">(download)</span>
+        </a>
+      </td>
+      <td>4.0 MB</td>
+      <td>2019-04-17</td>
+    </tr>
+  
+    <tr>
+      <td><a href="/content/challenge-2017/1.0.0/Clifford_et-al-challenge_2017_CinC_paper.pdf">Clifford_et-al-challenge_2017_CinC_paper.pdf</a>
+        <a class="download" href="/files/challenge-2017/1.0.0/Clifford_et-al-challenge_2017_CinC_paper.pdf?download"
+           title="Download Clifford_et-al-challenge_2017_CinC_paper.pdf">
+          <span class="visually-hidden">(download)</span>
+        </a>
+      </td>
+      <td>547.9 KB</td>
+      <td>2019-04-17</td>
+    </tr>
+  
+    <tr>
+      <td><a href="/content/challenge-2017/1.0.0/REFERENCE-v0.csv">REFERENCE-v0.csv</a>
+        <a class="download" href="/files/challenge-2017/1.0.0/REFERENCE-v0.csv?download"
+           title="Download REFERENCE-v0.csv">
+          <span class="visually-hidden">(download)</span>
+        </a>
+      </td>
+      <td>75.0 KB</td>
+      <td>2019-04-17</td>
+    </tr>
+  
+    <tr>
+      <td><a href="/content/challenge-2017/1.0.0/REFERENCE-v1.csv">REFERENCE-v1.csv</a>
+        <a class="download" href="/files/challenge-2017/1.0.0/REFERENCE-v1.csv?download"
+           title="Download REFERENCE-v1.csv">
+          <span class="visually-hidden">(download)</span>
+        </a>
+      </td>
+      <td>75.0 KB</td>
+      <td>2019-04-17</td>
+    </tr>
+  
+    <tr>
+      <td><a href="/content/challenge-2017/1.0.0/REFERENCE-v2.csv">REFERENCE-v2.csv</a>
+        <a class="download" href="/files/challenge-2017/1.0.0/REFERENCE-v2.csv?download"
+           title="Download REFERENCE-v2.csv">
+          <span class="visually-hidden">(download)</span>
+        </a>
+      </td>
+      <td>75.0 KB</td>
+      <td>2019-04-17</td>
+    </tr>
+  
+    <tr>
+      <td><a href="/content/challenge-2017/1.0.0/REFERENCE-v3.csv">REFERENCE-v3.csv</a>
+        <a class="download" href="/files/challenge-2017/1.0.0/REFERENCE-v3.csv?download"
+           title="Download REFERENCE-v3.csv">
+          <span class="visually-hidden">(download)</span>
+        </a>
+      </td>
+      <td>75.0 KB</td>
+      <td>2019-04-17</td>
+    </tr>
+  
+    <tr>
+      <td><a href="/content/challenge-2017/1.0.0/example_waveforms.svg">example_waveforms.svg</a>
+        <a class="download" href="/files/challenge-2017/1.0.0/example_waveforms.svg?download"
+           title="Download example_waveforms.svg">
+          <span class="visually-hidden">(download)</span>
+        </a>
+      </td>
+      <td>93.1 KB</td>
+      <td>2019-04-17</td>
+    </tr>
+  
+    <tr>
+      <td><a href="/content/challenge-2017/1.0.0/followup-combined-sorted-with-ranking-median-95thpc.csv">followup-combined-sorted-with-ranking-median-95thpc.csv</a>
+        <a class="download" href="/files/challenge-2017/1.0.0/followup-combined-sorted-with-ranking-median-95thpc.csv?download"
+           title="Download followup-combined-sorted-with-ranking-median-95thpc.csv">
+          <span class="visually-hidden">(download)</span>
+        </a>
+      </td>
+      <td>20.9 KB</td>
+      <td>2019-04-17</td>
+    </tr>
+  
+    <tr>
+      <td><a href="/content/challenge-2017/1.0.0/followup-combined-sorted-with-ranking-median-95thpc.xls">followup-combined-sorted-with-ranking-median-95thpc.xls</a>
+        <a class="download" href="/files/challenge-2017/1.0.0/followup-combined-sorted-with-ranking-median-95thpc.xls?download"
+           title="Download followup-combined-sorted-with-ranking-median-95thpc.xls">
+          <span class="visually-hidden">(download)</span>
+        </a>
+      </td>
+      <td>112.5 KB</td>
+      <td>2019-04-17</td>
+    </tr>
+  
+    <tr>
+      <td><a href="/content/challenge-2017/1.0.0/python-dummy-entry.zip">python-dummy-entry.zip</a>
+        <a class="download" href="/files/challenge-2017/1.0.0/python-dummy-entry.zip?download"
+           title="Download python-dummy-entry.zip">
+          <span class="visually-hidden">(download)</span>
+        </a>
+      </td>
+      <td>15.4 KB</td>
+      <td>2019-04-17</td>
+    </tr>
+  
+    <tr>
+      <td><a href="/content/challenge-2017/1.0.0/results.csv">results.csv</a>
+        <a class="download" href="/files/challenge-2017/1.0.0/results.csv?download"
+           title="Download results.csv">
+          <span class="visually-hidden">(download)</span>
+        </a>
+      </td>
+      <td>5.5 KB</td>
+      <td>2019-04-17</td>
+    </tr>
+  
+    <tr>
+      <td><a href="/content/challenge-2017/1.0.0/results_all_F1_scores_for_each_classification_type.csv">results_all_F1_scores_for_each_classification_type.csv</a>
+        <a class="download" href="/files/challenge-2017/1.0.0/results_all_F1_scores_for_each_classification_type.csv?download"
+           title="Download results_all_F1_scores_for_each_classification_type.csv">
+          <span class="visually-hidden">(download)</span>
+        </a>
+      </td>
+      <td>8.9 KB</td>
+      <td>2019-04-17</td>
+    </tr>
+  
+    <tr>
+      <td><a href="/content/challenge-2017/1.0.0/sample2017.zip">sample2017.zip</a>
+        <a class="download" href="/files/challenge-2017/1.0.0/sample2017.zip?download"
+           title="Download sample2017.zip">
+          <span class="visually-hidden">(download)</span>
+        </a>
+      </td>
+      <td>3.4 MB</td>
+      <td>2019-04-17</td>
+    </tr>
+  
+    <tr>
+      <td><a href="/content/challenge-2017/1.0.0/table3.png">table3.png</a>
+        <a class="download" href="/files/challenge-2017/1.0.0/table3.png?download"
+           title="Download table3.png">
+          <span class="visually-hidden">(download)</span>
+        </a>
+      </td>
+      <td>40.1 KB</td>
+      <td>2020-01-22</td>
+    </tr>
+  
+    <tr>
+      <td><a href="/content/challenge-2017/1.0.0/training2017.zip">training2017.zip</a>
+        <a class="download" href="/files/challenge-2017/1.0.0/training2017.zip?download"
+           title="Download training2017.zip">
+          <span class="visually-hidden">(download)</span>
+        </a>
+      </td>
+      <td>94.6 MB</td>
+      <td>2019-04-17</td>
+    </tr>
+  
+  </tbody>
+</table>
+
+
+<script>
+  // Navigate to another file directory and reload the file panel
+  // subdir is the full subdirectory
+  function navigateDir(subdir){
+    $.ajax({
+            type: "GET",
+            url: "/content/challenge-2017/files-panel/1.0.0/",
+            data: {'subdir':subdir
+            },
+            success: function reloadSection(result){
+                $("#files-panel").html(result);
+            },
+    });
+    return false
+  }
+</script>
+
+        </div>
+      
+
+      
+    
+    <br>
+    
+</div>
+
+
+
+</main>
+
+    <!-- This footer template is from the bootstrap 'blog' example -->
+
+<link rel="stylesheet" type="text/css" href="/static/custom/css/footer.css"/>
+
+<footer class="blog-footer">
+  <div class="container">
+    <div class="row row-centered">
+      <div class="col-xs-10 center col-centered">
+        <p>PhysioNet is a repository of freely-available medical research data, managed by the MIT Laboratory for Computational Physiology.</p>
+        <p>Supported by the National Institute of Biomedical Imaging and Bioengineering (NIBIB) under NIH grant number R01EB030362.</p>
+        
+          <p>For more accessibility options, see the <a href='https://accessibility.mit.edu/'>MIT Accessibility Page</a>.</p>
+        
+        <p><a href="#">Back to top</a></p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/bootstrap/js/ie10-viewport-bug-workaround.js"></script>
+
+    
+  <script src="/static/custom/js/enable-popover.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+    
+  <!-- https://schema.org/ metadata for discovery -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Dataset",
+  "name": "AF Classification from a Short Single Lead ECG Recording: The PhysioNet/Computing in Cardiology Challenge 2017",
+  "description": "The 2017 PhysioNet/CinC Challenge aims to encourage the development of algorithms to classify, from a single short ECG lead recording (between 30 s and 60 s in length), whether the recording shows normal sinus rhythm, atrial fibrillation (AF), an alternative rhythm, or is too noisy to be classified.",
+  "version": "1.0.0",
+  "license": "https://opendatacommons.org/licenses/by/index.html",
+  "datePublished" : "Feb. 1, 2017",
+  "url": "https://physionet.org/content/challenge%5Cu002D2017/1.0.0/",
+  
+  "creator": [
+  
+    {
+      "@type": "Person",
+      "givenName": "Gari D.",
+      "familyName": "Clifford",
+      "name": "Gari D. Clifford"
+    },
+  
+    {
+      "@type": "Person",
+      "givenName": "Chengyu",
+      "familyName": "Liu",
+      "name": "Chengyu Liu"
+    },
+  
+    {
+      "@type": "Person",
+      "givenName": "Benjamin",
+      "familyName": "Moody",
+      "name": "Benjamin Moody"
+    },
+  
+    {
+      "@type": "Person",
+      "givenName": "Li\u002Dwei",
+      "familyName": "Lehman",
+      "name": "Li\u002Dwei Lehman"
+    },
+  
+    {
+      "@type": "Person",
+      "givenName": "Ikaro",
+      "familyName": "Silva",
+      "name": "Ikaro Silva"
+    },
+  
+    {
+      "@type": "Person",
+      "givenName": "Alistair",
+      "familyName": "Johnson",
+      "name": "Alistair Johnson"
+    },
+  
+    {
+      "@type": "Person",
+      "givenName": "Roger",
+      "familyName": "Mark",
+      "name": "Roger Mark"
+    }
+  
+    ],
+  "includedInDataCatalog":{
+     "@type": "DataCatalog",
+     "name": "physionet.org"
+  },
+  "distribution": [
+    {
+      "@type": "DataDownload",
+      "contentUrl": "https://physionet.org/content/challenge%5Cu002D2017/1.0.0/#files"
+    }
+  ]
+}
+</script>
+
+  </body>
+  
+</html>

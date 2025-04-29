@@ -1,0 +1,1522 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Classify ECG Signals Using Long Short-Term Memory Networks
+- MATLAB &amp; Simulink</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="canonical" href="https://www.mathworks.com/help/signal/ug/classify-ecg-signals-using-long-short-term-memory-networks.html" />
+<link rel="stylesheet" href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/core.min.20230428200114579.css" type="text/css">
+<link rel="stylesheet" href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common.min.20230428200114579.css" type="text/css">
+<link rel="stylesheet" href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/footer.min.20230428200114579.css" type="text/css">
+<link href="/includes_content/responsive/css/site6_offcanvas_v2.css?202307" rel="stylesheet" type="text/css">
+<!-- CRUX 2.0 -->
+<link href="/includes_content/responsive/css/site7_crux.css?202303" rel="stylesheet" type="text/css">
+<script src="/includes_content/responsive/scripts/jquery/jquery-3.6.0.min.js?202305"></script>
+<script src="/includes_content/responsive/scripts/jquery/jquery-migrate.min.js?202305"></script>
+<script src="/includes_content/responsive/scripts/bootstrap/bootstrap.min.js?202303"></script>
+<script src="/includes_content/responsive/scripts/global.js?202307"></script>
+<script src="/etc.clientlibs/mathworks/clientlibs/customer-ui/components/webvitals.min.20230428200114579.js"></script>
+<!-- BEGIN Adobe DTM -->
+<script>(function(g,b,d,f){(function(a,c,d){if(a){var e=b.createElement("style");e.id=c;e.innerHTML=d;a.appendChild(e)}})(b.getElementsByTagName("head")[0],"at-body-style",d);setTimeout(function(){var a=b.getElementsByTagName("head")[0];if(a){var c=b.getElementById("at-body-style");c&&a.removeChild(c)}},f)})(window,document,"[class*='personalization-container']:not([id^='web-application']) {opacity: 0 !important}",2E3);</script>
+<script src="//assets.adobedtm.com/d0cc0600946eb3957f703b9fe43c3590597a8c2c/satelliteLib-e8d23c2e444abadc572df06537e2def59c01db09.js" async></script>
+<!-- END Adobe DTM -->
+<link href="/includes_content/releases/R2023a/css/doc_center.css?202303" rel="stylesheet" type="text/css">
+<link href="/includes_content/releases/R2023a/css/doc_center_print.css?202303" rel="stylesheet" type="text/css" media="print">
+<script src="/includes_content/releases/R2023a/scripts/matlab_dialog.js?202303"></script>
+<script src="/help/releases/R2023a/includes/web/scripts/livecontrolpopoverhandler.js?202303"></script>
+<script src="/help/releases/R2023a/includes/web/scripts/livetaskpopoverhandler.js?202303"></script>
+<script src="https://openwith.mathworks.com/openwith.js?202002"></script>
+<style>
+.examples_short_list a.btn {display: none;}
+</style>
+<script src="https://www.mathworks.com/help/includes/web/scripts//openInBrowser.js"></script>
+<link href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/fonts/roboto/roboto-latin-italic-400.20230428200114579.woff2" rel="preload" as="font" type="font/woff2" crossorigin/>
+<link href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/fonts/roboto/roboto-latin-italic-500.20230428200114579.woff2" rel="preload" as="font" type="font/woff2" crossorigin/>
+<link href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/fonts/roboto/roboto-latin-italic-700.20230428200114579.woff2" rel="preload" as="font" type="font/woff2" crossorigin/>
+<link href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/fonts/roboto/roboto-latin-normal-400.20230428200114579.woff2" rel="preload" as="font" type="font/woff2" crossorigin/>
+<link href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/fonts/roboto/roboto-latin-normal-500.20230428200114579.woff2" rel="preload" as="font" type="font/woff2" crossorigin/>
+<link href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/fonts/roboto/roboto-latin-normal-700.20230428200114579.woff2" rel="preload" as="font" type="font/woff2" crossorigin/>
+<link href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/fonts/mathworks.20230428200114579.woff" rel="preload" as="font" type="font/woff" crossorigin/>
+<script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "BreadcrumbList",
+"itemListElement":
+[{
+"@type": "ListItem",
+"position": 1,
+"item": {
+"@id": "../index.html",
+"name": "Signal Processing Toolbox"
+}
+}
+,
+{
+"@type": "ListItem",
+"position": 2,
+"item": {
+"@id": "../getting-started-with-signal-processing-toolbox.html",
+"name": "Get Started with Signal Processing Toolbox"
+}
+}]
+}</script><script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "BreadcrumbList",
+"itemListElement":
+[{
+"@type": "ListItem",
+"position": 1,
+"item": {
+"@id": "../index.html",
+"name": "Signal Processing Toolbox"
+}
+}
+,
+{
+"@type": "ListItem",
+"position": 2,
+"item": {
+"@id": "../measurements-and-feature-extraction.html",
+"name": "Measurements and Feature Extraction"
+}
+}]
+}</script><script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "BreadcrumbList",
+"itemListElement":
+[{
+"@type": "ListItem",
+"position": 1,
+"item": {
+"@id": "../index.html",
+"name": "Signal Processing Toolbox"
+}
+}
+,
+{
+"@type": "ListItem",
+"position": 2,
+"item": {
+"@id": "../time-frequency-analysis.html",
+"name": "Time-Frequency Analysis"
+}
+}]
+}</script><script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "BreadcrumbList",
+"itemListElement":
+[{
+"@type": "ListItem",
+"position": 1,
+"item": {
+"@id": "../index.html",
+"name": "Signal Processing Toolbox"
+}
+}
+,
+{
+"@type": "ListItem",
+"position": 2,
+"item": {
+"@id": "../ai-for-signals.html",
+"name": "AI for Signals"
+}
+}]
+}</script><script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "ItemList",
+"name": "VisibleBreadcrumbs",
+"itemListElement":
+[
+"getting-started-with-signal-processing-toolbox",
+"measurements-and-feature-extraction",
+"time-frequency-analysis",
+"ai-for-signals"
+],
+"itemListOrder": "http://schema.org/ItemListOrderAscending"
+}
+</script><script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "DigitalDocument",
+"headline": "Classify ECG Signals Using Long Short-Term Memory Networks",
+"description": "Classify heartbeat electrocardiogram data using deep learning and signal processing.",
+"thumbnailURL": "../../examples/deeplearning_shared/win64/ClassifyECGSignalsUsingLSTMNetworksExample_06.png",
+"genre": "Live Script",
+"isBasedOn": {
+"@type": "Product",
+"name": "MATLAB"
+},
+"identifier": "deeplearning_shared.ClassifyECGSignalsUsingLSTMNetworksExample",
+"name": "ClassifyECGSignalsUsingLSTMNetworksExample",
+"url": "classify-ecg-signals-using-long-short-term-memory-networks.html"
+}</script><script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "PropertyValue",
+"name": "open_command",
+"value": "matlab:openExample('deeplearning_shared/ClassifyECGSignalsUsingLSTMNetworksExample')"
+}</script><script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "ItemList",
+"name": "ExampleSourceFiles",
+"itemListElement":
+[
+"ClassifyECGSignalsUsingLSTMNetworksExample.mlx",
+"segmentSignals.m",
+"ReadPhysionetData.m"
+],
+"itemListOrder": "http://schema.org/ItemListOrderAscending"
+}
+</script>
+<meta xmlns="http://www.w3.org/1999/xhtml" http-equiv="Content-Script-Type" content="text/javascript">
+<meta xmlns="http://www.w3.org/1999/xhtml" name="toctype" itemprop="pagetype" content="ug">
+<meta xmlns="http://www.w3.org/1999/xhtml" name="infotype" itemprop="infotype" content="ex gs">
+<meta xmlns="http://www.w3.org/1999/xhtml" name="description" itemprop="description" content="Classify heartbeat electrocardiogram data using deep learning and signal processing."><meta xmlns="http://www.w3.org/1999/xhtml" content="../../examples/deeplearning_shared/win64/ClassifyECGSignalsUsingLSTMNetworksExample_06.png" itemprop="thumbnailUrl">
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/l10n.js?202303060220"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/docscripts.js?202303060220"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/f1help.js?202303060220"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/mw.toc_2.js?202303060220"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/mw.imagescaling.js?202303060220"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/mw.imageanimation.js?202303060220"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/mw.breadcrumb.js?202303060220"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/jquery.highlight.js?202303060220"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/product/scripts/underscore-min.js?202303060220"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/web/scripts/doc_omniture.js?202303060220"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/overload.js?202303060220"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/helpservices.js?202303060220"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/product/scripts/productfilter.js?202303060220"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/product_group.js?202303060220"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/saxonjs/SaxonJS2.rt.js?202303060220"></script>
+<script xmlns="http://www.w3.org/1999/xhtml">
+window.history.replaceState(window.location.href, null, ""); // Initialize
+window.onload = function() {
+mystylesheetLocation = "/help/releases/R2023a/includes/shared/scripts/product_group-sef.json";
+mysourceLocation = "/help/releases/R2023a/docset.xml";
+product_help_location = "signal";
+pagetype = "section";
+doccentertype = "web";
+langcode = "";
+getProductFilteredList(mystylesheetLocation, mysourceLocation, product_help_location, pagetype, doccentertype, langcode);
+}
+</script>
+<!-- Additions/overrides from the doc side -->
+<style>
+.typeahead_container.typeahead_type_grouped { margin-left:0; }
+@media (min-width:768px) {
+#suggestions { margin-left:-100px }
+}
+</style>
+<script type="text/javascript" src="/help/search/R2023a/helpcenter_docsearch.js?20200128"></script>
+<script type="text/javascript" src="/includes_content/nextgen/scripts/jquery/jquery.toggleval.js?201409291140"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/equationrenderer/release/MathRenderer.js"></script>
+<script type="text/javascript" src="/includes_content/nextgen/scripts/jquery/jquery.cookie.js"></script>
+<script type="text/javascript" src="/includes_content/domainSelect/akamai-country-code.js"></script>
+<script type="text/javascript">
+var domainCountryCodeMap = new Map();
+var countryCodeToDomainMap = new Map();
+domainCountryCodeMap.set('www.mathworks.com', 'www');
+countryCodeToDomainMap.set('www','www.mathworks.com')
+domainCountryCodeMap.set('www.mathworks.com', 'www');
+countryCodeToDomainMap.set('www','www.mathworks.com')
+domainCountryCodeMap.set('la.mathworks.com', 'la');
+countryCodeToDomainMap.set('la','la.mathworks.com')
+domainCountryCodeMap.set('au.mathworks.com', 'au');
+countryCodeToDomainMap.set('au','au.mathworks.com')
+domainCountryCodeMap.set('de.mathworks.com', 'de');
+countryCodeToDomainMap.set('de','de.mathworks.com')
+domainCountryCodeMap.set('nl.mathworks.com', 'nl');
+countryCodeToDomainMap.set('nl','nl.mathworks.com')
+domainCountryCodeMap.set('ww2.mathworks.cn', 'ww2');
+countryCodeToDomainMap.set('ww2','ww2.mathworks.cn')
+domainCountryCodeMap.set('se.mathworks.com', 'se');
+countryCodeToDomainMap.set('se','se.mathworks.com')
+domainCountryCodeMap.set('se.mathworks.com', 'se');
+countryCodeToDomainMap.set('se','se.mathworks.com')
+domainCountryCodeMap.set('fr.mathworks.com', 'fr');
+countryCodeToDomainMap.set('fr','fr.mathworks.com')
+domainCountryCodeMap.set('de.mathworks.com', 'de');
+countryCodeToDomainMap.set('de','de.mathworks.com')
+domainCountryCodeMap.set('in.mathworks.com', 'in');
+countryCodeToDomainMap.set('in','in.mathworks.com')
+domainCountryCodeMap.set('uk.mathworks.com', 'uk');
+countryCodeToDomainMap.set('uk','uk.mathworks.com')
+domainCountryCodeMap.set('it.mathworks.com', 'it');
+countryCodeToDomainMap.set('it','it.mathworks.com')
+domainCountryCodeMap.set('jp.mathworks.com', 'jp');
+countryCodeToDomainMap.set('jp','jp.mathworks.com')
+domainCountryCodeMap.set('kr.mathworks.com', 'kr');
+countryCodeToDomainMap.set('kr','kr.mathworks.com')
+domainCountryCodeMap.set('nl.mathworks.com', 'nl');
+countryCodeToDomainMap.set('nl','nl.mathworks.com')
+domainCountryCodeMap.set('nl.mathworks.com', 'nl');
+countryCodeToDomainMap.set('nl','nl.mathworks.com')
+domainCountryCodeMap.set('au.mathworks.com', 'au');
+countryCodeToDomainMap.set('au','au.mathworks.com')
+domainCountryCodeMap.set('se.mathworks.com', 'se');
+countryCodeToDomainMap.set('se','se.mathworks.com')
+domainCountryCodeMap.set('www.mathworks.com', 'www');
+countryCodeToDomainMap.set('www','www.mathworks.com')
+domainCountryCodeMap.set('es.mathworks.com', 'es');
+countryCodeToDomainMap.set('es','es.mathworks.com')
+domainCountryCodeMap.set('se.mathworks.com', 'se');
+countryCodeToDomainMap.set('se','se.mathworks.com')
+domainCountryCodeMap.set('ch.mathworks.com', 'ch');
+countryCodeToDomainMap.set('ch','ch.mathworks.com')
+domainCountryCodeMap.set('uk.mathworks.com', 'uk');
+countryCodeToDomainMap.set('uk','uk.mathworks.com')
+var countrySubdomains = {
+US: {name: 'United States', subdomain: 'www'},
+AD: {name: 'Andorra', subdomain: 'es'},
+AR: {name: 'Argentina', subdomain: 'la'},
+AU: {name: 'Australia', subdomain: 'au'},
+AT: {name: 'Austria', subdomain: 'de'},
+BE: {name: 'Belgium', subdomain: 'nl'},
+BO: {name: 'Bolivia', subdomain: 'la'},
+BV: {name: 'Bouvet Islands', subdomain: 'se'},
+CA: {name: 'Canada', subdomain: 'www'},
+CL: {name: 'Chile', subdomain: 'la'},
+CN: {name: 'China', subdomain: 'cn'},
+CX: {name: 'Christmas Island', subdomain: 'au'},
+CC: {name: 'Cocos-Keeling Islands', subdomain: 'au'},
+CO: {name: 'Colombia', subdomain: 'la'},
+CR: {name: 'Costa Rica', subdomain: 'la'},
+DK: {name: 'Denmark', subdomain: 'se'},
+DO: {name: 'Dominican Republic', subdomain: 'la'},
+EC: {name: 'Ecuador', subdomain: 'la'},
+SV: {name: 'El Salvador', subdomain: 'la'},
+EE: {name: 'Estonia', subdomain: 'se'},
+FO: {name: 'Faroe Islands', subdomain: 'se'},
+FJ: {name: 'Fiji', subdomain: 'au'},
+FI: {name: 'Finland', subdomain: 'se'},
+FR: {name: 'France', subdomain: 'fr'},
+GF: {name: 'French Guiana', subdomain: 'fr'},
+PF: {name: 'French Polynesia', subdomain: 'fr'},
+DE: {name: 'Germany', subdomain: 'de'},
+GL: {name: 'Greenland', subdomain: 'se'},
+GP: {name: 'Guadalupe', subdomain: 'fr'},
+GT: {name: 'Guatemala', subdomain: 'la'},
+HN: {name: 'Honduras', subdomain: 'la'},
+HK: {name: 'Hong Kong', subdomain: 'cn'},
+IS: {name: 'Iceland', subdomain: 'se'},
+IN: {name: 'India', subdomain: 'in'},
+IE: {name: 'Ireland', subdomain: 'uk'},
+IT: {name: 'Italy', subdomain: 'it'},
+JP: {name: 'Japan', subdomain: 'jp'},
+KR: {name: 'Korea', subdomain: 'kr'},
+LV: {name: 'Latvia', subdomain: 'se'},
+LI: {name: 'Liechtenstein', subdomain: 'ch'},
+LT: {name: 'Lithuania', subdomain: 'se'},
+LU: {name: 'Luxembourg', subdomain: 'nl'},
+MO: {name: 'Macau', subdomain: 'cn'},
+MQ: {name: 'Martinique', subdomain: 'fr'},
+YT: {name: 'Mayotte Island', subdomain: 'fr'},
+MX: {name: 'Mexico', subdomain: 'la'},
+MC: {name: 'Monaco', subdomain: 'fr'},
+NL: {name: 'Netherlands', subdomain: 'nl'},
+NC: {name: 'New Caledonia', subdomain: 'fr'},
+NZ: {name: 'New Zealand', subdomain: 'au'},
+NI: {name: 'Nicaragua', subdomain: 'la'},
+NO: {name: 'Norway', subdomain: 'se'},
+PA: {name: 'Panama', subdomain: 'la'},
+PG: {name: 'Papua New Guinea', subdomain: 'au'},
+PY: {name: 'Paraguay', subdomain: 'la'},
+PE: {name: 'Peru', subdomain: 'la'},
+PT: {name: 'Portugal', subdomain: 'www'},
+PR: {name: 'Puerto Rico', subdomain: 'la'},
+RE: {name: 'Reunion Island', subdomain: 'fr'},
+ES: {name: 'Spain', subdomain: 'es'},
+LK: {name: 'Sri Lanka', subdomain: 'in'},
+SE: {name: 'Sweden', subdomain: 'se'},
+CH: {name: 'Switzerland', subdomain: 'ch'},
+GB: {name: 'United Kingdom', subdomain: 'uk'},
+UY: {name: 'Uruguay', subdomain: 'la'},
+VA: {name: 'Vatican City', subdomain: 'it'},
+VE: {name: 'Venezuela', subdomain: 'la'},
+};
+var domainUtils = {
+isExemptUrl: function (url) {
+if(window.overrideDomainSelector){
+return true;
+}
+var exemptions = [
+'/api/parts/',
+'nocookie=true',
+'client=addons',
+'requestedDomain'
+];
+return exemptions.some(function (exemption) {
+return url.indexOf(exemption) != -1;
+});
+},
+endsWith: function( str, suffix ) {
+return str.substring( str.length - suffix.length, str.length ) === suffix;
+},
+getDomain: function (url) {
+var segments = url.split('/');
+return segments[2];
+},
+getSubdomain: function (domain) {
+return domainCountryCodeMap.get(domain);
+},
+setCookies: function (domain, lang) {
+var domainCookie = 'mathworks.com';
+if (this.endsWith(location.host, 'mathworks.cn')) {
+domainCookie = 'mathworks.cn';
+}
+var selectedSubdomain = this.getSubdomain(domain);
+if (this.endsWith(domain, 'mathworks.cn')) {
+selectedSubdomain = 'cn';
+}
+if (selectedSubdomain === 'www') {
+// This is what ePS did in EQUUS and Ruby, so...
+// we're just following suit.
+selectedSubdomain = 'us';
+}
+if (selectedSubdomain !== 'cn' && selectedSubdomain !== 'ch') {
+lang = '';
+}
+var cookieNames = this.getCookieNames(domain);
+var expires = new Date();
+expires.setFullYear(expires.getFullYear() + 68);
+var myJSON = JSON.stringify({
+domain: selectedSubdomain,
+lang: lang,
+v: 2
+});
+$.cookie(cookieNames.mwaPrefsCookieName, myJSON, {path: '/', expires: 20*365, domain: domainCookie});
+},
+getCookieNames: function (domain) {
+var mwaLoginCookieName = 'mwa';
+var mwaPrefsCookieName = 'mwa_prefs';
+var subdomainSuffix = '';
+if (subdomainSuffix != "") {
+mwaLoginCookieName = mwaLoginCookieName + subdomainSuffix;
+mwaPrefsCookieName = mwaPrefsCookieName + subdomainSuffix;
+}
+return {
+mwaLoginCookieName: mwaLoginCookieName,
+mwaPrefsCookieName: mwaPrefsCookieName,
+};
+},
+switchDomain: function (targetDomain, targetLang) {
+var targetUri = location.pathname;
+targetLang = this.getValidLang(this.getSubdomain(targetDomain), targetLang);
+var url = '//' + targetDomain;
+url += targetUri + location.search;
+url = url.replace(/requestedDomain=[a-z]?[a-z]?&?/, '');
+url = url.replace(/\&$/, '');
+url = url.replace(/\?$/, '');
+var requestedDomainParam = 'requestedDomain=' + targetLang;
+if (url.indexOf('?') > -1) {
+url = url + '&' + requestedDomainParam;
+} else {
+url = url + '?' + requestedDomainParam;
+}
+window.location = url;
+},
+getPrefCookie: function(currentDomain) {
+var cookieNames = this.getCookieNames(currentDomain);
+// regex from: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
+var cookieRegex = new RegExp("(?:(?:^|.*;\\s*)"+cookieNames.mwaPrefsCookieName+"\\s*\\=\\s*([^;]*).*$)|^.*$");
+if (document.cookie) {
+var cookieValue = document.cookie.replace(cookieRegex, "$1");
+if (cookieValue) {
+return JSON.parse(decodeURIComponent(cookieValue));
+}
+}
+return "";
+},
+getPrefDomain: function (currentDomain) {
+var mwaPrefsCookieJsonObject = this.getPrefCookie(currentDomain);
+var visitorPrefDomain;
+if (!!mwaPrefsCookieJsonObject) {
+visitorPrefDomain = mwaPrefsCookieJsonObject.domain;
+if (visitorPrefDomain === 'us') {
+visitorPrefDomain = 'www';
+}else if (visitorPrefDomain === 'cn') {
+visitorPrefDomain = 'ww2';
+}
+}
+return countryCodeToDomainMap.get(visitorPrefDomain);
+},
+getPrefLang: function (currentDomain) {
+var mwaPrefsCookieJsonObject = this.getPrefCookie(currentDomain);
+var multilingualDomainLanguageSupport = {};
+multilingualDomainLanguageSupport['ch'] = ['en','de','fr'];
+multilingualDomainLanguageSupport['cn'] = ['zh','en'];
+var currentDomainLangOptions = multilingualDomainLanguageSupport[mwaPrefsCookieJsonObject.domain];
+if (currentDomainLangOptions) {
+var cookiePrefLang = mwaPrefsCookieJsonObject.lang;
+if (currentDomainLangOptions.indexOf(cookiePrefLang) >= 0) {
+return cookiePrefLang;
+} else {
+return currentDomainLangOptions[0];
+}
+}
+return '';
+},
+getCookieVersion: function (currentDomain) {
+var mwaPrefsCookieJsonObject = this.getPrefCookie(currentDomain);
+return mwaPrefsCookieJsonObject.v;
+},
+getTargetDomainForCookies: function() {
+var targetDomain = "";
+if (this.endsWith(location.host, 'mathworks.cn')) {
+targetDomain = window.location.protocol + "//" + countryCodeToDomainMap.get('www');
+}else{
+targetDomain = window.location.protocol + "//" + countryCodeToDomainMap.get('ww2');
+}
+return targetDomain;
+},
+getValidLang: function (subdomain, lang) {
+var multilingualDomainLanguageSupport = {};
+multilingualDomainLanguageSupport['ch'] = ['en','de','fr'];
+multilingualDomainLanguageSupport['cn'] = ['zh','en'];
+multilingualDomainLanguageSupport['ww2'] = ['zh','en'];
+var currentDomainLangOptions = multilingualDomainLanguageSupport[subdomain];
+if (currentDomainLangOptions) {
+if (currentDomainLangOptions.indexOf(lang) >= 0) {
+return lang;
+} else {
+return currentDomainLangOptions[0];
+}
+}
+return '';
+},
+isDefaultLang: function (subdomain, lang) {
+var multilingualDomainLanguageDefault = {};
+multilingualDomainLanguageDefault['ch'] = 'en';
+multilingualDomainLanguageDefault['cn'] = 'zh';
+multilingualDomainLanguageDefault['ww2'] = 'zh';
+var currentDomainLang = multilingualDomainLanguageDefault[subdomain];
+if (currentDomainLang) {
+if (currentDomainLang === lang) {
+return true;
+} else {
+return false;
+}
+} else if (lang) {
+return false;
+}
+return true;
+}
+};
+$(window).on('load', function() {
+var currentUrl = window.location.href;
+var currentDomain = domainUtils.getDomain(currentUrl);
+var currentSubdomain = domainUtils.getSubdomain(currentDomain);
+var requestedDomainLangRegEx = RegExp('[?&]requestedDomain=([^&]*)').exec(window.location.search);
+if (requestedDomainLangRegEx) {
+var setLang = domainUtils.getValidLang(currentSubdomain, requestedDomainLangRegEx[1])
+domainUtils.setCookies(currentDomain, setLang);
+var URLWithoutRequestedDomain = window.location.href.replace(/requestedDomain=[a-z]?[a-z]?&?/, '');
+URLWithoutRequestedDomain = URLWithoutRequestedDomain.replace(/\&$/, '');
+URLWithoutRequestedDomain = URLWithoutRequestedDomain.replace(/\?$/, '');
+history.replaceState({}, document.title, URLWithoutRequestedDomain);
+window.location = URLWithoutRequestedDomain;
+}
+$('body').on('click', '.domain_selector_link', function (e) {
+e.preventDefault();
+var selectedDomain = domainUtils.getDomain(this.href);
+var selectedLang = $(this).data('lang');
+domainUtils.setCookies(selectedDomain, selectedLang);
+domainUtils.switchDomain(selectedDomain, selectedLang);
+});
+var currentCountryText =
+$('a[data-subdomain=\'' + currentSubdomain + '\'][data-default-lang=\'true\'][data-selected-text]')
+.data('selected-text');
+$('#countrySelectorButtonText').text(currentCountryText);
+var visitorPrefDomain = domainUtils.getPrefDomain(currentDomain);
+var visitorPrefLang = domainUtils.getPrefLang(currentDomain);
+var akamaiCountryCode;
+var akamaiprofile = CQ_Analytics.ClientContextMgr.getRegisteredStore('akamaiprofile');
+if (akamaiprofile) {
+akamaiCountryCode = akamaiprofile.getProperty('countryCode');
+}
+var recommendedSubdomain;
+var recommendedLink;
+if (akamaiCountryCode) {
+if (countrySubdomains[akamaiCountryCode] !== undefined) {
+recommendedSubdomain = countrySubdomains[akamaiCountryCode].subdomain;
+} else {
+recommendedSubdomain = 'www';
+}
+if (recommendedSubdomain === 'us') {
+recommendedSubdomain = 'www';
+}else if (recommendedSubdomain === 'cn') {
+recommendedSubdomain = 'ww2';
+}
+recommendedLink = $('a[data-subdomain=\'' + recommendedSubdomain + '\'][data-recommended-text]');
+var countryButtons;
+if(recommendedSubdomain === 'ch') {
+countryButtons = $('.ch-recommendation .recommendation-button');
+$('.ch-recommendation').show();
+$('.zh-recommendation').hide();
+$('.default-recommendation').hide();
+} else if(recommendedSubdomain === 'ww2') {
+countryButtons = $('.zh-recommendation .recommendation-button');
+$('.zh-recommendation').show();
+$('.ch-recommendation').hide();
+$('.default-recommendation').hide();
+}
+} else if (visitorPrefDomain) {
+recommendedSubdomain = domainUtils.getSubdomain(visitorPrefDomain);
+recommendedLink = $('a[data-subdomain=\'' + recommendedSubdomain + '\'][data-recommended-text]');
+var countryButtons;
+if(recommendedSubdomain === 'ch') {
+countryButtons = $('.ch-recommendation .recommendation-button');
+$('.ch-recommendation').show();
+$('.zh-recommendation').hide();
+$('.default-recommendation').hide();
+} else if(recommendedSubdomain === 'ww2') {
+countryButtons = $('.zh-recommendation .recommendation-button');
+$('.zh-recommendation').show();
+$('.ch-recommendation').hide();
+$('.default-recommendation').hide();
+}
+}
+if (!recommendedLink) {
+recommendedSubdomain = 'www';
+recommendedLink = $('a[data-subdomain=\'' + recommendedSubdomain + '\'][data-recommended-text]');
+}
+$('.recommended-country').text(recommendedLink.data('recommended-text'));
+$('#recommended_domain_button').attr('href', recommendedLink.attr('href'));
+$('#recommended_domain_button').attr('data-lang', recommendedLink.attr('data-lang'));
+if(countryButtons !== undefined) {
+countryButtons.click(function(e) {
+e.preventDefault();
+var selectedDomain = domainUtils.getDomain(this.href);
+var selectedLang = $(this).data('lang');
+domainUtils.setCookies(selectedDomain, selectedLang);
+domainUtils.switchDomain(selectedDomain, selectedLang);
+});
+} else {
+var recommendedDomainButton = $('#recommended_domain_button');
+$('.recommended-country-button').text(recommendedLink.data('recommended-text'));
+recommendedDomainButton.attr('href', recommendedLink.attr('href'));
+recommendedDomainButton.data('lang', recommendedLink.data('lang'));
+recommendedDomainButton.click(function (e) {
+e.preventDefault();
+var selectedDomain = domainUtils.getDomain(this.href);
+var selectedLang = $(this).data('lang');
+domainUtils.setCookies(selectedDomain, selectedLang);
+domainUtils.switchDomain(selectedDomain, selectedLang);
+});
+}
+$('a.worldwide_link').attr('href', recommendedLink.attr('href'));
+$('a.worldwide_link').data('lang', recommendedLink.data('lang'));
+$('body').on('click', 'a.worldwide_link', function (e) {
+e.preventDefault();
+var selectedDomain = domainUtils.getDomain(this.href);
+var selectedLang = $(this).data('lang');
+domainUtils.setCookies(selectedDomain, selectedLang);
+var href = e.target.getAttribute('href');
+var worldwideLink = '/company/worldwide.html?s_tid=dmselect_cta&requestedDomain=';
+if(href) {
+location.href = href + worldwideLink;
+}
+});
+if (akamaiCountryCode === 'CN') {
+$('#china_performance_alert').show();
+}
+var crossDomain = "";
+if(domainUtils.endsWith(currentDomain, '.mathworks.cn')){
+crossDomain = countryCodeToDomainMap.get('www');
+}else{
+crossDomain = countryCodeToDomainMap.get('ww2');
+}
+if ((!domainUtils.endsWith(currentDomain, '.mathworks.com') && !domainUtils.endsWith(currentDomain, '.mathworks.cn')) || domainUtils.isExemptUrl(currentUrl)) {
+return;
+}
+if (!visitorPrefDomain) {
+if (akamaiCountryCode) {
+akamaiCountryCode = countrySubdomains[akamaiCountryCode].subdomain;
+var akamaiDeterminedSubdomain = $('a[data-country-code=\'' + akamaiCountryCode.toUpperCase() + '\']').data('subdomain');
+if ((akamaiCountryCode.toLowerCase() === currentSubdomain) || (akamaiDeterminedSubdomain === currentSubdomain)) {
+domainUtils.setCookies(currentDomain, "");
+} else {
+$('#country-unselected').modal('show');
+}
+return;
+}
+if (currentSubdomain === 'www') {
+domainUtils.setCookies(currentDomain, '');
+} else {
+$('#country-unselected').modal('show');
+}
+} else if (akamaiCountryCode === 'CN' && !(visitorPrefDomain === 'CN') && !domainUtils.getCookieVersion(currentDomain)) {
+$('#country-unselected').modal('show');
+}
+});
+</script> <script src="/includes_content/responsive/scripts/mwa/global_nav.js"></script>
+
+                              <script>!function(a){var e="https://s.go-mpulse.net/boomerang/",t="addEventListener";if("False"=="True")a.BOOMR_config=a.BOOMR_config||{},a.BOOMR_config.PageParams=a.BOOMR_config.PageParams||{},a.BOOMR_config.PageParams.pci=!0,e="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="LERXA-6VNES-W6PXS-U8C7F-BXSZH",function(){function n(e){a.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!a.BOOMR||!a.BOOMR.version&&!a.BOOMR.snippetExecuted){a.BOOMR=a.BOOMR||{},a.BOOMR.snippetExecuted=!0;var i,_,o,r=document.createElement("iframe");if(a[t])a[t]("load",n,!1);else if(a.attachEvent)a.attachEvent("onload",n);r.src="javascript:void(0)",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="width:0;height:0;border:0;display:none;",o=document.getElementsByTagName("script")[0],o.parentNode.insertBefore(r,o);try{_=r.contentWindow.document}catch(O){i=document.domain,r.src="javascript:var d=document.open();d.domain='"+i+"';void(0);",_=r.contentWindow.document}_.open()._l=function(){var a=this.createElement("script");if(i)this.domain=i;a.id="boomr-if-as",a.src=e+"LERXA-6VNES-W6PXS-U8C7F-BXSZH",BOOMR_lstart=(new Date).getTime(),this.body.appendChild(a)},_.write("<bo"+'dy onload="document._l();">'),_.close()}}(),"".length>0)if(a&&"performance"in a&&a.performance&&"function"==typeof a.performance.setResourceTimingBufferSize)a.performance.setResourceTimingBufferSize();!function(){if(BOOMR=a.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var e=""=="true"?1:0,t="",n="doj4rzaxemy42zh4ji7q-f-4de83554b-clientnsv4-s.akamaihd.net",i="false"=="true"?2:1,_={"ak.v":"36","ak.cp":"1460359","ak.ai":parseInt("195948",10),"ak.ol":"0","ak.cr":160,"ak.ipv":4,"ak.proto":"h2","ak.rid":"1179869e","ak.r":36326,"ak.a2":e,"ak.m":"x","ak.n":"essl","ak.bpcip":"27.147.200.0","ak.cport":54934,"ak.gh":"23.47.149.79","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.csrc":"-","ak.acc":"","ak.t":"1694255679","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==BVchREVCjQI46hkcuMtndJhkuiP5speDP+ZDtmiyYW49Z5syGTG15SR3H87rx3mDPDUGIGdLcDrbmh3aDYbr9q4VaWtTIqMFDKIuF539ap6suyVUFUiLoq6CQY+beXXweww/P1KMXTgqnEuEFGd5iAxKyKKkcj5C2EwrtpZ0gt9tLS1LPHqdl2HDlCe4W+s7W4in+WDI8K/7weJ09lJcLbFORt66v2DhEUWhMyXj5oyUfcclnfvwhQubnhfYOf+UdNxPIzYlMtJ0SxS2OLAlRJB/BrlOS1tL4KRCCgdlG7YfZODMxTs89IbBXKOCcUNwwV9QJ5yOJtW0P89Dg4/ceqod+M87WPjcmik+XP19xcYVBPJk1DvyHOGApnG4pZ15Oo+cpZhSJeSI6E2EzA+UVv6c8TTT3cy3ej+h06ayEF0=","ak.pv":"165","ak.dpoabenc":"","ak.tf":i};if(""!==t)_["ak.ruds"]=t;var o={i:!1,av:function(e){var t="http.initiator";if(e&&(!e[t]||"spa_hard"===e[t]))_["ak.feo"]=void 0!==a.aFeoApplied?1:0,BOOMR.addVar(_)},rv:function(){var a=["ak.bpcip","ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(a)}};BOOMR.plugins.AK={akVars:_,akDNSPreFetchDomain:n,init:function(){if(!o.i){var a=BOOMR.subscribe;a("before_beacon",o.av,null,null),a("onbeacon",o.rv,null,null),o.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+
+<body id="responsive_offcanvas">
+  <a class="skip_link sr-only" href="#skip_link_anchor">Skip to content</a>
+
+  <!-- Mobile TopNav: Start -->
+<div class="header visible-xs visible-sm" id="header_mobile" translate="no">
+<nav class="navbar navbar-default" role="navigation">
+<div class="navbar-header">
+<div class="container-fluid">
+<div class="row">
+<div class="col-xs-3">
+<button type="button" class="navbar-toggle topnav_toggle" data-toggle="collapse" data-target="#topnav_collapse">
+<span class="sr-only">Toggle Main Navigation</span>
+<span class="icon-menu"></span>
+</button>
+</div>
+<div class="col-xs-6">
+<div class="text-center">
+<a href="https://www.mathworks.com?s_tid=gn_logo" class="svg_link navbar-brand">
+<img src="/images/responsive/global/pic-header-mathworks-logo.svg" class="mw_logo" alt="MathWorks">
+</a>
+</div>
+</div>
+<div class="col-xs-3">
+<div class="matrix_affordance_container_mobile" id="matrix_affordance_container_mobile"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="container-fluid">
+<div class="row visible-xs visible-sm">
+<div class="col-xs-12">
+<div class="navbar-collapse collapse" id="topnav_collapse">
+<ul class="nav navbar-nav topnav" id="topnav_mobile">
+<li class="topnav_products "><a href="https://www.mathworks.com/products.html?s_tid=gn_ps" >Products</a></li>
+<li class="topnav_solutions "><a href="https://www.mathworks.com/solutions.html?s_tid=gn_sol">Solutions</a></li>
+<li class="topnav_academia "><a href="https://www.mathworks.com/academia.html?s_tid=gn_acad">Academia</a></li>
+<li class="topnav_support "><a href="https://www.mathworks.com/help/?s_tid=gn_supp">Support</a></li>
+<li class="topnav_community "><a href="https://www.mathworks.com/matlabcentral/?s_tid=gn_mlc">Community</a></li>
+<li class="topnav_events "><a href="https://www.mathworks.com/company/events.html?s_tid=gn_ev">Events</a></li>
+<li class="headernav_store"><a href="https://login.mathworks.com/embedded-login/landing.html?cid=getmatlab&s_tid=gn_getml">Get MATLAB</a></li>
+</ul>
+</div>
+<div class="navbar-collapse collapse" id="matrix_collapse">
+<div class="matrix_menu_container_mobile" id="matrix_menu_container_mobile"></div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</div>
+<!-- Mobile TopNav: End -->
+<!-- Desktop TopNav: Start -->
+<div class="header hidden-xs hidden-sm" id="header_desktop" translate="no">
+<nav class="navbar navbar-default" role="navigation">
+<div class="container-fluid">
+<div class="row">
+<div class="col-md-9">
+<div class="navbar-header">
+<div class="logo_container hidden-xs hidden-sm">
+<a href="https://www.mathworks.com?s_tid=gn_logo" class="svg_link pull-left">
+<img src="/images/responsive/global/pic-header-mathworks-logo.svg" class="mw_logo" alt="MathWorks">
+</a>
+</div>
+<div class="navbar-collapse collapse hidden-xs hidden-sm">
+<ul class="nav navbar-nav topnav" id="topnav_desktop">
+<li class="topnav_products "><a href="https://www.mathworks.com/products.html?s_tid=gn_ps" >Products</a></li>
+<li class="topnav_solutions "><a href="https://www.mathworks.com/solutions.html?s_tid=gn_sol">Solutions</a></li>
+<li class="topnav_academia "><a href="https://www.mathworks.com/academia.html?s_tid=gn_acad">Academia</a></li>
+<li class="topnav_support "><a href="https://www.mathworks.com/help/?s_tid=gn_supp">Support</a></li>
+<li class="topnav_community "><a href="https://www.mathworks.com/matlabcentral/?s_tid=gn_mlc">Community</a></li>
+<li class="topnav_events "><a href="https://www.mathworks.com/company/events.html?s_tid=gn_ev">Events</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-3">
+<div class="collapse navbar-collapse" id="headernav_collapse">
+<ul class="nav navbar-nav navbar-right" id="headernav">
+<li class="headernav_store"><a href="https://login.mathworks.com/embedded-login/landing.html?cid=getmatlab&s_tid=gn_getml" class="btn btn_color_blue companion_btn btn-xs">Get MATLAB</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</div>
+<!-- Desktop TopNav: End -->
+<!-- Conjoined Header: Start -->
+<!-- Section Header: Start -->
+<div class="section_header level_3">
+<div class="container-fluid">
+<div class="row" id="mobile_search_row">
+<div class="col-sm-6 col-md-7 has_horizontal_local_nav" id="section_header_title">
+<div class="section_header_content">
+<div class="section_header_title">
+<p class="h1"><a xmlns="http://www.w3.org/1999/xhtml" href="../../index.html" class="coming_from_product">Help Center</a><a xmlns="http://www.w3.org/1999/xhtml" href="../../index.html" class="not_coming_from_product">Help Center</a></p>
+</div>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-5" id="mobile_search">
+<div class="search_nested_content_container">
+<div id="search_scope_support" class="collapse in"> <form id="docsearch_form" action="/support/search.html" method="get" accept-charset="utf-8" data-release="R2023a" data-language="en">
+<div class="input-group">
+<label class="sr-only">Search Help Center</label>
+<input id="suggestion" type="hidden" name="suggestion" value="">
+<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+<input id="docsearch" class="form-control conjoined_search" type="search" name="q" placeholder="Search Help Center" autocomplete="off">
+<div class="input-group-btn">
+<button type="button" class="btn btn_search_adjacent dropdown-toggle" data-toggle="dropdown"><span class="caret"></span><span class="search_scope_label">Help Center</span></button>
+<ul class="dropdown-menu list-unstyled dropdown-menu-right" role="menu">
+<!--<li data-toggle="collapse" data-target="#search_scope_support"><a href="#">Support</a></li>-->
+<li data-toggle="collapse" data-target="#search_scope_site" class="support_search_scope_trigger"><a href="#">MathWorks</a></li>
+</ul>
+<script>$(".support_search_scope_trigger").click(function() {$("#search_scope_support").removeClass("in");$("#query").val($("#search").val());});</script>
+<button type="submit" name="submitsearch" id="support_submitsearch" class="btn icon-search btn_search_adjacent btn_search icon_16"></button>
+</div>
+</div>
+</form>
+</div>
+<div id="search_scope_site" class="collapse"> <form name="search" id="site_search" class="site_search" action="/search/site_search.html" method="get">
+<div class="input-group">
+<label class="sr-only">Search MathWorks.com</label>
+<input type="hidden" name="c[]" value="entire_site">
+<input type="search" name="q" id="query" class="form-control conjoined_search" placeholder="Search MathWorks.com" autocomplete="off">
+<div class="input-group-btn">
+<button type="button" class="btn btn_search_adjacent dropdown-toggle" data-toggle="dropdown"><span class="caret"></span><span class="search_scope_label">MathWorks</span></button>
+<ul class="dropdown-menu list-unstyled dropdown-menu-right" role="menu">
+<li data-toggle="collapse" data-target="#search_scope_support" class="site_search_scope_trigger"><a href="#">Help Center</a></li>
+</ul>
+<script>$(".site_search_scope_trigger").click(function() {$("#search_scope_site").removeClass("in");$("#search").val($("#query").val());});</script>
+<button type="submit" id="searchbutton" class="btn icon-search btn_search_adjacent btn_search icon_16"></button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<button class="btn icon-remove btn_search pull-right icon_32 visible-xs" data-toggle="collapse" href="#mobile_search" aria-expanded="false" aria-controls="mobile_search"><span class="sr-only">Close Mobile Search</span></button>
+</div>
+<div class="visible-xs" id="search_actuator">
+<button class="btn icon-search btn_search pull-right icon_16" data-toggle="collapse" href="#mobile_search" aria-expanded="false" aria-controls="mobile_search"><span class="sr-only">Open Mobile Search</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Section Header: End -->
+<!-- Conjoined Header: End -->
+
+  <div class="row-offcanvas row-offcanvas-left">
+  
+    <div class="sidebar-offcanvas" id="sidebar">
+      <nav class="offcanvas_nav" role="navigation"> 
+      
+        <div class="offcanvas_actuator" data-toggle="offcanvas" data-target="#sidebar" id="nav_toggle">
+          <button type="button" class="btn">
+            <span class="icon-menu"><span class="sr-only">Off-Canvas Navigation Menu Toggle</span></span>
+          </button>
+          <span class="offcanvas_actuator_label" id="translation_icon-menu" tabindex="-1" aria-hidden="true"></span>
+          <!-- <span class="offcanvas_actuator_close" tabindex="-1" aria-hidden="true"></span> -->
+        </div>
+
+          <div class="nav_list_wrapper" id="nav_list_wrapper">
+            <nav class="offcanvas_nav" role="navigation">
+                <ul xmlns="http://www.w3.org/1999/xhtml" class="nav_breadcrumb" id="ul_left_nav_ancestors"><li itemscope="" itemtype="http://www.data-vocabulary.org/Breadcrumb" itemprop="breadcrumb"><a href="../../index.html?s_tid=CRUX_lftnav" itemprop="url"><span itemprop="title">Documentation Home</span></a></li></ul><ul xmlns="http://www.w3.org/1999/xhtml" class="nav_breadcrumb" id="ul_left_nav_productgroups"><li itemscope="" itemtype="http://www.data-vocabulary.org/Breadcrumb" itemprop="breadcrumb"><a href="../../overview/signal-processing.html?s_tid=hc_product_group_bc" itemprop="url"><span itemprop="title">Signal Processing</span></a></li></ul>
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav_disambiguation"><li><a href="../index.html?s_tid=CRUX_lftnav">Signal Processing Toolbox</a>
+</li>
+<li itemscope="" itemtype="http://www.data-vocabulary.org/Breadcrumb" itemprop="breadcrumb"><a href="../getting-started-with-signal-processing-toolbox.html?s_tid=CRUX_lftnav" itemprop="url"><span itemprop="title">Get Started with Signal Processing Toolbox</span></a></li></ul><ul xmlns="http://www.w3.org/1999/xhtml" class="nav_disambiguation"><li><a href="../index.html?s_tid=CRUX_lftnav">Signal Processing Toolbox</a>
+</li>
+<li><a href="../measurements-and-feature-extraction.html?s_tid=CRUX_lftnav">Measurements and Feature Extraction</a></li></ul><ul xmlns="http://www.w3.org/1999/xhtml" class="nav_disambiguation"><li><a href="../index.html?s_tid=CRUX_lftnav">Signal Processing Toolbox</a>
+</li>
+<li><a href="../time-frequency-analysis.html?s_tid=CRUX_lftnav">Time-Frequency Analysis</a></li></ul><div class="nav_disambiguation_overflow">
+<div class="collapse" id="nav_disambiguation_overflow_content">
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav_disambiguation"><li><a href="../index.html?s_tid=CRUX_lftnav">Signal Processing Toolbox</a>
+</li>
+<li><a href="../ai-for-signals.html?s_tid=CRUX_lftnav">AI for Signals</a></li></ul></div>
+<span xmlns="http://www.w3.org/1999/xhtml" class="nav_disambiguation_overflow_control" data-toggle="collapse" data-target="#nav_disambiguation_overflow_content" aria-expanded="false" aria-controls="nav_disambiguation_overflow_content"></span></div>
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav_scrollspy nav">
+<li class="nav_scrollspy_function"><a href="#responsive_offcanvas">Classify ECG Signals Using Long Short-Term Memory Networks</a></li>
+<li class="nav_scrollspy_title" id="SSPY810-section">On this page</li>
+<!--ADD_REFENTRY_TITLE_HERE 11--><li><a href="#ClassifyECGSignalsUsingLSTMNetworksExample-1" class="intrnllnk">Introduction</a></li><li><a href="#ClassifyECGSignalsUsingLSTMNetworksExample-2" class="intrnllnk">Load and Examine Data</a></li><li><a href="#ClassifyECGSignalsUsingLSTMNetworksExample-3" class="intrnllnk">Prepare Data for Training</a></li><li><a href="#ClassifyECGSignalsUsingLSTMNetworksExample-4" class="intrnllnk">First Attempt: Train Classifier Using Raw Signal Data</a></li><li><a href="#ClassifyECGSignalsUsingLSTMNetworksExample-5" class="intrnllnk">Define LSTM Network Architecture</a></li><li><a href="#ClassifyECGSignalsUsingLSTMNetworksExample-6" class="intrnllnk">Train LSTM Network</a></li><li><a href="#ClassifyECGSignalsUsingLSTMNetworksExample-7" class="intrnllnk">Visualize Training and Testing Accuracy</a></li><li><a href="#ClassifyECGSignalsUsingLSTMNetworksExample-8" class="intrnllnk">Second Attempt: Improve Performance with Feature Extraction</a></li><li><a href="#ClassifyECGSignalsUsingLSTMNetworksExample-9" class="intrnllnk">Standardize Data</a></li><li><a href="#ClassifyECGSignalsUsingLSTMNetworksExample-10" class="intrnllnk">Modify LSTM Network Architecture</a></li><li><a href="#ClassifyECGSignalsUsingLSTMNetworksExample-11" class="intrnllnk">Train LSTM Network with Time-Frequency Features</a></li><li><a href="#ClassifyECGSignalsUsingLSTMNetworksExample-12" class="intrnllnk">Visualize Training and Testing Accuracy</a></li><li><a href="#ClassifyECGSignalsUsingLSTMNetworksExample-13" class="intrnllnk">Conclusion</a></li><li><a href="#ClassifyECGSignalsUsingLSTMNetworksExample-14" class="intrnllnk">References</a></li><li><a href="#d124e57566" class="intrnllnk">See Also</a></li><li><a href="#d124e57591" class="intrnllnk">Related Topics</a></li></ul>
+
+            </nav>
+          </div>
+        
+        <script src="/includes_content/responsive/scripts/offcanvas_v2.js?20221031"></script>
+        
+
+      </nav>       
+    </div>
+
+    <!-- MOBILE CTA - Begin -->
+    <!-- MOBILE CTA - End -->
+
+
+    <div class="offcanvas_content_container">
+
+      <div class="sticky_header_container">
+        <div class="horizontal_nav">
+          <div class="horizontal_nav_container">
+            <div class="offcanvas_horizontal_nav">
+              <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-md-7 col-lg-8 hidden-xs">
+                    
+                    <script>
+                      var translateMore = translateMore || {};
+                      translateMore.locale = "More"; 
+                    </script>
+
+                    <nav class="navbar navbar-default" role="navigation" id="subnav">
+                      <div>
+                          <ul class="nav navbar-nav crux_browse">
+                        <li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_documentation" class="crux_resource active">Documentation</li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_example" class="crux_resource"><a href="../examples.html?category=getting-started-with-signal-processing-toolbox&amp;s_tid=CRUX_topnav">Examples</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_function" class="crux_resource"><a href="../referencelist.html?type=function&amp;category=getting-started-with-signal-processing-toolbox&amp;s_tid=CRUX_topnav">Functions</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_app" class="crux_resource"><a href="../referencelist.html?type=app&amp;category=getting-started-with-signal-processing-toolbox&amp;s_tid=CRUX_topnav">Apps</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_videos" class="supplemental_crux_resource"><a href="/support/search.html?fq[]=asset_type_name:video%20category:signal/getting-started-with-signal-processing-toolbox&amp;s_tid=CRUX_topnav" class="not_coming_from_product">Videos</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_answers" class="supplemental_crux_resource"><a href="/support/search.html?fq[]=asset_type_name:answer%20category:signal/getting-started-with-signal-processing-toolbox&amp;s_tid=CRUX_topnav" class="not_coming_from_product">Answers</a></li>
+                        </ul>
+                      </div>
+                    </nav>
+                  </div>
+                    <div class="col-md-5 col-lg-4 hidden-xs hidden-sm">
+                      <div class="cta_box">
+<ul class="list-inline">
+<li class="cta_item cta_item_general hidden-sm hidden-xs "><a href="/campaigns/products/trials.html?prodcode=SG&amp;s_iid=doc_trial_SG_tb" class="icon-download">Trial Software</a></li>
+<li class="hidden-lg hidden-md "><a href="/campaigns/products/trials.html?prodcode=SG&amp;s_iid=doc_trial_SG_tb" class="btn btn_color_blue btn-block"><span class="icon-download"></span> Trial Software</a></li>
+<li class="cta_item cta_item_general hidden-sm hidden-xs "><a href="/support/web_downloads_bounce.html?s_cid=1008_degr_docdn_270055" class="icon-download">Product Updates</a></li>
+<li class="hidden-lg hidden-md "><a href="/support/web_downloads_bounce.html?s_cid=1008_degr_docdn_270055" class="btn btn_color_blue btn-block"><span class="icon-download"></span> Product Updates</a></li>
+</ul>
+</div>
+                    </div>
+                  <!-- Mobile CRUX Nav: START -->
+                  <div class="visible-xs">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-xs-9"> 
+                          <div class="mobile_crux_nav_trigger">
+                            <!-- Single button -->
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Resources <span class="icon-arrow-down icon_16"></span>  
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_documentation" class="crux_resource active">Documentation</li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_example" class="crux_resource"><a href="../examples.html?category=getting-started-with-signal-processing-toolbox&amp;s_tid=CRUX_topnav">Examples</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_function" class="crux_resource"><a href="../referencelist.html?type=function&amp;category=getting-started-with-signal-processing-toolbox&amp;s_tid=CRUX_topnav">Functions</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_app" class="crux_resource"><a href="../referencelist.html?type=app&amp;category=getting-started-with-signal-processing-toolbox&amp;s_tid=CRUX_topnav">Apps</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_videos" class="supplemental_crux_resource"><a href="/support/search.html?fq[]=asset_type_name:video%20category:signal/getting-started-with-signal-processing-toolbox&amp;s_tid=CRUX_topnav" class="not_coming_from_product">Videos</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_answers" class="supplemental_crux_resource"><a href="/support/search.html?fq[]=asset_type_name:answer%20category:signal/getting-started-with-signal-processing-toolbox&amp;s_tid=CRUX_topnav" class="not_coming_from_product">Answers</a></li>
+                              </ul>
+                            </div>
+                            <!-- Single button -->                      
+                          </div>
+                        </div>
+                        <div class="col-xs-3">
+                          <div class="translate_placeholder"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Mobile CRUX Nav: END -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content_container" id="content_container">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12">
+              <div id="offcanvas_focus_actuator" tabindex="0" class="visible-xs"><span class="sr-only">Main Content</span></div>
+              <main id="skip_link_anchor" tabindex="-1">
+                           
+
+
+
+
+
+                         
+    
+                                       
+<div xmlns="http://www.w3.org/1999/xhtml" id="product_info_alert"></div><section xmlns="http://www.w3.org/1999/xhtml" id="doc_center_content" itemprop="content" lang="en" data-language="en"><div id="pgtype-topic">                
+
+       
+<section itemprop="content"><h1 class="r2023a" itemprop="title content" id="mw_1327290d-93b3-4749-8ab7-621c53130d7d">Classify ECG Signals Using Long Short-Term Memory Networks</h1><div class="examples_short_list hidden_ios_android"><div data-pane="metadata" class="panel metadata_container panel-default"><div class="panel-body metadata_content"><p class="add_margin_5">This example uses:</p><ul class="list-unstyled add_border_bottom example_product_list" itemprop="requiredprods"><li><a class="coming_from_product" href="matlab:matlab.internal.language.introspective.showAddon('NN')">Deep Learning Toolbox</a><a class="not_coming_from_product" href="../../deeplearning/index.html">Deep Learning Toolbox</a></li><li><a class="coming_from_product" href="matlab:matlab.internal.language.introspective.showAddon('SG')">Signal Processing Toolbox</a><a class="not_coming_from_product" href="../../signal/index.html">Signal Processing Toolbox</a></li></ul><a class="btn btn_secondary btn-block" href="matlab:openExample('deeplearning_shared/ClassifyECGSignalsUsingLSTMNetworksExample')" data-ex-genre="Live Script">Open Live Script</a></div></div></div><div itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/Example" itemprop="example" class="em_example"><meta itemprop="exampleid" content="deeplearning_shared-ClassifyECGSignalsUsingLSTMNetworksExample"><meta itemprop="exampletitle" content="Classify ECG Signals Using Long ShortTerm Memory Networks"></div><span id="ClassifyECGSignalsUsingLSTMNetworksExample" class="anchor_target"></span><p class="shortdesc">This example shows how to classify heartbeat electrocardiogram (ECG) data from the PhysioNet 2017 Challenge using deep learning and signal processing. In particular, the example uses Long Short-Term Memory networks and time-frequency analysis.</p><p>For an example that reproduces and accelerates this workflow using a GPU and Parallel Computing Toolbox&#8482;, see <a href="classify-ecg-signals-using-long-short-term-memory-networks-with-gpu.html" data-docid="signal_ug#mw_69d369a4-47bb-4046-b15c-da960df11f28" class="a">Classify ECG Signals Using Long Short-Term Memory Networks with GPU Acceleration</a>.</p><div class="procedure"><h3 class="title" id="ClassifyECGSignalsUsingLSTMNetworksExample-1">Introduction</h3><p>ECGs record the electrical activity of a person's heart over a period of time. Physicians use ECGs to detect visually if a patient's heartbeat is normal or irregular.</p><p>Atrial fibrillation (AFib) is a type of irregular heartbeat that occurs when the heart's upper chambers, the atria, beat out of coordination with the lower chambers, the ventricles.</p><p>This example uses ECG data from the PhysioNet 2017 Challenge [<a href="classify-ecg-signals-using-long-short-term-memory-networks.html#mw_rtc_ClassifyECGSignalsUsingLSTMNetworksExample_334CD7A7" class="intrnllnk">1</a>], [<a href="classify-ecg-signals-using-long-short-term-memory-networks.html#mw_rtc_ClassifyECGSignalsUsingLSTMNetworksExample_AC45DD7C" class="intrnllnk">2</a>], [<a href="classify-ecg-signals-using-long-short-term-memory-networks.html#mw_rtc_ClassifyECGSignalsUsingLSTMNetworksExample_FB6D01E3" class="intrnllnk">3</a>], which is available at <a href="https://physionet.org/challenge/2017/" target="_blank">https://physionet.org/challenge/2017/</a>. The data consists of a set of ECG signals sampled at 300 Hz and divided by a group of experts into four different classes: Normal (N), AFib (A), Other Rhythm (O), and Noisy Recording (~). This example shows how to automate the classification process using deep learning. The procedure explores a binary classifier that can differentiate Normal ECG signals from signals showing signs of AFib. </p><p>A long short-term memory (LSTM) network is a type of recurrent neural network (RNN) well-suited to study sequence and time-series data. An LSTM network can learn long-term dependencies between time steps of a sequence. The LSTM layer (<a href="../../deeplearning/ref/nnet.cnn.layer.lstmlayer.html" data-docid="nnet_ref#mw_9f7c5f93-4bf2-4ddb-b922-b1c122668b9a" class="a"><code class="olink">lstmLayer</code></a><span role="cross_prod"> (Deep Learning Toolbox)</span>) can look at the time sequence in the forward direction, while the bidirectional LSTM layer (<a href="../../deeplearning/ref/nnet.cnn.layer.bilstmlayer.html" data-docid="nnet_ref#mw_8511c52b-8f87-4919-8cf9-5bc952a6ed99" class="a"><code class="olink">bilstmLayer</code></a><span role="cross_prod"> (Deep Learning Toolbox)</span>) can look at the time sequence in both forward and backward directions. This example uses a bidirectional LSTM layer.</p><p>This example shows the advantages of using a data-centric approach when solving artificial intelligence (AI) problems. An initial attempt to train the LSTM network using raw data gives substandard results. Training the same model architecture using extracted features leads to a considerable improvement in classification performance.</p><p>To accelerate the training process, run this example on a machine with a GPU. If your machine has a GPU and Parallel Computing Toolbox&#8482;, then MATLAB&#174; automatically uses the GPU for training; otherwise, it uses the CPU.</p><h3 class="title" id="ClassifyECGSignalsUsingLSTMNetworksExample-2">Load and Examine Data</h3><p>Run the <code class="literal">ReadPhysionetData</code> script to download the data from the PhysioNet website and generate a MAT-file (<code class="literal">PhysionetData.mat</code>) that contains the ECG signals in the appropriate format. Downloading the data might take a few minutes. Use a conditional statement that runs the script only if <code class="literal">PhysionetData.mat</code> does not already exist in the current folder.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre><span style="color:#0000FF">if</span> ~isfile(<span style="color:#A020F0">'PhysionetData.mat'</span>)
+    ReadPhysionetData         
+<span style="color:#0000FF">end</span>
+load <span style="color:#A020F0">PhysionetData</span></pre></div></div></div><p>The loading operation adds two variables to the workspace: <code class="literal">Signals</code> and <code class="literal">Labels</code>. <code class="literal">Signals</code> is a cell array that holds the ECG signals. <code class="literal">Labels</code> is a categorical array that holds the corresponding ground-truth labels of the signals.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>Signals(1:5)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>ans=<span class="emphasis"><em>5×1 cell array</em></span>
+    {1×9000  double}
+    {1×9000  double}
+    {1×18000 double}
+    {1×9000  double}
+    {1×18000 double}
+
+</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>Labels(1:5)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>ans = <span class="emphasis"><em>5×1 categorical</em></span>
+     N 
+     N 
+     N 
+     A 
+     A 
+
+</pre></div></div></div><p>Use the <code class="literal">summary</code> function to see how many AFib signals and Normal signals are contained in the data.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>summary(Labels)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>     A       738 
+     N      5050 
+</pre></div></div></div><p>Generate a histogram of signal lengths. Most of the signals are 9000 samples long.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>L = cellfun(@length,Signals);
+h = histogram(L);
+xticks(0:3000:18000);
+xticklabels(0:3000:18000);
+title(<span style="color:#A020F0">'Signal Lengths'</span>)
+xlabel(<span style="color:#A020F0">'Length'</span>)
+ylabel(<span style="color:#A020F0">'Count'</span>)</pre></div></div></div><div class="informalfigure"><div id="d124e57185" class="mediaobject"><p><img src="../../examples/deeplearning_shared/win64/ClassifyECGSignalsUsingLSTMNetworksExample_01.png" width="560"></p></div></div><p>Visualize a segment of one signal from each class. AFib heartbeats are spaced out at irregular intervals while Normal heartbeats occur regularly. AFib heartbeat signals also often lack a P wave, which pulses before the QRS complex in a Normal heartbeat signal. The plot of the Normal signal shows a P wave and a QRS complex.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>normal = Signals{1};
+aFib = Signals{4};
+
+subplot(2,1,1)
+plot(normal)
+title(<span style="color:#A020F0">'Normal Rhythm'</span>)
+xlim([4000,5200])
+ylabel(<span style="color:#A020F0">'Amplitude (mV)'</span>)
+text(4330,150,<span style="color:#A020F0">'P'</span>,<span style="color:#A020F0">'HorizontalAlignment'</span>,<span style="color:#A020F0">'center'</span>)
+text(4370,850,<span style="color:#A020F0">'QRS'</span>,<span style="color:#A020F0">'HorizontalAlignment'</span>,<span style="color:#A020F0">'center'</span>)
+
+subplot(2,1,2)
+plot(aFib)
+title(<span style="color:#A020F0">'Atrial Fibrillation'</span>)
+xlim([4000,5200])
+xlabel(<span style="color:#A020F0">'Samples'</span>)
+ylabel(<span style="color:#A020F0">'Amplitude (mV)'</span>)</pre></div></div></div><div class="informalfigure"><div id="d124e57192" class="mediaobject"><p><img src="../../examples/deeplearning_shared/win64/ClassifyECGSignalsUsingLSTMNetworksExample_02.png" width="560"></p></div></div><h3 class="title" id="ClassifyECGSignalsUsingLSTMNetworksExample-3">Prepare Data for Training</h3><p>During training, the <code class="literal">trainNetwork</code> function splits the data into mini-batches. The function then pads or truncates signals in the same mini-batch so they all have the same length. Too much padding or truncating can have a negative effect on the performance of the network, because the network might interpret a signal incorrectly based on the added or removed information.</p><p>To avoid excessive padding or truncating, apply the <code class="literal">segmentSignals</code> function to the ECG signals so they are all 9000 samples long. The function ignores signals with fewer than 9000 samples. If a signal has more than 9000 samples, <code class="literal">segmentSignals</code> breaks it into as many 9000-sample segments as possible and ignores the remaining samples. For example, a signal with 18500 samples becomes two 9000-sample signals, and the remaining 500 samples are ignored.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>[Signals,Labels] = segmentSignals(Signals,Labels);</pre></div></div></div><p> View the first five elements of the <code class="literal">Signals</code> array to verify that each entry is now 9000 samples long.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>Signals(1:5)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>ans=<span class="emphasis"><em>5×1 cell array</em></span>
+    {1×9000 double}
+    {1×9000 double}
+    {1×9000 double}
+    {1×9000 double}
+    {1×9000 double}
+
+</pre></div></div></div><h3 class="title" id="ClassifyECGSignalsUsingLSTMNetworksExample-4">First Attempt: Train Classifier Using Raw Signal Data</h3><p>To design the classifier, use the raw signals generated in the previous section. Split the signals into a training set to train the classifier and a testing set to test the accuracy of the classifier on new data.</p><p>Use the <code class="literal">summary</code> function to show that the ratio of AFib signals to Normal signals is 718:4937, or approximately 1:7.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>summary(Labels)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>     A       718 
+     N      4937 
+</pre></div></div></div><p>Because about 7/8 of the signals are Normal, the classifier would learn that it can achieve a high accuracy simply by classifying all signals as Normal. To avoid this bias, augment the AFib data by duplicating AFib signals in the dataset so that there is the same number of Normal and AFib signals. This duplication, commonly called oversampling, is one form of data augmentation used in deep learning.</p><p>Split the signals according to their class.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>afibX = Signals(Labels==<span style="color:#A020F0">'A'</span>);
+afibY = Labels(Labels==<span style="color:#A020F0">'A'</span>);
+
+normalX = Signals(Labels==<span style="color:#A020F0">'N'</span>);
+normalY = Labels(Labels==<span style="color:#A020F0">'N'</span>);</pre></div></div></div><p>Next, use <code class="literal">dividerand</code> to divide targets from each class randomly into training and testing sets.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>[trainIndA,~,testIndA] = dividerand(718,0.9,0.0,0.1);
+[trainIndN,~,testIndN] = dividerand(4937,0.9,0.0,0.1);
+
+XTrainA = afibX(trainIndA);
+YTrainA = afibY(trainIndA);
+
+XTrainN = normalX(trainIndN);
+YTrainN = normalY(trainIndN);
+
+XTestA = afibX(testIndA);
+YTestA = afibY(testIndA);
+
+XTestN = normalX(testIndN);
+YTestN = normalY(testIndN);</pre></div></div></div><p>Now there are 646 AFib signals and 4443 Normal signals for training. To achieve the same number of signals in each class, use the first 4438 Normal signals, and then use <code class="literal">repmat</code> to repeat the first 634 AFib signals seven times.</p><p>For testing, there are 72 AFib signals and 494 Normal signals. Use the first 490 Normal signals, and then use <code class="literal">repmat</code> to repeat the first 70 AFib signals seven times. By default, the neural network randomly shuffles the data before training, ensuring that contiguous signals do not all have the same label.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>XTrain = [repmat(XTrainA(1:634),7,1); XTrainN(1:4438)];
+YTrain = [repmat(YTrainA(1:634),7,1); YTrainN(1:4438)];
+
+XTest = [repmat(XTestA(1:70),7,1); XTestN(1:490)];
+YTest = [repmat(YTestA(1:70),7,1); YTestN(1:490);];</pre></div></div></div><p>The distribution between Normal and AFib signals is now evenly balanced in both the training set and the testing set.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>summary(YTrain)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>     A      4438 
+     N      4438 
+</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>summary(YTest)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>     A      490 
+     N      490 
+</pre></div></div></div><h3 class="title" id="ClassifyECGSignalsUsingLSTMNetworksExample-5">Define LSTM Network Architecture</h3><p>LSTM networks can learn long-term dependencies between time steps of sequence data. This example uses the bidirectional LSTM layer <code class="literal">bilstmLayer</code>, as it looks at the sequence in both forward and backward directions.</p><p>Because the input signals have one dimension each, specify the input size to be sequences of size 1. Specify a bidirectional LSTM layer with an output size of 100 and output the last element of the sequence. This command instructs the bidirectional LSTM layer to map the input time series into 100 features and then prepares the output for the fully connected layer. Finally, specify two classes by including a fully connected layer of size 2, followed by a softmax layer and a classification layer.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>layers = [ <span style="color:#0000FF">...</span>
+    sequenceInputLayer(1)
+    bilstmLayer(100,<span style="color:#A020F0">'OutputMode'</span>,<span style="color:#A020F0">'last'</span>)
+    fullyConnectedLayer(2)
+    softmaxLayer
+    classificationLayer
+    ]</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>layers = 
+  5x1 Layer array with layers:
+
+     1   ''   Sequence Input          Sequence input with 1 dimensions
+     2   ''   BiLSTM                  BiLSTM with 100 hidden units
+     3   ''   Fully Connected         2 fully connected layer
+     4   ''   Softmax                 softmax
+     5   ''   Classification Output   crossentropyex
+</pre></div></div></div><p>Next specify the training options for the classifier. Set the <code class="literal">'MaxEpochs'</code> to 10 to allow the network to make 10 passes through the training data. A <code class="literal">'MiniBatchSize'</code> of 150 directs the network to look at 150 training signals at a time. An <code class="literal">'InitialLearnRate'</code> of 0.01 helps speed up the training process. Specify a <code class="literal">'SequenceLength'</code> of 1000 to break the signal into smaller pieces so that the machine does not run out of memory by looking at too much data at one time. Set '<code class="literal">GradientThreshold</code>' to 1 to stabilize the training process by preventing gradients from getting too large. Specify <code class="literal">'Plots'</code> as <code class="literal">'training-progress'</code> to generate plots that show a graphic of the training progress as the number of iterations increases. Set <code class="literal">'Verbose'</code> to <code class="literal">false</code> to suppress the table output that corresponds to the data shown in the plot. If you want to see this table, set <code class="literal">'Verbose'</code> to <code class="literal">true</code>.</p><p>This example uses the adaptive moment estimation (ADAM) solver. ADAM performs better with RNNs like LSTMs than the default stochastic gradient descent with momentum (SGDM) solver.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>options = trainingOptions(<span style="color:#A020F0">'adam'</span>, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'MaxEpochs'</span>,10, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'MiniBatchSize'</span>, 150, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'InitialLearnRate'</span>, 0.01, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'SequenceLength'</span>, 1000, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'GradientThreshold'</span>, 1, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'ExecutionEnvironment'</span>,<span style="color:#A020F0">"auto"</span>,<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'plots'</span>,<span style="color:#A020F0">'training-progress'</span>, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'Verbose'</span>,false);</pre></div></div></div><h3 class="title" id="ClassifyECGSignalsUsingLSTMNetworksExample-6">Train LSTM Network</h3><p>Train the LSTM network with the specified training options and layer architecture by using <code class="literal">trainNetwork</code>. Because the training set is large, the training process can take several minutes.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>net = trainNetwork(XTrain,YTrain,layers,options);</pre></div></div></div><div class="informalfigure"><div id="d124e57308" class="mediaobject"><p><img src="../../examples/deeplearning_shared/win64/ClassifyECGSignalsUsingLSTMNetworksExample_03.png" width="800"></p></div></div><p>The top subplot of the training-progress plot represents the training accuracy, which is the classification accuracy on each mini-batch. When training progresses successfully, this value typically increases towards 100%. The bottom subplot displays the training loss, which is the cross-entropy loss on each mini-batch. When training progresses successfully, this value typically decreases towards zero.</p><p>If the training is not converging, the plots might oscillate between values without trending in a certain upward or downward direction. This oscillation means that the training accuracy is not improving and the training loss is not decreasing. This situation can occur from the start of training, or the plots might plateau after some preliminary improvement in training accuracy. In many cases, changing the training options can help the network achieve convergence. Decreasing <code class="literal">MiniBatchSize</code> or decreasing <code class="literal">InitialLearnRate</code> might result in a longer training time, but it can help the network learn better.</p><p>The classifier's training accuracy oscillates between about 50% and about 60%, and at the end of 10 epochs, it already has taken several minutes to train.</p><h3 class="title" id="ClassifyECGSignalsUsingLSTMNetworksExample-7">Visualize Training and Testing Accuracy</h3><p>Calculate the training accuracy, which represents the accuracy of the classifier on the signals on which it was trained. First, classify the training data.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>trainPred = classify(net,XTrain,<span style="color:#A020F0">'SequenceLength'</span>,1000);</pre></div></div></div><p>In classification problems, confusion matrices are used to visualize the performance of a classifier on a set of data for which the true values are known. The Target Class is the ground-truth label of the signal, and the Output Class is the label assigned to the signal by the network. The axes labels represent the class labels, AFib (A) and Normal (N).</p><p>Use the <code class="literal">confusionchart</code> command to calculate the overall classification accuracy for the testing data predictions. Specify <code class="literal">'RowSummary'</code> as <code class="literal">'row-normalized'</code> to display the true positive rates and false positive rates in the row summary. Also, specify <code class="literal">'ColumnSummary'</code> as <code class="literal">'column-normalized'</code> to display the positive predictive values and false discovery rates in the column summary.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>LSTMAccuracy = sum(trainPred == YTrain)/numel(YTrain)*100</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>LSTMAccuracy = 61.7283
+</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>figure
+confusionchart(YTrain,trainPred,<span style="color:#A020F0">'ColumnSummary'</span>,<span style="color:#A020F0">'column-normalized'</span>,<span style="color:#0000FF">...</span>
+              <span style="color:#A020F0">'RowSummary'</span>,<span style="color:#A020F0">'row-normalized'</span>,<span style="color:#A020F0">'Title'</span>,<span style="color:#A020F0">'Confusion Chart for LSTM'</span>);</pre></div></div></div><div class="informalfigure"><div id="d124e57344" class="mediaobject"><p><img src="../../examples/deeplearning_shared/win64/ClassifyECGSignalsUsingLSTMNetworksExample_04.png" width="560"></p></div></div><p>Now classify the testing data with the same network.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>testPred = classify(net,XTest,<span style="color:#A020F0">'SequenceLength'</span>,1000);</pre></div></div></div><p>Calculate the testing accuracy and visualize the classification performance as a confusion matrix.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>LSTMAccuracy = sum(testPred == YTest)/numel(YTest)*100</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>LSTMAccuracy = 66.2245
+</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>figure
+confusionchart(YTest,testPred,<span style="color:#A020F0">'ColumnSummary'</span>,<span style="color:#A020F0">'column-normalized'</span>,<span style="color:#0000FF">...</span>
+              <span style="color:#A020F0">'RowSummary'</span>,<span style="color:#A020F0">'row-normalized'</span>,<span style="color:#A020F0">'Title'</span>,<span style="color:#A020F0">'Confusion Chart for LSTM'</span>);</pre></div></div></div><div class="informalfigure"><div id="d124e57359" class="mediaobject"><p><img src="../../examples/deeplearning_shared/win64/ClassifyECGSignalsUsingLSTMNetworksExample_05.png" width="560"></p></div></div><h3 class="title" id="ClassifyECGSignalsUsingLSTMNetworksExample-8">Second Attempt: Improve Performance with Feature Extraction</h3><p>Feature extraction from the data can help improve the training and testing accuracies of the classifier. To decide which features to extract, this example adapts an approach that computes time-frequency images, such as spectrograms, and uses them to train convolutional neural networks (CNNs) [<a href="classify-ecg-signals-using-long-short-term-memory-networks.html#mw_rtc_ClassifyECGSignalsUsingLSTMNetworksExample_24CFFE1B" class="intrnllnk">4</a>], [<a href="classify-ecg-signals-using-long-short-term-memory-networks.html#mw_rtc_ClassifyECGSignalsUsingLSTMNetworksExample_D39DA037" class="intrnllnk">5</a>].</p><p>Visualize the spectrogram of each type of signal.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>fs = 300;
+
+figure
+subplot(2,1,1);
+pspectrum(normal,fs,<span style="color:#A020F0">'spectrogram'</span>,<span style="color:#A020F0">'TimeResolution'</span>,0.5)
+title(<span style="color:#A020F0">'Normal Signal'</span>)
+
+subplot(2,1,2);
+pspectrum(aFib,fs,<span style="color:#A020F0">'spectrogram'</span>,<span style="color:#A020F0">'TimeResolution'</span>,0.5)
+title(<span style="color:#A020F0">'AFib Signal'</span>)</pre></div></div></div><div class="informalfigure"><div id="d124e57376" class="mediaobject"><p><img src="../../examples/deeplearning_shared/win64/ClassifyECGSignalsUsingLSTMNetworksExample_06.png" width="560"></p></div></div><p>Because this example uses an LSTM instead of a CNN, it is important to translate the approach so it applies to one-dimensional signals. Time-frequency (TF) moments extract information from the spectrograms. Each moment can be used as a one-dimensional feature to input to the LSTM.</p><p>Explore two TF moments in the time domain:</p><div class="itemizedlist"><ul><li><p>Instantaneous frequency (<code class="literal">instfreq</code>)</p></li><li><p>Spectral entropy (<code class="literal">pentropy</code>)</p></li></ul></div><p>The <code class="literal">instfreq</code> function estimates the time-dependent frequency of a signal as the first moment of the power spectrogram. The function computes a spectrogram using short-time Fourier transforms over time windows. In this example, the function uses 255 time windows. The time outputs of the function correspond to the centers of the time windows.</p><p>Visualize the instantaneous frequency for each type of signal.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>[instFreqA,tA] = instfreq(aFib,fs);
+[instFreqN,tN] = instfreq(normal,fs);
+
+figure
+subplot(2,1,1);
+plot(tN,instFreqN)
+title(<span style="color:#A020F0">'Normal Signal'</span>)
+xlabel(<span style="color:#A020F0">'Time (s)'</span>)
+ylabel(<span style="color:#A020F0">'Instantaneous Frequency'</span>)
+
+subplot(2,1,2);
+plot(tA,instFreqA)
+title(<span style="color:#A020F0">'AFib Signal'</span>)
+xlabel(<span style="color:#A020F0">'Time (s)'</span>)
+ylabel(<span style="color:#A020F0">'Instantaneous Frequency'</span>)</pre></div></div></div><div class="informalfigure"><div id="d124e57401" class="mediaobject"><p><img src="../../examples/deeplearning_shared/win64/ClassifyECGSignalsUsingLSTMNetworksExample_07.png" width="560"></p></div></div><p>Use <code class="literal">cellfun </code>to apply the <code class="literal">instfreq</code> function to every cell in the training and testing sets.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>instfreqTrain = cellfun(@(x)instfreq(x,fs)',XTrain,<span style="color:#A020F0">'UniformOutput'</span>,false);
+instfreqTest = cellfun(@(x)instfreq(x,fs)',XTest,<span style="color:#A020F0">'UniformOutput'</span>,false);</pre></div></div></div><p>The spectral entropy measures how spiky flat the spectrum of a signal is. A signal with a spiky spectrum, like a sum of sinusoids, has low spectral entropy. A signal with a flat spectrum, like white noise, has high spectral entropy. The <code class="literal">pentropy</code> function estimates the spectral entropy based on a power spectrogram. As with the instantaneous frequency estimation case, <code class="literal">pentropy</code> uses 255 time windows to compute the spectrogram. The time outputs of the function correspond to the center of the time windows.</p><p>Visualize the spectral entropy for each type of signal.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>[pentropyA,tA2] = pentropy(aFib,fs);
+[pentropyN,tN2] = pentropy(normal,fs);
+
+figure
+subplot(2,1,1)
+plot(tN2,pentropyN)
+title(<span style="color:#A020F0">'Normal Signal'</span>)
+ylabel(<span style="color:#A020F0">'Spectral Entropy'</span>)
+
+subplot(2,1,2)
+plot(tA2,pentropyA)
+title(<span style="color:#A020F0">'AFib Signal'</span>)
+xlabel(<span style="color:#A020F0">'Time (s)'</span>)
+ylabel(<span style="color:#A020F0">'Spectral Entropy'</span>)</pre></div></div></div><div class="informalfigure"><div id="d124e57422" class="mediaobject"><p><img src="../../examples/deeplearning_shared/win64/ClassifyECGSignalsUsingLSTMNetworksExample_08.png" width="560"></p></div></div><p>Use <code class="literal">cellfun</code> to apply the <code class="literal">pentropy</code> function to every cell in the training and testing sets.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>pentropyTrain = cellfun(@(x)pentropy(x,fs)',XTrain,<span style="color:#A020F0">'UniformOutput'</span>,false);
+pentropyTest = cellfun(@(x)pentropy(x,fs)',XTest,<span style="color:#A020F0">'UniformOutput'</span>,false);</pre></div></div></div><p>Concatenate the features such that each cell in the new training and testing sets has two dimensions, or two features. </p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>XTrain2 = cellfun(@(x,y)[x;y],instfreqTrain,pentropyTrain,<span style="color:#A020F0">'UniformOutput'</span>,false);
+XTest2 = cellfun(@(x,y)[x;y],instfreqTest,pentropyTest,<span style="color:#A020F0">'UniformOutput'</span>,false);</pre></div></div></div><p>Visualize the format of the new inputs. Each cell no longer contains one 9000-sample-long signal; now it contains two 255-sample-long features.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>XTrain2(1:5)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>ans=<span class="emphasis"><em>5×1 cell array</em></span>
+    {2×255 double}
+    {2×255 double}
+    {2×255 double}
+    {2×255 double}
+    {2×255 double}
+
+</pre></div></div></div><h3 class="title" id="ClassifyECGSignalsUsingLSTMNetworksExample-9">Standardize Data</h3><p>The instantaneous frequency and the spectral entropy have means that differ by almost one order of magnitude. Furthermore, the instantaneous frequency mean might be too high for the LSTM to learn effectively. When a network is fit on data with a large mean and a large range of values, large inputs could slow down the learning and convergence of the network [<a href="classify-ecg-signals-using-long-short-term-memory-networks.html#mw_rtc_ClassifyECGSignalsUsingLSTMNetworksExample_768A6FDB" class="intrnllnk">6</a>].</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>mean(instFreqN)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>ans = 5.5615
+</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>mean(pentropyN)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>ans = 0.6326
+</pre></div></div></div><p>Use the training set mean and standard deviation to standardize the training and testing sets. Standardization, or z-scoring, is a popular way to improve network performance during training.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>XV = [XTrain2{:}];
+mu = mean(XV,2);
+sg = std(XV,[],2);
+
+XTrainSD = XTrain2;
+XTrainSD = cellfun(@(x)(x-mu)./sg,XTrainSD,<span style="color:#A020F0">'UniformOutput'</span>,false);
+
+XTestSD = XTest2;
+XTestSD = cellfun(@(x)(x-mu)./sg,XTestSD,<span style="color:#A020F0">'UniformOutput'</span>,false);</pre></div></div></div><p>Show the means of the standardized instantaneous frequency and spectral entropy.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>instFreqNSD = XTrainSD{1}(1,:);
+pentropyNSD = XTrainSD{1}(2,:);
+
+mean(instFreqNSD)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>ans = -0.3211
+</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>mean(pentropyNSD)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>ans = -0.2416
+</pre></div></div></div><h3 class="title" id="ClassifyECGSignalsUsingLSTMNetworksExample-10">Modify LSTM Network Architecture</h3><p>Now that the signals each have two dimensions, it is necessary to modify the network architecture by specifying the input sequence size as 2. Specify a bidirectional LSTM layer with an output size of 100, and output the last element of the sequence. Specify two classes by including a fully connected layer of size 2, followed by a softmax layer and a classification layer.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>layers = [ <span style="color:#0000FF">...</span>
+    sequenceInputLayer(2)
+    bilstmLayer(100,<span style="color:#A020F0">'OutputMode'</span>,<span style="color:#A020F0">'last'</span>)
+    fullyConnectedLayer(2)
+    softmaxLayer
+    classificationLayer
+    ]</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>layers = 
+  5x1 Layer array with layers:
+
+     1   ''   Sequence Input          Sequence input with 2 dimensions
+     2   ''   BiLSTM                  BiLSTM with 100 hidden units
+     3   ''   Fully Connected         2 fully connected layer
+     4   ''   Softmax                 softmax
+     5   ''   Classification Output   crossentropyex
+</pre></div></div></div><p>Specify the training options. Set the maximum number of epochs to 30 to allow the network to make 30 passes through the training data.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>options = trainingOptions(<span style="color:#A020F0">'adam'</span>, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'MaxEpochs'</span>,30, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'MiniBatchSize'</span>, 150, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'InitialLearnRate'</span>, 0.01, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'GradientThreshold'</span>, 1, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'ExecutionEnvironment'</span>,<span style="color:#A020F0">"auto"</span>,<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'plots'</span>,<span style="color:#A020F0">'training-progress'</span>, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'Verbose'</span>,false);</pre></div></div></div><h3 class="title" id="ClassifyECGSignalsUsingLSTMNetworksExample-11">Train LSTM Network with Time-Frequency Features</h3><p>Train the LSTM network with the specified training options and layer architecture by using <code class="literal">trainNetwork</code>.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>net2 = trainNetwork(XTrainSD,YTrain,layers,options);</pre></div></div></div><div class="informalfigure"><div id="d124e57491" class="mediaobject"><p><img src="../../examples/deeplearning_shared/win64/ClassifyECGSignalsUsingLSTMNetworksExample_09.png" width="800"></p></div></div><p>There is a great improvement in the training accuracy. The cross-entropy loss trends towards 0. Furthermore, the time required for training decreases because the TF moments are shorter than the raw sequences.</p><h3 class="title" id="ClassifyECGSignalsUsingLSTMNetworksExample-12">Visualize Training and Testing Accuracy</h3><p>Classify the training data using the updated LSTM network. Visualize the classification performance as a confusion matrix.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>trainPred2 = classify(net2,XTrainSD);
+LSTMAccuracy = sum(trainPred2 == YTrain)/numel(YTrain)*100</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>LSTMAccuracy = 83.5962
+</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>figure
+confusionchart(YTrain,trainPred2,<span style="color:#A020F0">'ColumnSummary'</span>,<span style="color:#A020F0">'column-normalized'</span>,<span style="color:#0000FF">...</span>
+              <span style="color:#A020F0">'RowSummary'</span>,<span style="color:#A020F0">'row-normalized'</span>,<span style="color:#A020F0">'Title'</span>,<span style="color:#A020F0">'Confusion Chart for LSTM'</span>);</pre></div></div></div><div class="informalfigure"><div id="d124e57506" class="mediaobject"><p><img src="../../examples/deeplearning_shared/win64/ClassifyECGSignalsUsingLSTMNetworksExample_10.png" width="560"></p></div></div><p>Classify the testing data with the updated network. Plot the confusion matrix to examine the testing accuracy.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>testPred2 = classify(net2,XTestSD);
+
+LSTMAccuracy = sum(testPred2 == YTest)/numel(YTest)*100</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>LSTMAccuracy = 80.1020
+</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>figure
+confusionchart(YTest,testPred2,<span style="color:#A020F0">'ColumnSummary'</span>,<span style="color:#A020F0">'column-normalized'</span>,<span style="color:#0000FF">...</span>
+              <span style="color:#A020F0">'RowSummary'</span>,<span style="color:#A020F0">'row-normalized'</span>,<span style="color:#A020F0">'Title'</span>,<span style="color:#A020F0">'Confusion Chart for LSTM'</span>);</pre></div></div></div><div class="informalfigure"><div id="d124e57517" class="mediaobject"><p><img src="../../examples/deeplearning_shared/win64/ClassifyECGSignalsUsingLSTMNetworksExample_11.png" width="560"></p></div></div><h3 class="title" id="ClassifyECGSignalsUsingLSTMNetworksExample-13">Conclusion</h3><p>This example shows how to build a classifier to detect atrial fibrillation in ECG signals using an LSTM network. The procedure uses oversampling to avoid the classification bias that occurs when one tries to detect abnormal conditions in populations composed mainly of healthy patients. Training the LSTM network using raw signal data results in a poor classification accuracy. Training the network using two time-frequency-moment features for each signal significantly improves the classification performance and also decreases the training time.</p><h3 class="title" id="ClassifyECGSignalsUsingLSTMNetworksExample-14">References</h3><span id="mw_rtc_ClassifyECGSignalsUsingLSTMNetworksExample_334CD7A7" class="anchor_target"></span><p>[1] <span class="emphasis"><em>AF Classification from a Short Single Lead ECG Recording: the PhysioNet/Computing in Cardiology Challenge, 2017.</em></span> <a href="https://physionet.org/challenge/2017/" target="_blank">https://physionet.org/challenge/2017/</a></p><span id="mw_rtc_ClassifyECGSignalsUsingLSTMNetworksExample_AC45DD7C" class="anchor_target"></span><p>[2] Clifford, Gari, Chengyu Liu, Benjamin Moody, Li-wei H. Lehman, Ikaro Silva, Qiao Li, Alistair Johnson, and Roger G. Mark. "AF Classification from a Short Single Lead ECG Recording: The PhysioNet Computing in Cardiology Challenge 2017." <span class="emphasis"><em>Computing in Cardiology</em></span> (Rennes: IEEE). Vol. 44, 2017, pp. 1&#8211;4.</p><span id="mw_rtc_ClassifyECGSignalsUsingLSTMNetworksExample_FB6D01E3" class="anchor_target"></span><p>[3] Goldberger, A. L., L. A. N. Amaral, L. Glass, J. M. Hausdorff, P. Ch. Ivanov, R. G. Mark, J. E. Mietus, G. B. Moody, C.-K. Peng, and H. E. Stanley. "PhysioBank, PhysioToolkit, and PhysioNet: Components of a New Research Resource for Complex Physiologic Signals". <span class="emphasis"><em>Circulation</em></span>. Vol. 101, No. 23, 13 June 2000, pp. e215&#8211;e220. <span class="emphasis underline">http://circ.ahajournals.org/content/101/23/e215.full</span></p><span id="mw_rtc_ClassifyECGSignalsUsingLSTMNetworksExample_24CFFE1B" class="anchor_target"></span><p>[4] Pons, Jordi, Thomas Lidy, and Xavier Serra. "Experimenting with Musically Motivated Convolutional Neural Networks". <span class="emphasis"><em>14th International Workshop on Content-Based Multimedia Indexing (CBMI)</em></span>. June 2016.</p><span id="mw_rtc_ClassifyECGSignalsUsingLSTMNetworksExample_D39DA037" class="anchor_target"></span><p>[5] Wang, D. "Deep learning reinvents the hearing aid," <span class="emphasis"><em>IEEE Spectrum</em></span>, Vol. 54, No. 3, March 2017, pp. 32&#8211;37. doi: 10.1109/MSPEC.2017.7864754.</p><span id="mw_rtc_ClassifyECGSignalsUsingLSTMNetworksExample_768A6FDB" class="anchor_target"></span><p>[6] Brownlee, Jason. <span class="emphasis"><em>How to Scale Data for Long Short-Term Memory Networks in Python</em></span>. 7 July 2017. <a href="https://machinelearningmastery.com/how-to-scale-data-for-long-short-term-memory-networks-in-python/" target="_blank">https://machinelearningmastery.com/how-to-scale-data-for-long-short-term-memory-networks-in-python/</a>.</p></div>
+      <h2 id="d124e57566">See Also</h2><h3>Functions</h3><ul class="list-unstyled margined_10"><li><span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="../ref/instfreq.html"><span itemprop="name"><code class="function">instfreq</code></span></a></span> | <span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="../ref/pentropy.html"><span itemprop="name"><code class="function">pentropy</code></span></a></span> | <span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="../../deeplearning/ref/trainingoptions.html"><span itemprop="name"><code class="function">trainingOptions</code></span></a> (Deep Learning Toolbox)</span> | <span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="../../deeplearning/ref/trainnetwork.html"><span itemprop="name"><code class="function">trainNetwork</code></span></a> (Deep Learning Toolbox)</span> | <span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="../../deeplearning/ref/nnet.cnn.layer.bilstmlayer.html"><span itemprop="name"><code class="function">bilstmLayer</code></span></a> (Deep Learning Toolbox)</span> | <span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="../../deeplearning/ref/nnet.cnn.layer.lstmlayer.html"><span itemprop="name"><code class="function">lstmLayer</code></span></a> (Deep Learning Toolbox)</span></li></ul>
+      <h2 id="d124e57591">Related Topics</h2><ul><li><a href="../../deeplearning/ug/long-short-term-memory-networks.html" class="a">Long Short-Term Memory Neural Networks</a><span role="cross_prod"> (Deep Learning Toolbox)</span></li></ul>
+    </section>
+    </div>
+<div class="modal fade" id="open-example-dialog" tabindex="-1" role="dialog" aria-labelledby="openExampleDialogLabel" aria-hidden="true"> 
+  <div class="modal-dialog"> 
+    <div class="modal-content"> 
+      <div class="modal-header"> 
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#215;</span></button> 
+        <h2 class="modal-title">Open Example</h2> 
+      </div> 
+      <div class="modal-body" id="dialog-body"> 
+        <p>You have a modified version of this example. Do you want to open this example with your edits?</p> 
+      </div> 
+      <div class="modal-footer"> 
+        <a id="open-example-dialog-replace" class="btn btn_color_blue companion_btn" data-dismiss="modal">No, overwrite the modified version</a>
+        <a id="open-example-dialog-continue" class="btn btn_color_blue" data-dismiss="modal">Yes</a>
+      </div> 
+    </div> 
+  </div> 
+</div>
+<div class="clearfix"></div>
+<div align="center" class="feedbackblock" id="mw_docsurvey"><script src="/help/docsurvey/docfeedback_p.js?202303060220"></script>
+<script>loadSurveyHidden();</script>
+<link rel="stylesheet" href="/help/docsurvey/release/index-css.css" type="text/css">
+<script src="/help/docsurvey/release/bundle.index.js?202303060220"></script>
+
+<script>initDocSurvey();</script></div></section>
+<div class="modal fade" id="matlab-command-dialog" tabindex="-1" role="dialog" aria-labelledby="matlabCommandDialogLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title">MATLAB Command</h2>
+      </div>
+      <div class="modal-body" id="dialog-body">
+        <p>You clicked a link that corresponds to this MATLAB command: </p>
+        <pre id="dialog-matlab-command"></pre>
+        <p>Run the command by entering it in the MATLAB Command Window.
+        Web browsers do not support MATLAB commands.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn_secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+<div id="location_content" style="display:none;"></div>
+
+
+<div class="modal fade" id="country-unselected" tabindex="-1" role="dialog" aria-labelledby="country-unselected-title" translate="no">
+<div id="country-select-container">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <img alt="MathWorks" src="/images/responsive/global/pic-header-mathworks-logo2.svg" style="width:167px; height:auto;">
+      </div>
+      <div class="modal-body">
+        <div class="row add_margin_40">
+          <div class="col-xs-12">
+            <p class="h1 icon-globe icon_color_secondary" id="country-unselected-title">Select a Web Site</p>
+            <p>Choose a web site to get translated content where available and see local events and offers. Based on your location, we recommend that you select: <strong class="recommended-country"></strong>.</p>
+						<div class="default-recommendation">
+							<a href="#" id="recommended_domain_button"
+								class="btn btn_color_blue containsResourceName resourceClass-button"><span
+								class="recommended-country"></span></a>
+						</div>
+						<div class="ch-recommendation" style="display:none;">
+							<ul class="list-inline">
+								<li class="add_display_block_xs add_margin_10_xs"><a href="https://ch.mathworks.com" class="recommendation-button btn btn_color_blue btn-md add_display_block_xs" data-subdomain="ch" data-lang="en" data-recommended-text="Switzerland" data-default-lang="true" data-do-not-rewrite="true" x-cq-linkchecker="skip">Switzerland (English)</a></li>
+								<li class="add_display_block_xs add_margin_10_xs"><a href="https://ch.mathworks.com" class="recommendation-button btn companion_btn btn-md add_display_block_xs" data-subdomain="ch" data-lang="de" data-recommended-text="Schweiz" data-do-not-rewrite="true" x-cq-linkchecker="skip">Switzerland (Deutsch)</a></li>
+								<li class="add_display_block_xs"><a href="https://ch.mathworks.com" class="recommendation-button btn companion_btn btn-md add_display_block_xs" data-subdomain="ch" data-lang="fr" data-recommended-text="Suisse" data-do-not-rewrite="true" x-cq-linkchecker="skip">Switzerland (Français)</a></li>
+							</ul>
+						</div>
+						<div class="zh-recommendation" style="display:none;">
+							<ul class="list-inline">
+								<li class="add_display_block_xs add_margin_10_xs"><a href="https://ww2.mathworks.cn" class="recommendation-button btn btn_color_blue btn-md add_display_block_xs" data-subdomain="ww2" data-lang="zh" data-recommended-text="中国" data-default-lang="true" data-do-not-rewrite="true" x-cq-linkchecker="skip">中国 (简体中文)</a></li>
+								<li class="add_display_block_xs"><a href="https://ww2.mathworks.cn" class="recommendation-button btn companion_btn btn-md add_display_block_xs" data-subdomain="ww2" data-lang="en" data-recommended-text="China" data-do-not-rewrite="true" x-cq-linkchecker="skip">中国 (English)</a></li>
+							</ul>
+						</div>
+          </div>
+        </div>
+        <p>You can also select a web site from the following list:</p>
+				<div class="alert alert-warning" id="china_performance_alert" style="display:none;"> <span class="alert_icon icon-alert-warning"></span>
+					<h2>How to Get Best Site Performance</h2>
+					<p>Select the China site (in Chinese or English) for best site performance. Other MathWorks country sites are not optimized for visits from your location.</p>
+				</div>
+        <div class="row add_margin_30">
+          <div class="col-sm-4 col-md-3">
+            <h3 class="add_bottom_rule">Americas</h3>
+            <ul class="list-unstyled">
+              <li><a href="https://la.mathworks.com" class="domain_selector_link" data-country-code="LA" data-subdomain="la" data-lang="es" data-default-lang="true" data-selected-text="América Latina" data-recommended-text="América Latina" data-do-not-rewrite="true">Am&eacute;rica Latina</a> (Español)</li>
+              <li><a href="https://www.mathworks.com" class="domain_selector_link" data-country-code="CA" data-subdomain="www" data-lang="en" data-do-not-rewrite="true">Canada</a> (English)</li>
+              <li><a href="https://www.mathworks.com" class="domain_selector_link" data-country-code="US" data-subdomain="www" data-lang="en" data-default-lang="true" data-selected-text="United States" data-recommended-text="United States" data-do-not-rewrite="true">United States</a> (English)</li>
+            </ul>
+          </div>
+          <div class="col-sm-4 col-md-6">
+            <h3 class="add_bottom_rule">Europe</h3>
+            <div class="row">
+              <div class="col-xs-6 col-sm-12 col-md-6">
+                <ul class="list-unstyled add_margin_0_sm">
+                  <li><a href="https://nl.mathworks.com" class="domain_selector_link" data-country-code="BE" data-subdomain="nl" data-lang="en" data-do-not-rewrite="true">Belgium</a> (English)</li>
+                  <li><a href="https://se.mathworks.com" class="domain_selector_link" data-country-code="DK" data-subdomain="se" data-lang="en" data-do-not-rewrite="true">Denmark</a> (English)</li>
+                  <li><a href="https://de.mathworks.com" class="domain_selector_link" data-country-code="DE" data-subdomain="de" data-lang="de" data-default-lang="true" data-selected-text="Deutschland" data-recommended-text="Deutschland" data-do-not-rewrite="true">Deutschland</a> (Deutsch)</li>
+                  <li><a href="https://es.mathworks.com" class="domain_selector_link" data-country-code="ES" data-subdomain="es" data-lang="es" data-default-lang="true" data-selected-text="España" data-recommended-text="España" data-do-not-rewrite="true">España</a> (Español)</li>
+                  <li><a href="https://se.mathworks.com"  class="domain_selector_link" data-country-code="FI" data-subdomain="se" data-lang="en" data-do-not-rewrite="true">Finland</a> (English)</li>
+                  <li><a href="https://fr.mathworks.com" class="domain_selector_link" data-country-code="FR" data-subdomain="fr" data-lang="fr" data-default-lang="true" data-selected-text="France" data-recommended-text="France" data-do-not-rewrite="true">France</a> (Français)</li>
+                  <li><a href="https://uk.mathworks.com" class="domain_selector_link" data-country-code="IE" data-subdomain="uk" data-lang="en" data-do-not-rewrite="true">Ireland</a> (English)</li>
+                  <li><a href="https://it.mathworks.com" class="domain_selector_link" data-country-code="IT" data-subdomain="it" data-lang="it" data-default-lang="true" data-selected-text="Italia" data-recommended-text="Italia" data-do-not-rewrite="true">Italia</a> (Italiano)</li>
+                  <li><a href="https://nl.mathworks.com" class="domain_selector_link" data-country-code="LU" data-subdomain="nl" data-lang="en" data-do-not-rewrite="true">Luxembourg</a> (English)</li>
+                </ul>
+              </div>
+              <div class="col-xs-6 col-sm-12 col-md-6">
+                <ul class="list-unstyled">
+                  <li><a href="https://nl.mathworks.com" class="domain_selector_link" data-country-code="NL" data-subdomain="nl" data-lang="en" data-default-lang="true" data-selected-text="Benelux" data-recommended-text="Netherlands" data-do-not-rewrite="true">Netherlands</a> (English)</li>
+                  <li><a href="https://se.mathworks.com" class="domain_selector_link" data-country-code="NO" data-subdomain="se" data-lang="en" data-do-not-rewrite="true">Norway</a> (English)</li>
+                  <li><a href="https://de.mathworks.com" class="domain_selector_link" data-country-code="AT" data-subdomain="de" data-lang="de" data-do-not-rewrite="true">Österreich</a> (Deutsch)</li>
+                  <li><a href="https://www.mathworks.com" class="domain_selector_link" data-country-code="PT" data-subdomain="www" data-lang="en" data-do-not-rewrite="true">Portugal</a> (English)</li>
+                  <li><a href="https://se.mathworks.com" class="domain_selector_link" data-country-code="Sweden" data-subdomain="se" data-lang="en" data-default-lang="true" data-selected-text="Nordic" data-recommended-text="Sweden" data-do-not-rewrite="true">Sweden</a> (English)</li>
+                  <li>Switzerland
+                    <ul class="list-unstyled add_indent_20">
+                      <li><a href="https://ch.mathworks.com" class="domain_selector_link" data-country-code="CH" data-subdomain="ch" data-lang="de" data-selected-text="Schweiz" data-recommended-text="Schweiz" data-do-not-rewrite="true">Deutsch</a></li>
+                      <li><a href="https://ch.mathworks.com" id="swiss_english" class="domain_selector_link" data-country-code="CH" data-subdomain="ch" data-lang="en" data-default-lang="true" data-selected-text="Switzerland" data-recommended-text="Switzerland" data-do-not-rewrite="true">English</a></li>
+                      <li><a href="https://ch.mathworks.com" class="domain_selector_link" data-country-code="CH" data-subdomain="ch" data-lang="fr" data-selected-text="Suisse" data-recommended-text="Suisse" data-do-not-rewrite="true">Français</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="https://uk.mathworks.com" class="domain_selector_link" data-country-code="GB" data-subdomain="uk" data-lang="en" data-default-lang="true" data-selected-text="United Kingdom" data-recommended-text="United Kingdom" data-do-not-rewrite="true">United Kingdom</a> (English)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-md-3">
+            <h3 class="add_bottom_rule">Asia Pacific</h3>
+            <ul class="list-unstyled">
+              <li><a href="https://au.mathworks.com" class="domain_selector_link" data-country-code="AU" data-subdomain="au" data-lang="en" data-default-lang="true" data-selected-text="Australia" data-recommended-text="Australia" data-do-not-rewrite="true">Australia</a> (English)</li>
+              <li><a href="https://in.mathworks.com" class="domain_selector_link" data-country-code="IN" data-subdomain="in" data-lang="en" data-default-lang="true" data-selected-text="India" data-recommended-text="India" data-do-not-rewrite="true">India</a> (English)</li>
+              <li><a href="https://au.mathworks.com" class="domain_selector_link" data-country-code="NZ" data-subdomain="au" data-lang="en" data-do-not-rewrite="true">New Zealand</a> (English)</li>
+              <li>中国
+                    <ul class="list-unstyled add_indent_20">
+                      <li><a href="https://ww2.mathworks.cn" class="domain_selector_link" data-country-code="CN" data-subdomain="ww2" data-lang="zh" data-default-lang="true" data-selected-text="中国" data-recommended-text="中国" data-do-not-rewrite="true">简体中文</a></li>
+                      <li><a href="https://ww2.mathworks.cn" class="domain_selector_link" data-country-code="CN" data-subdomain="ww2" data-lang="en" data-default-lang="true" data-selected-text="China" data-recommended-text="China" data-do-not-rewrite="true">English</a></li>
+                    </ul>
+               </li>
+              <li><a href="https://jp.mathworks.com" class="domain_selector_link" data-country-code="JP" data-subdomain="jp" data-lang="ja" data-default-lang="true" data-selected-text="日本" data-recommended-text="日本" data-do-not-rewrite="true">日本</a> (日本語)</li>
+              <li><a href="https://kr.mathworks.com" class="domain_selector_link" data-country-code="KR" data-subdomain="kr" data-lang="ko" data-default-lang="true" data-selected-text="한국" data-recommended-text="한국" data-do-not-rewrite="true">한국</a> (한국어)</li>
+            </ul>
+          </div>
+        </div>
+        <p class="text-center"><a href="#" class="worldwide_link">Contact your local office</a></p>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+  
+
+              </main>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE CTA - Begin -->
+      <div class="cta_container_mobile visible-sm visible-xs">
+        <div class="container-fluid">      
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="cta_box">
+<ul class="list-inline">
+<li class="cta_item cta_item_general hidden-sm hidden-xs "><a href="/campaigns/products/trials.html?prodcode=SG&amp;s_iid=doc_trial_SG_tb" class="icon-download">Trial Software</a></li>
+<li class="hidden-lg hidden-md "><a href="/campaigns/products/trials.html?prodcode=SG&amp;s_iid=doc_trial_SG_tb" class="btn btn_color_blue btn-block"><span class="icon-download"></span> Trial Software</a></li>
+<li class="cta_item cta_item_general hidden-sm hidden-xs "><a href="/support/web_downloads_bounce.html?s_cid=1008_degr_docdn_270055" class="icon-download">Product Updates</a></li>
+<li class="hidden-lg hidden-md "><a href="/support/web_downloads_bounce.html?s_cid=1008_degr_docdn_270055" class="btn btn_color_blue btn-block"><span class="icon-download"></span> Product Updates</a></li>
+</ul>
+</div> 
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- MOBILE CTA - End -->
+
+
+      <footer id="footer" class="bs-footer">
+          <!-- FAT FOOTER - Begin --> 
+          <div class="container-fluid">
+            <div class="fat_footer_container">
+              <div class="fat_footer">
+<div class="execmatlabweb"> <!--Requried for Doc Test -->
+<div class="row">
+<div class="col-xs-12 col-md-12 col-lg-3 add_margin_20">
+<p class="h4 add_margin_0"><span translate="no">MathWorks</span></p>
+<p><em>Accelerating the pace of engineering and science</em></p>
+<p class="hidden-xs"><span translate="no">MathWorks</span> is the leading developer of mathematical computing software for engineers and scientists.</p>
+<p class="hidden-xs"><a href="/discovery.html?s_tid=all_disc_mw_ff">Discover...</a></p>
+</div>
+<div class="col-xs-12 col-md-12 col-lg-9">
+<div class="row">
+<div class="col-xs-12 col-sm-2">
+<p class="ff_section_title"><a href="#fatfooter_products" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="fatfooter_products">Explore Products <span class="caret"></span></a></p>
+<div class="collapse" id="fatfooter_products">
+<ul class="list-unstyled">
+<li><a href="/products/matlab.html?s_tid=hp_ff_p_matlab">MATLAB</a></li>
+<li><a href="/products/simulink.html?s_tid=hp_ff_p_simulink">Simulink</a></li>
+<li><a href="/products/matlab/student.html?s_tid=hp_ff_p_student">Student Software</a></li>
+<li><a href="/hardware-support/home.html?s_tid=hp_ff_p_hwsupport">Hardware Support</a></li>
+<li><a href="/matlabcentral/fileexchange/?s_tid=hp_ff_p_fx">File Exchange</a></li>
+</ul>
+</div>
+</div>
+<div class="col-xs-12 col-sm-2">
+<p class="ff_section_title"><a href="#fatfooter_buy" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="fatfooter_buy">Try or Buy <span class="caret"></span></a></p>
+<div class="collapse" id="fatfooter_buy">
+<ul class="list-unstyled">
+<li><a href="/downloads/web_downloads/?s_iid=hp_ff_t_downloads">Downloads</a></li>
+<li><a href="/campaigns/products/trials.html?s_iid=hp_ff_p_trial">Trial Software</a></li>
+<li><a href="/company/aboutus/contact_us/contact_sales.html?s_iid=hp_ff_t_sales">Contact Sales</a></li>
+<li><a href="/pricing-licensing.html?s_iid=hp_ff_t_pricing">Pricing and Licensing</a></li>
+<li><a href="/store/?s_tid=hp_ff_t_buy">How to Buy</a></li>
+</ul>
+</div>
+</div>
+<div class="col-xs-12 col-sm-2">
+<p class="ff_section_title"><a role="button" data-toggle="collapse" href="#fatfooter_use" aria-expanded="false" aria-controls="fatfooter_use">Learn to Use <span class="caret"></span></a></p>
+<div class="collapse" id="fatfooter_use">
+<ul class="list-unstyled">
+<li><a href="/help/?s_tid=hp_ff_l_doc">Documentation</a></li>
+<li><a href="/support/learn-with-matlab-tutorials.html?s_tid=hp_ff_l_tutorials">Tutorials</a></li>
+<li><a href="/help/examples.html?s_tid=hp_ff_l_examples">Examples</a></li>
+<li><a href="/videos.html?s_tid=hp_ff_l_videos">Videos and Webinars</a></li>
+<li><a href="/learn/training.html?s_tid=hp_ff_l_training">Training</a></li>
+</ul>
+</div>
+</div>
+<div class="clearfix" id="offcanvas_clearfix" style="display:none"></div>
+<div class="col-xs-12 col-sm-2">
+<p class="ff_section_title"><a href="#fatfooter_support" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="fatfooter_support">Get Support <span class="caret"></span></a></p>
+<div class="collapse" id="fatfooter_support">
+<ul class="list-unstyled">
+<li><a href="/help/install/?s_tid=hp_ff_s_install">Installation Help</a></li>
+<li><a href="/matlabcentral/answers/index?s_tid=hp_ff_s_answers">Answers</a></li>
+<li><a href="/services/consulting.html?s_tid=hp_ff_s_consulting">Consulting</a></li>
+<li><a href="/licensecenter/?s_tid=hp_ff_s_license">License Center</a></li>
+<li><a href="/support/contact_us.html?s_tid=hp_ff_s_support">Contact Support</a></li>
+</ul>
+</div>
+</div>
+<div class="col-xs-12 col-sm-2">
+<p class="ff_section_title"><a role="button" data-toggle="collapse" href="#fatfooter_about" aria-expanded="false" aria-controls="fatfooter_about">About <span translate="no">MathWorks</span> <span class="caret"></span></a></p>
+<div class="collapse" id="fatfooter_about">
+<ul class="list-unstyled">
+<li><a href="/company/jobs/opportunities.html?s_tid=hp_ff_a_careers">Careers</a></li>
+<li><a href="/company/newsroom.html?s_tid=hp_ff_a_newsroom">Newsroom</a></li>
+<li><a href="/company/aboutus/soc_mission.html?s_tid=hp_ff_a_socialmission">Social Mission</a></li>
+<li><a href="/company/customer-stories.html?s_tid=hp_ff_a_customerstories">Customer Stories</a></li>
+<li><a href="/company.html?s_tid=hp_ff_a_company">About <span translate="no">MathWorks</span></a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+            </div>
+          </div>
+          <!-- FAT FOOTER - End -->
+        <div class="container-fluid">
+         <div class="footer" translate="no">
+<div class="row">
+<div class="col-xs-12 col-md-9">
+<ul class="countrynav" id="countrynav">
+<li class="footernav_country">
+<a href="#" data-toggle="modal" data-target="#country-unselected">
+<span class="icon-globe icon_color_quinary icon_16"></span>United States
+</a>
+</li>
+</ul>
+<div class="clearfix"></div>
+<ul class="footernav">
+<li class="footernav_patents"><a href="https://www.mathworks.com/company/aboutus/policies_statements/trust-center.html?s_tid=gf_tc">Trust Center</a></li>
+<li class="footernav_trademarks"><a href="https://www.mathworks.com/company/aboutus/policies_statements/trademarks.html?s_tid=gf_trd">Trademarks</a></li>
+<li class="footernav_privacy"><a href="https://www.mathworks.com/company/aboutus/policies_statements.html?s_tid=gf_priv">Privacy Policy</a></li>
+<li class="footernav_piracy"><a href="https://www.mathworks.com/company/aboutus/policies_statements/piracy.html?s_tid=gf_pir">Preventing Piracy</a></li>
+<li class="footernav_status"><a href="https://status.mathworks.com/?s_tid=gf_application">Application Status</a></li>
+</ul>
+<div class="clearfix"></div>
+<div class="clearfix"></div>
+<p class="copyright" translate="no">&copy; 1994-2023 The MathWorks, Inc.</p>
+</div>
+<div class="clearfix visible-sm add_margin_10"></div>
+<div class="col-xs-12 col-md-3">
+<div class="social_media">
+<ul class="social_media_icons">
+<li>
+<a href="https://www.facebook.com/MATLAB" target="_blank" rel="nofollow noopener noreferrer" class="svg_link">
+<img src="/images/responsive/global/ico-facebook.svg" alt="Facebook" class="ico_facebook">
+</a>
+</li>
+<li>
+<a href="https://twitter.com/MATLAB" target="_blank" rel="nofollow noopener noreferrer" class="svg_link">
+<img src="/images/responsive/global/ico-twitter.svg" alt="Twitter" class="ico_twitter">
+</a>
+</li>
+<li>
+<a href="https://www.instagram.com/matlab/" class="svg_link" target="_blank" rel="nofollow noopener noreferrer">
+<img class="ico_instagram" alt="Instagram" src="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/images/ico-instagram.svg">
+</a>
+</li>
+<li>
+<a href="https://www.youtube.com/user/MATLAB" class="svg_link" target="_blank" rel="nofollow noopener noreferrer">
+<img class="ico_youtube" alt="YouTube" src="/images/responsive/global/ico-youtube.svg">
+</a>
+</li>
+<li>
+<a href="https://www.linkedin.com/company/the-mathworks_2" target="_blank" rel="nofollow noopener noreferrer" class="svg_link">
+<img src="/images/responsive/global/ico-linkedin.svg" alt="LinkedIn" class="ico_linkedin">
+</a>
+</li>
+<li>
+<a href="https://www.mathworks.com/company/rss.html" class="svg_link">
+<img src="/images/responsive/global/ico-rss.svg" alt="RSS" class="ico_rss">
+</a>
+</li>
+</ul>
+<div class="clearfix"></div>
+<p><em>Join the conversation</em></p>
+</div>
+</div>
+</div>
+</div>
+        </div>
+      </footer>
+
+    </div>
+  
+  </div>
+
+
+<!-- CRUX 2.0 -->
+<script src="/includes_content/responsive/scripts/crux_nav_truncate.js?202303"></script>
+
+<!-- Mirror Search Queries on Scope Change : g2611494 -->
+<script>
+$('#search_scope_support').on('show.bs.collapse', function () {
+  if ($('#search_scope_site #query').val()) {
+    var site_search_value = $('#search_scope_site #query').val();
+    $('#search_scope_support #docsearch').val(site_search_value); 
+  }
+})
+$('#search_scope_site').on('show.bs.collapse', function () {
+  if ($('#search_scope_support #docsearch').val()) {
+    var support_search_value = $('#search_scope_support #docsearch').val();
+    $('#search_scope_site #query').val(support_search_value); 
+  }  
+})
+</script>
+<script type="text/javascript"  src="/ME81c1M_N7VH/9d/fn5JQFj58_/Eta7QckrzGJ71p/WRZ9AQ/JDY/WGSgjBls"></script></body>
+</html>

@@ -1,0 +1,2073 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    
+        
+
+
+<script src="https://cmp.osano.com/Azytm7SGW0qsW1JZP/6074ddb6-2ea9-4eb5-b687-e5401632a614/osano.js"></script>
+        
+        <title>Program for ECG signal analysis using MATLAB | AIP Conference Proceedings | AIP Publishing</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script>
+<script>window.jQuery || document.write('<script src="//aipp.silverchair-cdn.com/Themes/Silver/app/js/jquery.3.4.1.min.js" type="text/javascript">\x3C/script>')</script>
+<script src="//aipp.silverchair-cdn.com/Themes/Silver/app/vendor/v-638282419263905971/jquery-migrate-3.1.0.min.js" type="text/javascript"></script>    <script type='text/plain' src='https://platform-api.sharethis.com/js/sharethis.js#property=643701de45aa460012e1032e&amp;product=sop' async='async' class='optanon-category-C0004'></script>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=10" />
+
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <!-- Turn off telephone number detection. -->
+    <meta name="format-detection" content="telephone=no" />
+
+<!-- Bookmark Icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="//aipp.silverchair-cdn.com/Themes/Client/app/img/favicons/v-638282417924967267/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="//aipp.silverchair-cdn.com/Themes/Client/app/img/favicons/v-638282417925017271/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="//aipp.silverchair-cdn.com/Themes/Client/app/img/favicons/v-638282417925017271/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="//aipp.silverchair-cdn.com/Themes/Client/app/img/favicons/v-638282417925017271/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="icon" href="//aipp.silverchair-cdn.com/Themes/Client/app/img/favicons/v-638282417925017271/favicon.ico">
+  <link rel="manifest" href="//aipp.silverchair-cdn.com/Themes/Client/app/img/favicons/manifest.json">
+  <meta name="msapplication-config" content="//aipp.silverchair-cdn.com/Themes/Client/app/img/favicons/v-638282417924967267/browserconfig.xml">
+  <meta name="theme-color" content="#002f65">
+
+
+    
+
+
+  <link rel="stylesheet" type="text/css" href="//aipp.silverchair-cdn.com/Themes/Client/app/css/v-638295492071323312/site.min.css" />
+  <link rel="stylesheet" type="text/css" href="//aipp.silverchair-cdn.com/Themes/Silver/app/icons/v-638282419214089754/style.css" />
+  <link rel="stylesheet" type="text/css" href="//aipp.silverchair-cdn.com/Themes/Client/app/css/v-638282417924917292/bg_img.css" />
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+
+        <link href="//aipp.silverchair-cdn.com/data/SiteBuilderAssetsOriginals/Live/CSS/umbrella/v-638260854809116080/site.css" rel="stylesheet" type="text/css" />
+            <link href="//aipp.silverchair-cdn.com/data/SiteBuilderAssets/Live/CSS/acp/v-638201179104852941/site_v2.css" rel="stylesheet" type="text/css" />
+
+            <script>
+                (function (w, d, s, l, i) {
+                    w[l] = w[l] || []; w[l].push({
+                        'gtm.start':
+                            new Date().getTime(), event: 'gtm.js'
+                    }); var f = d.getElementsByTagName(s)[0],
+                        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                        j.setAttribute('type', 'text/javascript');
+                        j.setAttribute('class', 'optanon-category-C0002');
+                        j.async = true; j.src =
+                        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+                })(window, document, 'script', 'dataLayer', 'GTM-K9XV4SZ');
+            </script>
+
+    
+
+        <script type="text/javascript">
+            var App = App || {};
+            App.LoginUserInfo = {
+                isInstLoggedIn: 0,
+                isIndividualLoggedIn: 0
+            };
+
+            App.CurrentSubdomain = 'acp';
+            App.SiteURL = 'pubs.aip.org/acp';
+        </script>
+    
+    
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+
+    <meta name="citation_author" content="Ushakova, A. D." /><meta name="citation_author_institution" content="Ural Federal University, Yekaterinburg, Russia" /><meta name="citation_author" content="Smirnov, A. A." /><meta name="citation_author_institution" content="Ural Federal University, Yekaterinburg, Russia" /><meta name="citation_title" content="Program for ECG signal analysis using MATLAB" /><meta name="citation_doi" content="10.1063/1.5134331" /><meta name="citation_journal_title" content="AIP Conference Proceedings" /><meta name="citation_journal_abbrev" content="AIP Conf. Proc." /><meta name="citation_volume" content="2174" /><meta name="citation_issue" content="1" /><meta name="citation_publication_date" content="2019/12/06" /><meta name="citation_issn" content="0094-243X" /><meta name="citation_publisher" content="AIP Publishing" /><meta name="citation_reference" content="Programmnoe obespechenie Ritm-Express-VSR – rukovodstvo pol’zovatelya (OOO “ Meditsinskie Komp’uternye Sistemy ”, Moscow ), pp. 3 – 22 (in Russian). " /><meta name="citation_reference" content="citation_author=Medical Computer Systems; " /><meta name="citation_reference" content=" citation_journal_title=PhysioBank Databases.; " /><meta name="citation_reference" content="citation_author=Kublanov  V. S.; citation_author=Borisov  V. I.; citation_author=Dolganov  A. Ju.; citation_publisher=UrFU, Yekaterinburg;  citation_title=Analiz biomedicinskih signalov v srede MATLAB;  citation_year=2016;  citation_pages=17-21; " /><meta name="citation_reference" content="citation_author=Nemirko  A. P.; citation_author=Manilo  L. A.; citation_author=Kalinchenko  A. N.; citation_publisher=FIZMATLIT, Moscow;  citation_title=Matematicheskii analiz biomedicinskih signalov i dannyh;  citation_year=2017;  citation_pages=184-192; " /><meta name="citation_reference" content="citation_author=Rangayyan  R. M.; citation_publisher=IEEE and Wiley, New York;  citation_title=Biomedical Signal Analysis – A Case Study Approach;  citation_year=2002;  citation_pages=573-619; " /><meta name="citation_pdf_url" content="https://pubs.aip.org/aip/acp/article-pdf/doi/10.1063/1.5134331/14203713/020180_1_online.pdf" /><meta name="dc.identifier" content="10.1063/1.5134331" /><meta name="description" content="Electrocardiogram (ECG) signal analysis is important for estimation of heart work. Manual processing of ECG signals takes a lot of time and is hard to do so we " /><meta property="og:updated_time" content="12/6/2019" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Program for ECG signal analysis using MATLAB" />
+<meta property="og:description" content="Electrocardiogram (ECG) signal analysis is important for estimation of heart work. Manual processing of ECG signals takes a lot of time and is hard to do so we " />
+<meta property="og:url" content="/aip/acp/article/2174/1/020180/670582/Program-for-ECG-signal-analysis-using-MATLAB" />
+<meta property="og:site_name" content="AIP Publishing" />
+<meta property="og:image" content="/UI/app/svg/umbrella/logo.svg" />
+
+
+<meta name="citation_xml_url" content="https://pubs.aip.org/aip/acp/article-xml/doi/10.1063/1.5134331/670582" />
+
+
+    <link rel="canonical" href="https://pubs.aip.org/aip/acp/article/2174/1/020180/670582/Program-for-ECG-signal-analysis-using-MATLAB" />
+
+
+
+
+
+
+
+
+    <script type="application/ld+json">
+        {"@context":"https://schema.org","@type":"ScholarlyArticle","@id":"https://pubs.aip.org/aip/acp/article/2174/1/020180/670582/Program-for-ECG-signal-analysis-using-MATLAB","name":"Program for ECG signal analysis using MATLAB","about":["Non linear dynamics","MATLAB","Signal processing","Medical diagnosis","Heart rate"],"datePublished":"2019-12-06","isPartOf":{"@id":"https://pubs.aip.org/acp/issue/2174/1","@type":"PublicationIssue","issueNumber":"1","datePublished":"2019-12-06","isPartOf":{"@id":"https://pubs.aip.org/acp","@type":"Periodical","name":"AIP Conference Proceedings","issn":["1551-7616"]}},"url":"https://dx.doi.org/10.1063/1.5134331","inLanguage":"en","copyrightHolder":"AIP Publishing","copyrightYear":"2023","publisher":"","sameAs":"","author":[{"name":"Ushakova, A. D.","affiliation":"Ural Federal University , Yekaterinburg,  Russia","@type":"Person"},{"name":"Smirnov, A. A.","affiliation":"Ural Federal University , Yekaterinburg,  Russia","@type":"Person"}],"description":"Electrocardiogram (ECG) signal analysis is important for estimation of heart work. Manual processing of ECG signals takes a lot of time and is hard to do so we ","pageStart":"020180","siteName":"AIP Publishing","thumbnailURL":"https://aipp.silverchair-cdn.com/aipp/content_public/journal/apc/issue/2174/1/1/m_cover.jpeg?Expires=1757232021&Signature=mz~RIjZy3UD0x4YDO78QZyRuMAWamQjNmfJw1JrquoxLUXZ-7Bqz3RLds3g9hDCafdl2b31q7Pq-~TPaItftXT7oA-TgoHgRBVSbPW~Bl0f-MJjT1SGxDj5XnhsUVxXIaXUeu6qXJUxyFYEsBf4IUhKpDPlSG7esf8gt4tGE2AlYlMWLV5YqHTMiIuKSjdQ1swsV6n3vBJA8ADIZmIk73G6wGrlTfkHtJs2GW1iZm0ECYKwixcrKQSDHVtnCDcfX2NMBIhxsCHn-IhOPS5jO40WTD0wvWHeO-x6pQG9-W6fYakczVhjukeZDm-5JuDmzAr4uxif3Roc8J1rgtSJxzA__&Key-Pair-Id=APKAIE5G5CRDK6RD3PGA","headline":"Program for ECG signal analysis using MATLAB","image":"https://aipp.silverchair-cdn.com/aipp/content_public/journal/apc/issue/2174/1/1/m_cover.jpeg?Expires=1757232021&Signature=mz~RIjZy3UD0x4YDO78QZyRuMAWamQjNmfJw1JrquoxLUXZ-7Bqz3RLds3g9hDCafdl2b31q7Pq-~TPaItftXT7oA-TgoHgRBVSbPW~Bl0f-MJjT1SGxDj5XnhsUVxXIaXUeu6qXJUxyFYEsBf4IUhKpDPlSG7esf8gt4tGE2AlYlMWLV5YqHTMiIuKSjdQ1swsV6n3vBJA8ADIZmIk73G6wGrlTfkHtJs2GW1iZm0ECYKwixcrKQSDHVtnCDcfX2NMBIhxsCHn-IhOPS5jO40WTD0wvWHeO-x6pQG9-W6fYakczVhjukeZDm-5JuDmzAr4uxif3Roc8J1rgtSJxzA__&Key-Pair-Id=APKAIE5G5CRDK6RD3PGA","image:alt":"Issue Cover"}
+    </script>
+
+
+
+
+    
+
+
+
+<script type="text/plain" async="async" src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" class="optanon-category-C0004"></script>
+<script>
+    var googletag = googletag || {};
+    googletag.cmd = googletag.cmd || [];
+
+    googletag.cmd.push(function () {
+    googletag.pubads().disableInitialLoad();
+
+    
+            googletag.pubads().setTargeting("kw",  "C1042C1042,P2736C5216,P2736P5449,P531P3463,P531P46921,,AIP,10.1063/1.5134331");
+    });
+</script>
+    
+
+
+
+<script src="https://servedbyadbutler.com/app.js" type="text/javascript"></script>
+<script>
+          window.abkw = "C1042C1042,P2736C5216,P2736P5449,P531P3463,P531P46921,,AIP,10.1063/1.5134331";
+
+</script>
+    
+
+
+
+
+
+
+    <script src="https://scholar.google.com/scholar_js/casa.js" async></script>
+</head>
+
+<body data-sitename="aipconferenceproceedings" class="off-canvas pg_Article pg_article   " theme-acp data-sitestyletemplate="Journal" >
+            <noscript>
+                <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K9XV4SZ"
+                        height="0" width="0" style="display:none;visibility:hidden"></iframe>
+            </noscript>
+            <a href="#skipNav" class="skipnav">Skip to Main Content</a>
+<input id="hdnSiteID" name="hdnSiteID" type="hidden" value="1000005" /><input id="hdnAdDelaySeconds" name="hdnAdDelaySeconds" type="hidden" value="3000" /><input id="hdnAdConfigurationTop" name="hdnAdConfigurationTop" type="hidden" value="basic" /><input id="hdnAdConfigurationRightRail" name="hdnAdConfigurationRightRail" type="hidden" value="basic" />
+    
+
+
+
+
+    <section class="master-header row vt-site-header">
+
+    <div class="ad-banner js-ad-banner">
+
+    <div class="widget-AdBlock widget-instance-HeaderAd">
+            
+
+    <input type="hidden"
+           class="hfAdBlockInfo"
+           data-divid="placement_582597_adBlockHeader"
+           data-slotname="582597"
+           data-targetname="176720"
+           data-sizes="[[970, 90]]"
+           data-enabled-on-mobile="True"
+           data-adprovider-typeid="2"
+           data-accountid=""
+           data-outofpagead="False"
+           data-sticky-time="5"/>
+    <div class="adblock-wrap js-adblock-wrap vertical-text">
+
+            <div id="placement_582597_adBlockHeader" adslot="582597" class="adblock-slot-placeholder js-adblock" style="width:970px; height:90px;"></div>
+
+    </div>
+ 
+    </div>
+
+    </div>
+
+    <div class="widget-SitePageHeader widget-instance-SitePageHeader">
+            <div class="site-theme-header">
+        <div class="site-theme-header_contents global-nav-base">
+
+
+
+<div class="global-nav">
+            <a class="js-dropdown-trigger global-nav-trigger" href="javascript:;">
+            <picture>
+                <source media="(min-width: 601px)" srcset="//aipp.silverchair-cdn.com/data/SiteBuilderAssetsOriginals/Live/images/umbrella/AIPP-Master-Logo-White-RGB.svg">
+                <img class="logo-AIPConferenceProceedings site-theme-header-image" src="//aipp.silverchair-cdn.com/data/SiteBuilderAssetsOriginals/Live/images/umbrella/AIPP-Master-Logo-White-RGB.svg" alt="Umbrella Alt Text" />
+            </picture>
+                <i class="icon-general_arrow-down arrow-icon"></i>
+        </a>
+        <nav class="navbar-menu global-nav-dropdown js-dropdown">
+            <div class="site-theme-header-logo">
+                <a href="/" class="site-theme-header-image-wrap">
+                        <picture>
+                            <source media="(min-width: 601px)" srcset="//aipp.silverchair-cdn.com/data/SiteBuilderAssetsOriginals/Live/images/umbrella/AIPP-Master-Logo-White-RGB.svg">
+                            <img class="logo-AIPConferenceProceedings site-theme-header-image" src="//aipp.silverchair-cdn.com/data/SiteBuilderAssetsOriginals/Live/images/umbrella/AIPP-Master-Logo-White-RGB.svg" alt="Umbrella Alt Text" />
+                        </picture>
+                </a>
+                <a href="javascript:;" class="icon-general-close menu-close"><span class="screenreader-text">Close</span></a>
+            </div>
+                    <ul class="site-menu site-menu-lvl-0 js-theme-dropdown">
+                <li class="site-menu-item site-menu-lvl-0 site-menu-item-Publishers " id="site-menu-item-12454">
+                        <a href="javascript:;" class="nav-link js-theme-dropdown-trigger" aria-expanded="false">Publishers <i class="icon-general_arrow-down arrow-icon"></i></a>
+
+                            <ul class="site-menu site-menu-lvl-1 js-theme-dropdown">
+                <li class="site-menu-item site-menu-lvl-1 site-menu-item-AIP-Publishing " id="site-menu-item-12456">
+                        <a href="/aip" class="nav-link">AIP Publishing </a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 site-menu-item-Physics-Today " id="site-menu-item-12457">
+                        <a href="/physicstoday" class="nav-link">Physics Today </a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 site-menu-item-Acoustical-Society-of-America " id="site-menu-item-12458">
+                        <a href="/asa" class="nav-link">Acoustical Society of America </a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 site-menu-item-American-Association-of-Physics-Teachers " id="site-menu-item-12459">
+                        <a href="/aapt" class="nav-link">American Association of Physics Teachers </a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 site-menu-item-American-Crystallographic-Association,-Inc. " id="site-menu-item-12460">
+                        <a href="/aca" class="nav-link">American Crystallographic Association, Inc. </a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 site-menu-item-AVS:-Science-and-Technology-of-Materials,-Interfaces-and-Processing " id="site-menu-item-12461">
+                        <a href="/avs" class="nav-link">AVS: Science and Technology of Materials, Interfaces and Processing </a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 site-menu-item-China-Academy-of-Engineering-Physics " id="site-menu-item-12462">
+                        <a href="/caep" class="nav-link">China Academy of Engineering Physics </a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 site-menu-item-Chinese-Physical-Society " id="site-menu-item-12463">
+                        <a href="/cps" class="nav-link">Chinese Physical Society </a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 site-menu-item-Laser-Institute-of-America " id="site-menu-item-12464">
+                        <a href="/lia" class="nav-link">Laser Institute of America </a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 site-menu-item-The-Society-of-Rheology " id="site-menu-item-12465">
+                        <a href="/sor" class="nav-link">The Society of Rheology </a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 site-menu-item-Tianjin-University " id="site-menu-item-12466">
+                        <a href="/tu" class="nav-link">Tianjin University </a>
+
+                    
+                </li>
+        </ul>
+
+                </li>
+                <li class="site-menu-item site-menu-lvl-0 site-menu-item-Publications " id="site-menu-item-12455">
+                        <a href="javascript:;" class="nav-link js-theme-dropdown-trigger" aria-expanded="false">Publications <i class="icon-general_arrow-down arrow-icon"></i></a>
+
+                            <ul class="site-menu site-menu-lvl-1 js-theme-dropdown">
+                <li class="site-menu-item site-menu-lvl-1 site-menu-item-Journals " id="site-menu-item-12467">
+                        <a href="/pages/journals" class="nav-link">Journals </a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 site-menu-item-Physics-Today " id="site-menu-item-12468">
+                        <a href="/physicstoday" class="nav-link">Physics Today </a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 site-menu-item-Conference-Proceedings " id="site-menu-item-12469">
+                        <a href="/aip/acp" class="nav-link">Conference Proceedings </a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 site-menu-item-Books " id="site-menu-item-12470">
+                        <a href="/books" class="nav-link">Books </a>
+
+                    
+                </li>
+        </ul>
+
+                </li>
+                <li class="site-menu-item site-menu-lvl-0 site-menu-item-Special-Topics " id="site-menu-item-12471">
+                        <a href="/collections/" class="nav-link">Special Topics </a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-0 site-menu-item-Authors " id="site-menu-item-12472">
+                        <a href="https://publishing.aip.org/resources/researchers/" class="nav-link">Authors </a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-0 site-menu-item-Librarians " id="site-menu-item-12473">
+                        <a href="https://publishing.aip.org/resources/librarians/" class="nav-link">Librarians </a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-0 site-menu-item-About " id="site-menu-item-12474">
+                        <a href="/pages/about" class="nav-link">About </a>
+
+                    
+                </li>
+        </ul>
+
+        </nav>
+    
+</div>
+
+
+
+
+        <div class="mobile-menu-trigger_wrap mobile-search_wrap">
+            <a href="javascript:;"
+               class="mobile-search_toggle at-search-toggle"
+               role="button"
+               aria-expanded="false"
+               data-theme-dropdown-trigger="search-dropdown"><i class="icon-menu_search"><span class="screenreader-text">Search Dropdown Menu</span></i></a>
+        </div>
+    <div class="navbar-search-container mobile-dropdown search-dropdown" data-theme-dropdown="search-dropdown">
+        <div class="navbar-search citation-search">
+            <form class="microsite-search js-MicrositeSearch">
+                <fieldset class="searchbar-fieldset">
+                    <legend><span class="screenreader-text">header search</span></legend>
+                    <div class="navbar-search-input_wrap">
+                        <label for="MicrositeSearchTerm-SitePageHeader"><span class="screenreader-text">search input</span></label>
+                        
+                        <input class="navbar-search-input microsite-search-term at-microsite-search-term search-term-autosuggest"
+                               data-autosuggest-hint="micrositeSearchTermInputHint-SitePageHeader"
+                               data-autosuggest-results="micrositeAutoCompleteResults-SitePageHeader"
+                               data-autosuggest-id="MicrositeSearchTerm-SitePageHeader"
+                               data-searchfilter="search-filter-SitePageHeader"
+                               placeholder="Search..."
+                               type="text" maxlength="255"
+                                autocomplete="off"                                id="MicrositeSearchTerm-SitePageHeader"
+                               title="search input">
+                        
+                        <input type="hidden" name="hfAutoCompleteMaxResults" class="hfAutoCompleteMaxResults" value="6" aria-hidden="true" />
+                        <input type="hidden" name="hfSolrAutoSuggestMinimumCharactersLength" class="hfSolrAutoSuggestMinimumCharactersLength" value="2" aria-hidden="true" />
+                        <input type="hidden" name="hfSolrJournalName" class="hfSolrJournalName" value="" aria-hidden="true" />
+                        <input type="hidden" name="hfSolrJournalID" class="hfSolrJournalID" value="" aria-hidden="true" />
+                        <label for="micrositeSearchTermInputHint-SitePageHeader">
+                            <span class="screenreader-text">Search input auto suggest</span>
+                        </label>
+                        <input type="text"
+                               id="micrositeSearchTermInputHint-SitePageHeader"
+                               data-autosuggest-id="micrositeSearchTermInputHint-SitePageHeader"
+                               class="microsite-search-term-input-hint"
+                               autocomplete="off" />
+                        <ul data-autosuggest-id="micrositeAutoCompleteResults-SitePageHeader" class="term-list hidden"></ul>
+                    </div>
+                        <div class="navbar-search-filter_wrap">
+                            <label for="navbar-search-filter-site-SitePageHeader">
+                                <span class="screenreader-text">filter your search</span>
+                            </label>
+                            <select class="navbar-search-filter navbar-search-filter-site at-navbar-search-filter" id="navbar-search-filter-site-SitePageHeader" data-autosuggest-id="search-filter-SitePageHeader">
+<option class="header-search-bar-filters-item" value="/search-results?page=1&q={searchQuery}" data-siteid="0" >All Content</option><option class="header-search-bar-filters-item" value="/aip/search-results?page=1&q={searchQuery}&fl_SiteID=1000001" data-siteid="1000001" >AIP Publishing Portfolio</option><option class="header-search-bar-filters-item selected" value="/aip/acp/search-results?page=1&q={searchQuery}&fl_SiteID=1000005" data-siteid="1000005" selected>AIP Conference Proceedings</option>                            </select>
+                        </div>
+                    <div class="navbar-search-submit_wrap">
+                        <a href="javascript:;" class="microsite-search-icon navbar-search-submit icon-menu_search"><span class="screenreader-text">Search</span></a>
+                    </div>
+                </fieldset>
+            </form><!-- /#MicrositeSearch -->
+        </div><!-- /.navbar-search -->
+    <div class="navbar-search-advanced-citation">
+        <a href="/advanced-search" class="advanced-search">Advanced Search</a>
+            <span>|</span><a href="/citation-search" class="citation-search">Citation Search</a>
+    </div>
+    </div><!-- /.navbar-search-container -->
+
+    <input type="hidden" name="parentSiteName" class="hfParentSiteName" value="AIP Publishing Portfolio" aria-hidden="true" />
+    <input type="hidden" class="hfSolrMaxAllowSearchChar" value="100" aria-hidden="true" />
+    <input type="hidden" class="hfJournalShortName" value="" aria-hidden="true" />
+    <input type="hidden" class="hfSearchPlaceholder" value="" aria-hidden="true" />
+    <input type="hidden" name="hfGlobalSearchSiteURL" class="hfGlobalSearchSiteURL" value="" aria-hidden="true" />
+    <input type="hidden" name="hfSearchSiteURL" id="hfSiteURL" value="pubs.aip.org/acp" aria-hidden="true" />
+    <input type="hidden" class="hfQuickSearchUrl" value="/aip/acp/search-results?page=1&amp;q={searchQuery}&amp;fl_SiteID=1000005" aria-hidden="true" />
+    <script type="text/javascript">
+        (function () {
+            var hfSiteUrl = document.getElementById('hfSiteURL');
+            var siteUrl = hfSiteUrl.value;
+            var subdomainIndex = siteUrl.indexOf('/');
+
+            hfSiteUrl.value = location.host + (subdomainIndex >= 0 ? siteUrl.substring(subdomainIndex) : '');
+        })();
+    </script>
+
+ 
+
+<div class="tablet-menu-trigger_wrap">
+    <!-- MOBILE SHOPPING CART ICON -->
+
+<div class="site-theme-header-menu-item view-cart-wrap">
+    <a href="https://pubs.aip.org/store/cart" class="view-cart" rel="nofollow">
+        <span class="text-cart"></span> 
+        <i class="access-icon icon-availability_cart"></i>
+        <span class="items-in-cart"></span>
+    </a>
+</div>    <a href="javascript:;"
+       class="tablet-sign-in"
+       data-theme-dropdown-trigger="tablet-user-dropdown"
+       aria-controls="tablet-user-dropdown"
+       aria-expanded="false"><i class="icon-menu_account"><span class="screenreader-text">User Tools Dropdown</span></i></a>
+</div>
+<div class="site-theme-header-menu-item_wrap tablet-menu" id="tablet-user-dropdown" data-theme-dropdown="tablet-user-dropdown">
+    <!-- DESKTOP SHOPPING CART ICON -->
+
+<div class="site-theme-header-menu-item view-cart-wrap">
+    <a href="https://pubs.aip.org/store/cart" class="view-cart" rel="nofollow">
+        <span class="text-cart"></span> 
+        <i class="access-icon icon-availability_cart"></i>
+        <span class="items-in-cart"></span>
+    </a>
+</div>
+    <!-- DESKTOP REGISTRATION -->
+
+    <!-- DESKTOP INSTITUTIONS -->
+
+    <!-- DESKTOP SIGN IN -->
+
+
+    <div class="site-theme-header-menu-item not-authenicated">
+        <a href="javascript:;"
+           class="dropdown-toggle signin at-signin-dropdown at-signin-username"
+           id="header-account-info-user-fullname"
+           data-login-location="/SignIn/LoginForm/LoginFormPopup?returnUrl="
+           data-theme-dropdown-trigger="sign-in-dropdown"
+           aria-controls="sign-in-dropdown"
+           aria-expanded="false">
+            
+Sign In            <i class="icon-general_arrow-down arrow-icon"></i>
+        </a>
+        <div class="dropdown-panel dropdown-panel-signin dropdown-panel-form at-signin-dropdown-panel" id="sign-in-dropdown" data-theme-dropdown="sign-in-dropdown">
+            <div class="spinner"></div>
+        </div><!-- /.dropdown-panel -->
+    </div>
+</div>
+
+        </div><!-- /.site-theme-header_content -->
+    </div><!-- /.site-theme-header- -->
+
+    <div class="journal-header journal-bg">
+        <div class="journal-header-aipp journal-header_content with-society-logo">
+
+    <div class="society-block_wrap">
+            <a href="/aip" target="" class="society-logo-link">
+                <img id="logo-AIPPublishingLogo" class="society-logo" src="//aipp.silverchair-cdn.com/data/SiteBuilderAssetsOriginals/Live/Images/aip/logo.png" alt="AIP Publishing Logo" />
+            </a>
+            </div><!-- /.society-block-inner-wrap - NOTE: used to vertically center one or more society logos -->
+
+
+    <div class="journal-logo_wrap">
+        <a href="https://pubs.aip.org/aip/acp" class="journal-logo-link">
+            <picture>
+                <source media="(min-width: 601px)" srcset="//aipp.silverchair-cdn.com/data/SiteBuilderAssets/Live/Images/acp/aipp-aipconferenceproceedings-vr2-235163145.svg">
+                <img class="logo-AIPConferenceProceedings journal-logo" src="//aipp.silverchair-cdn.com/data/SiteBuilderAssets/Live/Images/acp/aipp-aipconferenceproceedings-vr2-235163145.svg" alt="AIP Conference Proceedings" />
+            </picture>
+        </a>
+    </div>
+
+            
+
+
+<div class="navbar-menu_wrap">
+            <a class="mobile-site-menu-toggle" data-theme-dropdown-trigger="microsite-nav-menu" aria-controls="microsite-nav-menu" aria-expanded="false" href="javascript:;"><i class="icon-menu_hamburger"><span class="screenreader-text">Toggle Menu</span></i><span class="tablet-menu-label">Menu</span></a>
+            <nav class="navbar-menu" id="microsite-nav-menu" data-theme-dropdown="microsite-nav-menu">
+                        <ul class="site-menu site-menu-lvl-0 js-theme-dropdown">
+                <li class="site-menu-item site-menu-lvl-0 " id="site-menu-item-15271">
+
+                        <a href="/aip/acp" class="nav-link">Home</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-0 " id="site-menu-item-15272">
+
+                        <a href="/aip/acp/issue" class="nav-link">Browse</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-0 " id="site-menu-item-15268">
+
+                        <a href="javascript:;" class="nav-link js-theme-dropdown-trigger" aria-expanded="false">For Authors<i class="nav-arrow icon-general_arrow-down arrow-icon"></i></a>
+
+                            <ul class="site-menu site-menu-lvl-1 js-theme-dropdown">
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15273">
+
+                        <a href="/aip/acp/pages/preppapers" class="nav-link">Preparing Your Manuscript</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15274">
+
+                        <a href="/aip/acp/pages/reuse" class="nav-link">Re-use of Proceedings Articles</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15275">
+
+                        <a href="/aip/acp/pages/charges" class="nav-link">Publication Charges</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15276">
+
+                        <a href="https://publishing.aip.org/authors" class="nav-link">Author Resources</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15277">
+
+                        <a href="https://authorservices.aip.org/" class="nav-link">AIP Author Services</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15278">
+
+                        <a href="/aip/acp/pages/policy" class="nav-link">Post Publication Policy</a>
+
+                    
+                </li>
+        </ul>
+
+                </li>
+                <li class="site-menu-item site-menu-lvl-0 " id="site-menu-item-15269">
+
+                        <a href="javascript:;" class="nav-link js-theme-dropdown-trigger" aria-expanded="false">For Organizers<i class="nav-arrow icon-general_arrow-down arrow-icon"></i></a>
+
+                            <ul class="site-menu site-menu-lvl-1 js-theme-dropdown">
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15279">
+
+                        <a href="/aip/acp/pages/abstracts" class="nav-link">Abstracting &amp; Indexing</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15280">
+
+                        <a href="https://publishing.aip.org/resources/researchers/policies-and-ethics/" class="nav-link">Ethics Policy</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15281">
+
+                        <a href="/aip/acp/pages/faq" class="nav-link">FAQ for Organizers</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15282">
+
+                        <a href="/aip/acp/pages/peerreview" class="nav-link">Peer Review</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15283">
+
+                        <a href="/aip/acp/pages/pubprocess" class="nav-link">The Publication Process</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15284">
+
+                        <a href="/aip/acp/pages/policy" class="nav-link">Post Publication Policy</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15285">
+
+                        <a href="/aip/acp/pages/testimonials" class="nav-link">Testimonials from Editors &amp; Organizers</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15286">
+
+                        <a href="/aip/acp/pages/access_codes" class="nav-link">How To Redeem Access Codes</a>
+
+                    
+                </li>
+        </ul>
+
+                </li>
+                <li class="site-menu-item site-menu-lvl-0 " id="site-menu-item-15270">
+
+                        <a href="javascript:;" class="nav-link js-theme-dropdown-trigger" aria-expanded="false">About<i class="nav-arrow icon-general_arrow-down arrow-icon"></i></a>
+
+                            <ul class="site-menu site-menu-lvl-1 js-theme-dropdown">
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15287">
+
+                        <a href="/aip/acp/pages/about" class="nav-link">Overview</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15288">
+
+                        <a href="/aip/acp/pages/jdt" class="nav-link">Journal Development Team</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15289">
+
+                        <a href="/aip/acp/pages/contact" class="nav-link">Contact</a>
+
+                    
+                </li>
+                <li class="site-menu-item site-menu-lvl-1 " id="site-menu-item-15290">
+
+                        <a href="/aip/acp/pages/forthcoming" class="nav-link">Forthcoming Proceedings</a>
+
+                    
+                </li>
+        </ul>
+
+                </li>
+        </ul>
+
+            </nav>
+</div><!-- /.navbar -->
+           
+        </div><!-- /.center-inner-row -->
+
+    </div><!-- /.journal-header -->
+
+
+<input id="routename" name="RouteName" type="hidden" value="acp" /> 
+    </div>
+
+</section>
+
+    <div id="main" class="content-main js-main ui-base">
+        <section class="master-main row">
+            <div class="content-main_content">
+                <a href="#" id="skipNav" class="screenreader-text" tabindex="-1">Skip Nav Destination</a>
+                
+
+
+
+
+
+<div class="page-column-wrap article-browse_content ">
+<div id="InfoColumn" class="page-column page-column--left">
+
+    <div class="info-inner-wrap can-stick empty">
+
+        <button type="button" class="btn-as-icon toggle-left-col__close icon-general-close">
+            <span class="screenreader-text">Close navigation menu</span>
+        </button>
+        <div class="responsive-nav-title">Article navigation</div>
+
+        <div class="info-widget-wrap">
+    <div class="widget-IssueInfo widget-instance-IssueInfo_Article">
+        
+
+<div id="issueInfo-IssueInfo_Article" class="article-info-wrap clearfix">
+    <div class="article-issue-info">
+        <div class="volume-issue__wrap">
+                    <a href="/aip/acp/issue/2174/1">
+
+                <span class="volume issue">Volume 2174, Issue 1</span>
+
+                </a>
+        </div>
+
+        <div class="ii-pub-date">
+6 December 2019        </div>
+
+            
+
+
+    
+
+    </div>
+
+    <div class="article-issue-img">
+                <a href="/aip/acp/issue/2174/1">
+            <img id="issueImage" class="fb-featured-image at-coverimage" src="https://aipp.silverchair-cdn.com/aipp/content_public/journal/apc/issue/2174/1/1/m_cover.jpeg?Expires=1697279385&amp;Signature=nmfsEI4CgO3lZhaXNscuGrqAoyGA6CBYigelEafTVVHPhrtzYrjZBTgTPrjBrY-r-IPmSugPsVc4RH3dAlJyFckU9XgdGqBr1kwyC7yyuXQUlE3O742NZ0T8lTFiEzqmVflocd2ikydptEUQeqbfl9UbNWFo414~YfFGc1ZPqjnsRngDqltSEbka007OQuxArLMGIZH3psuFGNxQ9V1xGeLOuU5IE0-hsPzNwf0mQ9d18KXtOsxiIJ0-Ek3L0a2DI-O8P88QYkoFBPfNLpnmpaqtz4X0xBF2mf93vOrmAZb93Qx6TBcPYlWvjLAz3ioWt3YfuTQrL3tGfKWSLswUtQ__&amp;Key-Pair-Id=APKAIE5G5CRDK6RD3PGA" alt="Issue Cover" />
+                </a>
+    </div>
+            <div class="issue-info-conference"><div class="conf-name">PHYSICS, TECHNOLOGIES AND INNOVATION (PTI-2019): Proceedings of the VI International Young Researchers’ Conference</div><div class="conf-date">20–23 May 2019</div><div class="conf-loc">Ekaterinburg, Russia</div></div>
+    
+
+</div> 
+    </div>
+                <div class="widget-ArticleNavLinks widget-instance-ArticleNavLinks_Article">
+        <ul class="inline-list">
+        <li class="prev arrow">
+            <a href="/aip/acp/article/2174/1/020179/670585/Influence-of-functional-groups-on-the"><i class="icon-general_arrow-left"></i>Previous <span>Article</span></a>
+        </li>
+            <li class="next arrow">
+            <a href="/aip/acp/article/2174/1/020181/670581/The-first-principles-calculations-of-CO2">Next <span>Article</span><i class="icon-general_arrow-right"></i></a>
+        </li>
+</ul>
+ 
+    </div>
+
+            
+
+
+
+        </div>
+    </div>
+</div> 
+        
+
+    <div id="ContentColumn" class="page-column page-column--center center-content can-stick">
+        <div class="article-browse_content-wrap js-content-standard">
+                <div class="toprail-widget_wrap">
+    <div class="widget-DynamicWidgetLayout widget-instance-Article_TopRail">
+        <div class="widget widget-dynamic " data-count="0">
+    
+
+    <div class="widget-dynamic-inner-wrap">
+
+
+    </div>
+
+</div> 
+    </div>
+
+                </div>
+                <div class="widget-ArticleMainView widget-instance-Article_ArticleMainViewWrapper">
+        <div class="article-browse-top article-browse-mobile-nav empty">
+    <div class="article-browse-mobile-nav-inner">
+        <button type="button" class="btn toggle-left-col toggle-left-col__article">Article Navigation</button>
+    </div>
+</div>
+
+<div class="content-inner-wrap">
+    
+
+
+    <div class="widget-ArticleTopInfo widget-instance-ArticleTopInfo">
+        <div class="module-widget article-top-widget content-metadata_wrap">
+
+
+<div class="article-groups left-flag">
+        <span class="article-client_type">Research Article</span><span class="pipe">|</span>
+        <span class="article-date">December 06 2019</span>
+</div>
+
+
+    <div class="widget-items">
+                <h1 class="wi-article-title article-title-main">
+                    Program for ECG signal analysis using MATLAB
+<i class='icon-availability_cart' title='Available to Purchase' ></i>                </h1>
+<div class="wi-authors">
+    <div class="al-authors-list">
+                <div class="al-author-name">
+
+                            <!-- Keep these element on the same line, to prevent browsers from inserting a space between elements -->
+            <a class="linked-name js-linked-name stats-author-info-trigger" href="javascript:;">A. D. Ushakova</a><span class="al-author-delim">; </span>
+
+
+                    <div class="al-author-info-wrap arrow-up stats-author-info-panel">
+<div class="info-card-author authorInfo_ArticleTopInfo">
+    <div class="name-role-wrap">
+        <div class="info-card-name">
+    A. D. Ushakova
+            <span class="info-card-footnote"><a reveal-id="n1" data-open="n1" class="link link-ref link-reveal xref-author-notes"><sup>a)</sup></a></span>
+</div>
+
+    </div>
+
+    <div class="info-card-affilitation">
+        <div class="aff"><div class="institution">Ural Federal University</div>, Yekaterinburg, <div class="country">Russia</div></div>
+    </div>
+
+    <div class="info-card-search-label">
+        Search for other works by this author on:
+    </div>
+
+<div class="info-card-search info-card-search-internal">
+    <a href="/search-results?f_AllAuthors=A.+D.+Ushakova" rel="nofollow">This Site</a>
+</div>
+
+    <div class="info-card-search info-card-search-pubmed">
+        <a href="http://www.ncbi.nlm.nih.gov/pubmed?cmd=search&amp;term=Ushakova A">PubMed</a>
+    </div>
+    <div class="info-card-search info-card-search-google">
+        <a href="http://scholar.google.com/scholar?q=author:&quot;Ushakova A&quot;">Google Scholar</a>
+    </div>
+</div>                    </div>
+                </div>
+                <div class="al-author-name">
+
+                                <a class="linked-name js-linked-name stats-author-info-trigger" href="javascript:;">A. A. Smirnov</a>
+
+                    <div class="al-author-info-wrap arrow-up stats-author-info-panel">
+<div class="info-card-author authorInfo_ArticleTopInfo">
+    <div class="name-role-wrap">
+        <div class="info-card-name">
+    A. A. Smirnov
+            <span class="info-card-footnote"><a reveal-id="cor1" data-open="cor1" class="link link-ref link-reveal js-reveal-distinct xref-corresp"><sup>b)</sup></a></span>
+</div>
+
+    </div>
+
+    <div class="info-card-affilitation">
+        <div class="aff"><div class="institution">Ural Federal University</div>, Yekaterinburg, <div class="country">Russia</div></div>
+    </div>
+
+    <div class="info-author-correspondence">
+        <div content-id="cor1"><span class="label title-label"><sup>b)</sup></span>Corresponding author: <a href="mailto:a.a.smirnov@urfu.ru" target="_blank">a.a.smirnov@urfu.ru</a></div>
+    </div>
+    <div class="info-card-search-label">
+        Search for other works by this author on:
+    </div>
+
+<div class="info-card-search info-card-search-internal">
+    <a href="/search-results?f_AllAuthors=A.+A.+Smirnov" rel="nofollow">This Site</a>
+</div>
+
+    <div class="info-card-search info-card-search-pubmed">
+        <a href="http://www.ncbi.nlm.nih.gov/pubmed?cmd=search&amp;term=Smirnov A">PubMed</a>
+    </div>
+    <div class="info-card-search info-card-search-google">
+        <a href="http://scholar.google.com/scholar?q=author:&quot;Smirnov A&quot;">Google Scholar</a>
+    </div>
+</div>                    </div>
+                </div>
+    </div>
+</div>
+
+
+
+    <div class="widget-EditorInformation widget-instance-ArticleTopInfo_EditorInformation">
+        
+ 
+    </div>
+
+
+<div class="wi-crossmark-button">
+    <script src="https://crossmark-cdn.crossref.org/widget/v2.0/widget.js"></script>
+    <a href="javascript:;" class="stats-crossmark-updates" data-target="crossmark">
+        <img src="https://crossmark-cdn.crossref.org/widget/v2.0/logos/CROSSMARK_Color_horizontal.svg" width="150" alt="Crossmark: Check for Updates" />
+    </a>
+</div>
+
+    <div class="js-author-expand-collapse-metadata-wrap author-expand-collapse-metadata-wrap stats-article-metadata-trigger-wrap">
+        <a href="javascript:;" class="js-expand-collapse-metadata author-expand-collapse-metadata stats-article-metadata-trigger">
+            <i class="js-metadata-toggle-icon icon-general-add"></i>Author &amp; Article Information
+        </a>
+    </div>
+<div class="js-metadata-wrap metadata">
+            <div class="wi-footnotes">
+                    <div>
+                        <div class="article-footnote">
+                            <div class="fn" content-id="n1"><span class="label fn-label"><a rel="nofollow" href="javascript:;" data-fn-id="n1" class="js-end-note-link end-note-link"><sup>a)</sup></a></span><p><a href="mailto:Nastya_Ushakova@mail.ru" target="_blank">Nastya_Ushakova@mail.ru</a></p></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="article-footnote">
+                            <span class="label title-label"><sup>b)</sup></span>Corresponding author: <a href="mailto:a.a.smirnov@urfu.ru" target="_blank">a.a.smirnov@urfu.ru</a>
+                        </div>
+                    </div>
+            </div>
+
+</div>
+
+
+    <div class="pub-history-wrap clearfix">
+
+            <div class="pub-history-row clearfix">
+                <div class="ww-citation-primary"><em>AIP Conf. Proc.</em> 2174, 020180 (2019)</div>
+            </div>
+            <div class="pub-history-row citation-wrap-row clearfix">
+                    <div class="ww-citation-wrap-doi">
+                        <div class="citation-doi">
+                            <a href="https://doi.org/10.1063/1.5134331">https://doi.org/10.1063/1.5134331</a>
+                        </div>
+                    </div>
+                            </div>
+
+    </div>
+
+
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.article-top-widget').on('click', '.ati-toggle-trigger', function () {
+            $(this).find('.icon-general-add, .icon-minus').toggleClass('icon-minus icon-general-add');
+            $(this).siblings('.ati-toggle-content').toggleClass('hide');
+        });
+
+        // In Chrome, an anchor tag with target="_blank" and a "mailto:" href opens a new tab/window as well as the email client
+        // I suspect this behavior will be corrected in the future
+        // Remove the target="_blank"
+        $('ul.wi-affiliationList').find('a[href^="mailto:"]').each(function () {
+            $(this).removeAttr('target');
+        });
+    });
+</script>
+
+ 
+    </div>
+    <div class="widget-ArticleLinks widget-instance-ArticleLinks">
+         
+    </div>
+
+
+    <div class="widget-ArticleMainView widget-instance-ArticleMainView_Abstract">
+        
+<div class="toolbar-wrap vt-toolbar-wrap" role="navigation">
+    <div class="toolbar-inner-wrap">
+<div class="toolbar-inner-wrap ">
+    <ul id="Toolbar" class="debug js-toolbar toolbar">
+<li class="toolbar-item item-site-logos site-logos_trigger_wrap">
+    <div class="widget-SitePageHeader widget-instance-SitePageHeader">
+            <div class="journal-header journal-bg journal-header-toolbox">
+        <div class="journal-header-aipp journal-header_content with-society-logo">
+
+    <div class="society-block_wrap">
+            <a href="/aip" target="" class="society-logo-link">
+                <img id="logo-AIPPublishingLogo" class="society-logo" src="//aipp.silverchair-cdn.com/data/SiteBuilderAssetsOriginals/Live/Images/aip/logo.png" alt="AIP Publishing Logo" />
+            </a>
+            </div><!-- /.society-block-inner-wrap - NOTE: used to vertically center one or more society logos -->
+
+
+    <div class="journal-logo_wrap">
+        <a href="https://pubs.aip.org/aip/acp" class="journal-logo-link">
+            <picture>
+                <source media="(min-width: 601px)" srcset="//aipp.silverchair-cdn.com/data/SiteBuilderAssets/Live/Images/acp/aipp-aipconferenceproceedings-vr2-235163145.svg">
+                <img class="logo-AIPConferenceProceedings journal-logo" src="//aipp.silverchair-cdn.com/data/SiteBuilderAssets/Live/Images/acp/aipp-aipconferenceproceedings-vr2-235163145.svg" alt="AIP Conference Proceedings" />
+            </picture>
+        </a>
+    </div>
+
+        </div><!-- /.center-inner-row -->   
+    </div><!-- /.journal-header -->
+ 
+    </div>
+
+</li>
+<li class="toolbar-item item-with-dropdown item-views js-item-views">
+  <a href="javascript:;" class="js-toolbar-dropdown" data-dropdown="FilterDrop">
+    <i class="icon-menu_views"><span class="screenreader-text">Views Icon</span></i>
+    <span class="toolbar-label">
+      <span class="toolbar-text">Views</span>
+      <i class="icon-general_arrow-down arrow-icon js-toolbar-arrow-icon"></i>
+    </span>
+  </a>
+  <ul id="ViewsDrop" class="f-dropdown" data-dropdown-content>
+      <li class="article-content-filter js-content-filter" data-content-filter="article-content"><a href="javascript:;"><span>Article contents</span></a></li>
+      <li class="article-content-filter js-content-filter" data-content-filter="figures-tables"><a href="javascript:;"><span>Figures &amp; tables</span></a></li>
+      <li class="article-content-filter js-content-filter" data-content-filter="video"><a href="javascript:;"><span>Video</span></a></li>
+      <li class="article-content-filter js-content-filter" data-content-filter="audio"><a href="javascript:;"><span>Audio</span></a></li>
+      <li class="article-content-filter js-content-filter" data-content-filter="supplementary-data"><a href="javascript:;"><span>Supplementary Data</span></a></li>
+      <li class="article-content-filter js-content-filter" data-content-filter="peer-review"><a href="javascript:;"><span>Peer Review</span></a></li>
+  </ul>
+</li>
+
+
+    <li class="toolbar-item item-with-dropdown item-share">
+        <a href="javascript:;" class="drop-trigger js-toolbar-dropdown at-ShareButton" data-dropdown="ShareDrop">
+            <i class="icon-menu_share"><span class="screenreader-text">Share Icon</span></i>
+            <span class="toolbar-label">
+                <span class="toolbar-text">Share</span>
+                <i class="arrow-icon icon-general_arrow-down js-toolbar-arrow-icon"></i>
+            </span>
+        </a>
+        <ul id="ShareDrop" class="addthis_toolbox addthis_default_style addthis_20x20_style f-dropdown" data-dropdown-content>
+    <li><a class="Twitter" href="https://twitter.com/intent/tweet?text=Program for ECG signal analysis using MATLAB&amp;url=https%3a%2f%2fpubs.aip.org%2faip%2facp%2farticle-lookup%2fdoi%2f10.1063%2f1.5134331">Twitter</a></li>
+    <li><a class="Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fpubs.aip.org%2faip%2facp%2farticle-lookup%2fdoi%2f10.1063%2f1.5134331&amp;quote=Program for ECG signal analysis using MATLAB">Facebook</a></li>
+    <li><a class="Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fpubs.aip.org%2faip%2facp%2farticle-lookup%2fdoi%2f10.1063%2f1.5134331&amp;title=Program for ECG signal analysis using MATLAB">Reddit</a></li>
+    <li><a class="LinkedIn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fpubs.aip.org%2faip%2facp%2farticle-lookup%2fdoi%2f10.1063%2f1.5134331">LinkedIn</a></li>
+
+
+
+        </ul>
+    </li>
+<li class="toolbar-item item-with-dropdown item-tools last">
+      <a href="javascript:;" class="js-toolbar-dropdown" data-dropdown="ToolsDrop">
+        <i class="icon-menu_tools"><span class="screenreader-text">Tools Icon</span></i>
+        <span class="toolbar-label">
+          <span class="toolbar-text">Tools</span>
+          <i class="icon-general_arrow-down arrow-icon js-toolbar-arrow-icon"></i>
+        </span>
+      </a>
+      <ul id="ToolsDrop" class="f-dropdown" data-dropdown-content>
+<li class="toolbar-item item-tools">
+    <div class="widget-ToolboxPermissions widget-instance-ToolboxPermissions_Abstract">
+            <div class="module-widget">
+        <a href="https://s100.copyright.com/AppDispatchServlet?publisherName=aip&amp;publication=APCPCS&amp;issn=0094-243X&amp;title=Program%20for%20ECG%20signal%20analysis%20using%20MATLAB&amp;publicationDate=2019-12-06&amp;volumeNum=2174&amp;issueNum=1&amp;author=Ushakova%2C%20A.%20D.%3B%20Smirnov%2C%20A.%20A.&amp;startPage=1&amp;endPage=4&amp;contentId=10.1063%2F1.5134331&amp;oa=&amp;orderBeanReset=True" id="PermissionsLink">
+            <span class="toolbar-label">
+                <span class="toolbar-text">Reprints and Permissions</span>
+            </span>
+        </a>
+    </div>
+ 
+    </div>
+
+</li>
+    <li class="toolbar-item item-cite js-item-cite">
+<div class="getCitationDiv at-CiteButton">
+    <a href="javascript:;" class="stats-get-citation" data-modal-source-id="toolbox-get-citation">
+        <i class="icon-cite">
+            <span class="screenreader-text">Cite Icon</span>
+        </i>
+        <span>Cite</span>
+    </a>
+</div>
+    </li>
+
+      </ul>
+  
+</li>
+
+<li class="search-dropdown-trigger_wrap toolbar-item">
+    <a href="javascript:;" data-theme-dropdown-trigger="toolbar-search-dropdown" aria-controls="toolbar-search-dropdown" aria-expanded="false">
+        <i class="icon-menu_search"></i>
+        <span class="site-search-text">Search Site</span>
+    </a>
+</li>
+
+    </ul>
+</div>
+
+<div id="getCitation" data-content-id="toolbox-get-citation" class="modal-only-content vt-citation-modal">
+  <div class="modal-title">Citation</div>
+  <p>A. D. Ushakova<span class='al-author-delim'>, </span>A. A. Smirnov; Program for ECG signal analysis using MATLAB. <em><em>AIP Conf. Proc.</em></em> 6 December 2019; 2174 (1): 020180. <a href="https://doi.org/10.1063/1.5134331">https://doi.org/10.1063/1.5134331</a></p>
+  <p class="citation-label">Download citation file:</p>
+  <ul>
+      <li><a href="/Citation/Download?resourceId=670582&amp;resourceType=3&amp;citationFormat=0" rel="nofollow">Ris (Zotero)</a></li>
+          <li><a href="/Citation/Download?resourceId=670582&amp;resourceType=3&amp;citationFormat=0" rel="nofollow">Reference Manager</a></li>
+          <li><a href="/Citation/Download?resourceId=670582&amp;resourceType=3&amp;citationFormat=0" rel="nofollow">EasyBib</a></li>
+          <li><a href="/Citation/Download?resourceId=670582&amp;resourceType=3&amp;citationFormat=0" rel="nofollow">Bookends</a></li>
+
+      <li><a href="/Citation/Download?resourceId=670582&amp;resourceType=3&amp;citationFormat=0" rel="nofollow">Mendeley</a></li>
+
+      <li><a href="/Citation/Download?resourceId=670582&amp;resourceType=3&amp;citationFormat=0" rel="nofollow">Papers</a></li>
+
+      <li><a href="/Citation/Download?resourceId=670582&amp;resourceType=3&amp;citationFormat=1" rel="nofollow">EndNote</a></li>
+          <li><a href="/Citation/Download?resourceId=670582&amp;resourceType=3&amp;citationFormat=3" rel="nofollow">RefWorks</a></li>
+          <li><a href="/Citation/Download?resourceId=670582&amp;resourceType=3&amp;citationFormat=2" rel="nofollow">BibTex</a></li>
+          </ul>
+</div>
+
+
+        <div class="toolbar-search" id="toolbar-search-dropdown" data-theme-dropdown="toolbar-search-dropdown">
+            <fieldset>
+                <legend class="screenreader-text">toolbar search</legend>
+
+    <div class="widget-SitePageHeader widget-instance-SiteSearch_ArticleMainView_Abstract">
+        
+
+        <div class="mobile-menu-trigger_wrap mobile-search_wrap">
+            <a href="javascript:;"
+               class="mobile-search_toggle at-search-toggle"
+               role="button"
+               aria-expanded="false"
+               data-theme-dropdown-trigger="search-dropdown"><i class="icon-menu_search"><span class="screenreader-text">Search Dropdown Menu</span></i></a>
+        </div>
+    <div class="navbar-search-container mobile-dropdown search-dropdown" data-theme-dropdown="search-dropdown">
+        <div class="navbar-search citation-search">
+            <form class="microsite-search js-MicrositeSearch">
+                <fieldset class="searchbar-fieldset">
+                    <legend><span class="screenreader-text">toolbar search</span></legend>
+                    <div class="navbar-search-input_wrap">
+                        <label for="MicrositeSearchTerm-SiteSearch_ArticleMainView_Abstract"><span class="screenreader-text">search input</span></label>
+                        
+                        <input class="navbar-search-input microsite-search-term at-microsite-search-term search-term-autosuggest"
+                               data-autosuggest-hint="micrositeSearchTermInputHint-SiteSearch_ArticleMainView_Abstract"
+                               data-autosuggest-results="micrositeAutoCompleteResults-SiteSearch_ArticleMainView_Abstract"
+                               data-autosuggest-id="MicrositeSearchTerm-SiteSearch_ArticleMainView_Abstract"
+                               data-searchfilter="search-filter-SiteSearch_ArticleMainView_Abstract"
+                               placeholder="Search..."
+                               type="text" maxlength="255"
+                                autocomplete="off"                                id="MicrositeSearchTerm-SiteSearch_ArticleMainView_Abstract"
+                               title="search input">
+                        
+                        <input type="hidden" name="hfAutoCompleteMaxResults" class="hfAutoCompleteMaxResults" value="6" aria-hidden="true" />
+                        <input type="hidden" name="hfSolrAutoSuggestMinimumCharactersLength" class="hfSolrAutoSuggestMinimumCharactersLength" value="2" aria-hidden="true" />
+                        <input type="hidden" name="hfSolrJournalName" class="hfSolrJournalName" value="" aria-hidden="true" />
+                        <input type="hidden" name="hfSolrJournalID" class="hfSolrJournalID" value="" aria-hidden="true" />
+                        <label for="micrositeSearchTermInputHint-SiteSearch_ArticleMainView_Abstract">
+                            <span class="screenreader-text">Search input auto suggest</span>
+                        </label>
+                        <input type="text"
+                               id="micrositeSearchTermInputHint-SiteSearch_ArticleMainView_Abstract"
+                               data-autosuggest-id="micrositeSearchTermInputHint-SiteSearch_ArticleMainView_Abstract"
+                               class="microsite-search-term-input-hint"
+                               autocomplete="off" />
+                        <ul data-autosuggest-id="micrositeAutoCompleteResults-SiteSearch_ArticleMainView_Abstract" class="term-list hidden"></ul>
+                    </div>
+                        <div class="navbar-search-filter_wrap">
+                            <label for="navbar-search-filter-site-SiteSearch_ArticleMainView_Abstract">
+                                <span class="screenreader-text">filter your search</span>
+                            </label>
+                            <select class="navbar-search-filter navbar-search-filter-site at-navbar-search-filter" id="navbar-search-filter-site-SiteSearch_ArticleMainView_Abstract" data-autosuggest-id="search-filter-SiteSearch_ArticleMainView_Abstract">
+<option class="header-search-bar-filters-item" value="/search-results?page=1&q={searchQuery}" data-siteid="0" >All Content</option><option class="header-search-bar-filters-item" value="/aip/search-results?page=1&q={searchQuery}&fl_SiteID=1000001" data-siteid="1000001" >AIP Publishing Portfolio</option><option class="header-search-bar-filters-item selected" value="/aip/acp/search-results?page=1&q={searchQuery}&fl_SiteID=1000005" data-siteid="1000005" selected>AIP Conference Proceedings</option>                            </select>
+                        </div>
+                    <div class="navbar-search-submit_wrap">
+                        <a href="javascript:;" class="microsite-search-icon navbar-search-submit icon-menu_search"><span class="screenreader-text">Search</span></a>
+                    </div>
+                </fieldset>
+            </form><!-- /#MicrositeSearch -->
+        </div><!-- /.navbar-search -->
+    <div class="navbar-search-advanced-citation">
+        <a href="/advanced-search" class="advanced-search">Advanced Search</a>
+            <span>|</span><a href="/citation-search" class="citation-search">Citation Search</a>
+    </div>
+    </div><!-- /.navbar-search-container -->
+
+    <input type="hidden" name="parentSiteName" class="hfParentSiteName" value="AIP Publishing Portfolio" aria-hidden="true" />
+    <input type="hidden" class="hfSolrMaxAllowSearchChar" value="100" aria-hidden="true" />
+    <input type="hidden" class="hfJournalShortName" value="" aria-hidden="true" />
+    <input type="hidden" class="hfSearchPlaceholder" value="" aria-hidden="true" />
+    <input type="hidden" name="hfGlobalSearchSiteURL" class="hfGlobalSearchSiteURL" value="" aria-hidden="true" />
+    <input type="hidden" name="hfSearchSiteURL" id="hfSiteURL" value="pubs.aip.org/acp" aria-hidden="true" />
+    <input type="hidden" class="hfQuickSearchUrl" value="/aip/acp/search-results?page=1&amp;q={searchQuery}&amp;fl_SiteID=1000005" aria-hidden="true" />
+    <script type="text/javascript">
+        (function () {
+            var hfSiteUrl = document.getElementById('hfSiteURL');
+            var siteUrl = hfSiteUrl.value;
+            var subdomainIndex = siteUrl.indexOf('/');
+
+            hfSiteUrl.value = location.host + (subdomainIndex >= 0 ? siteUrl.substring(subdomainIndex) : '');
+        })();
+    </script>
+ 
+    </div>
+
+            </fieldset>
+        </div>
+    </div><!-- /.toolbar-inner-wrap -->
+</div><!-- /.toolbar-wrap -->
+
+<div class="article-body">
+    <div id="articleMainView-articleId" class="js-articleMainView-articleId" data-articleid="670582" style="display: none;"></div>
+    <div id="ContentTab" class="content active">
+    <div class="widget-ArticleFulltext widget-instance-ArticleFulltext_Abstract">
+        <input type="hidden" name="js-hfArticleLinksReferencesDoiRegex" id="js-hfArticleLinksReferencesDoiRegex" value="" />
+<div class="module-widget">
+    <div class="widget-items" data-widgetname="ArticleFulltext">
+
+        
+
+
+
+                <div id="67194359" class="article-section-wrapper js-article-section js-content-section  " data-section-parent-id="0">
+                    
+                    <section class="abstract"><p>Electrocardiogram (ECG) signal analysis is important for estimation of heart work. Manual processing of ECG signals takes a lot of time and is hard to do so we have written a program for ECG signal analysis using MATLAB R2014b. Signal processing is divided into two stages. During the first stage, series of R-R intervals are extracted from ECG signals using the WaveForm DataBase (WFDB) Toolbox for MATLAB. The second one is for calculating heart rate variability (HRV), statistical, spectral, correlation and nonlinear characteristics of the heart with a user-friendly graphical interface, thanks to which users do not have to understand the program code and the mathematical complexity of digital signal processing and can focus their attention on biomedical component of the ECG signal. Derived results could be used in medical institutions, for research proposes and in educational process to further study calculated characteristics of the heart work.</p></section>
+                </div>
+                    <div class="article-metadata-panel clearfix rs_skip">
+    <div class="widget-SolrResourceMetadata widget-instance-ContentMetadata_ArticleFulltext_Article">
+        
+        <div class="content-metadata-taxonomies">
+        <div class="content-metadata">
+            <div class="content-metadata-taxonomies-title">Topics</div>
+                    <a href="/acp/search-results?page=1&tax=C1042C1042">Non linear dynamics</a><span>,</span>
+                    <a href="/acp/search-results?page=1&tax=P2736C5216">MATLAB</a><span>,</span>
+                    <a href="/acp/search-results?page=1&tax=P2736P5449">Signal processing</a><span>,</span>
+                    <a href="/acp/search-results?page=1&tax=P531P3463">Medical diagnosis</a><span>,</span>
+                    <a href="/acp/search-results?page=1&tax=P531P46921">Heart rate</a>
+        </div>
+        </div>
+
+
+ 
+    </div>
+
+                    </div>
+        <!-- /foreach -->
+                    <div class="article-metadata-standalone-panel clearfix"></div>
+
+
+
+
+
+        
+
+
+        <div class="permissionstatement-section-wrapper">
+            
+            <div class="copyright copyright-statement">© 2019 Author(s).</div><div class="copyright copyright-year">2019</div><div class="copyright copyright-holder">Author(s)</div>
+        </div>
+<!-- /foreach -->
+
+
+        <span id="UserHasAccess" data-userHasAccess="False"></span>
+
+    </div><!-- /.widget-items -->
+    </div><!-- /.module-widget -->
+ 
+    </div>
+                <div class="article-top-info-user-restricted-options">You do not currently have access to this content.</div>
+
+        <div id="ContentTabFilteredView"></div>
+
+    </div>
+</div>
+
+
+ 
+    </div>
+
+
+</div>
+ 
+    </div>
+<div class="user-comments-wrap js-userComments">
+    <div class="widget-UserCommentBody widget-instance-UserCommentBody">
+         
+    </div>
+    <div class="widget-UserComment widget-instance-UserComment">
+         
+    </div>
+
+</div>
+
+            <div>    <a id="FullTextLink"></a></div>
+
+
+<div id="unauth" class="unauth-wrap">
+        <div class="unauth-row clearfix">
+                <h2 class="unauth-signin-title">Sign in</h2>
+    <div class="register-ribbon-wrap">
+        <div class="register-ribbon-text">
+            Don&#39;t already have an account? <a class="register-ribbon-link" href="/my-account/register?siteId=1000005&amp;returnUrl=https%3a%2f%2fpubs.aip.org%2faip%2facp%2farticle-abstract%2f2174%2f1%2f020180%2f670582%2fProgram-for-ECG-signal-analysis-using-MATLAB%3fredirectedFrom%3dfulltext">Register</a>
+        </div>
+    </div>
+            <!-- /.register-ribbon-wrap -->
+            <div class="unauth-column-wrap">
+                    <div class="unauth-column">
+    <div class="widget-LoginForm widget-instance-ArticlePage_LoginForm">
+        
+
+    <div class="signin-form">
+
+        <div class="preloader-wrap hide">
+            <div class="preloader">
+                <div class="spinner"></div>
+            </div>
+        </div>
+
+        
+        <div class="login-form__section-wrap">
+                <div class="login-form__section">
+                    <div class="login-form__heading">
+                        <h3>Sign In</h3>
+                    </div>
+                    <!-- Errors -->
+                    <div class="error at-error">
+                        You could not be signed in. Please check your credentials and make sure you have an active account and try again.
+                    </div>
+                    <div class="login-form__row">
+                        <label for="user_ArticlePage_LoginForm" class="login-form__label">
+                            <span class="login-form__label-text">Username</span>
+                            <a class="question-icon" href="#" data-reveal-id="modalSignInEmail"><span>?</span></a>
+                        </label>
+                        <input id="user_ArticlePage_LoginForm" type="text" class="username at-username" autocomplete="off" />
+                    </div>
+                    <div class="login-form__row">
+                        <label for="pass_ArticlePage_LoginForm" class="login-form__label-text">Password</label>
+                        <input id="pass_ArticlePage_LoginForm" type="password" class="password at-password" autocomplete="current-password" />
+                    </div>
+                    
+                    <div class="login-form__row">
+                        <div class="login-form-captcha">
+    <div class="widget-ReCaptcha widget-instance-login-form-captcha">
+                <div id="captcha" data-captchakey="6Lca9PgfAAAAAG-XIuV4or4eWld6r3coablZH5bz" data-fallback-captcha-key=""></div>
+        <div class="captchaAlert" style="color: #c60f13; display: none">
+            Could not validate captcha.  Please try again.
+        </div>
+            <script type="text/javascript">
+                var onloadCallback = function() {
+                    SCM.Captcha.Init('6Lca9PgfAAAAAG-XIuV4or4eWld6r3coablZH5bz');
+                };
+            </script>
+            <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=en"
+                    async defer>
+            </script>
+    <input type="hidden" id="recaptchaWidgetInstance" value="login-form-captcha" />
+    <input type="hidden" id="recaptchaUseV3" value="False" />
+ 
+    </div>
+
+                        </div>
+                    </div>
+
+                    <div class="login-form__row">
+                        <button type="button" class="signin-button btn at-signin-button">Sign In</button>
+                        <div class="login-form__link-wrap">
+                            <a class="logged-out-link at-reset-link" href="/my-account/reset-password">Reset password</a>
+                        </div>
+                        <div class="login-form__link-wrap">
+                            <a class="logged-out-link at-register-link js-register-user-modals" href="/my-account/register?siteId=1000005&amp;returnUrl=https%3a%2f%2fpubs.aip.org%2faip%2facp%2farticle-abstract%2f2174%2f1%2f020180%2f670582%2fProgram-for-ECG-signal-analysis-using-MATLAB%3fredirectedFrom%3dfulltext" data-target="register">Register</a>
+                        </div>
+                    </div>
+                    
+                    <!-- /.login-form-section -->
+                </div>
+
+
+                    <div class="login-form__section login-form__row--lower">
+                            <h3 class="login-form__heading">Sign in via your Institution</h3>
+
+                        <a class="logged-out-link institutional-login-link at-institutional-login-link" href="/institutional-login?returnUrl=https%3a%2f%2fpubs.aip.org%2faip%2facp%2farticle-abstract%2f2174%2f1%2f020180%2f670582%2fProgram-for-ECG-signal-analysis-using-MATLAB%3fredirectedFrom%3dfulltext">Sign in via your Institution</a>
+                    </div>
+
+
+
+        </div>
+    </div>
+ 
+    </div>
+
+                    </div>
+                    <!-- /.unauth-column -->
+                                    <div class="unauth-column entities">
+                            <div class="unauth-society-row">
+
+                            </div>
+                                            </div><!-- /.unauth-column -->
+
+            </div><!-- /.unauth-signin-col-wrap -->
+        </div>
+    <div class="product-type_wrap">
+    <div class="widget-BuyThisResourceLink widget-instance-ArticlePage_BuyThisResourceLink">
+            <div id="dvPurchaseButton" class="ppv-wrap">
+                    <div class="ppv_price_wrap">
+                    <div class="price_left_text">Pay-Per-View Access</div>
+                                    <div class="display_price_buy_resource">$40.00</div>
+            </div>
+                    <div id="buyThisResourceLink" class="ppv box">
+                <a class="store-link js-add-to-cart" href="https://pubs.aip.org/store/add/670582/3" rel="nofollow"
+                   data-article-doi="" 
+                   data-article-title=""  
+                   data-article-type=""  
+                   data-journal-short-name="" 
+                   data-currency="USD"
+                   data-price="$40.00">
+                   <i class="icon-availability_cart"></i> <span>Buy This Article</span></a>
+            </div>
+        
+    </div>
+
+ 
+    </div>
+            </div>
+    <div class="widget-BuyOrUseTokensLink widget-instance-ArticlePage_BuyOrUseTokensLink">
+         
+    </div>
+</div><!-- /.unauth-wrap -->
+
+            
+        </div>
+    </div> 
+    <div id="Sidebar" class="page-column page-column--right">
+    <div class="widget-AdBlock widget-instance-ArticlePageTopSidebar">
+            
+
+ 
+    </div>
+
+
+        <div class="sidebar-widget_wrap">
+    <div class="widget-DynamicWidgetLayout widget-instance-Article_RightRail">
+        <div class="widget widget-dynamic " data-count="1">
+    
+
+    <div class="widget-dynamic-inner-wrap">
+
+    <div class="widget-DynamicWidgetLayout widget-instance-Article_RightRailB0">
+        <div class="widget widget-dynamic right-rail" data-count="6">
+    
+
+    <div class="widget-dynamic-inner-wrap">
+
+    <div class="widget-DynamicWidgetLayout widget-instance-Article_RightRailB0B0">
+        <div class="widget widget-dynamic article-article-level-metrics article-level-metrics" data-count="1">
+    
+
+    <div class="widget-dynamic-inner-wrap">
+
+    <div class="widget-ArticleLevelMetrics widget-instance-Article_RightRailB0B0article-article-level-metrics">
+        
+
+
+
+        <div class="artmet-wrapper horizontal-artmet">
+
+<div class="artmet-condensed-wrap clearfix">
+    <div class="artmet-condensed-stats clearfix">
+            <div class="artmet-item artmet-views">
+                <span class="artmet-number">134</span>
+                <span class="artmet-text">Views</span>
+            </div>
+
+
+            <div class="artmet-item artmet-badges-wrap">
+                    <div class="artmet-item artmet-altmetric">
+    <div class="widget-AltmetricLink widget-instance-ArticleLevelMetrics_AltmetricLinkSummary">
+            <!-- Altmetrics -->
+    <div id="altmetricEmbedId"
+         runat="server"
+         class='altmetric-embed'
+         data-badge-type="donut"
+         data-hide-no-mentions="false"
+         data-doi="10.1063/1.5134331"
+
+                    
+                data-link-target="_blank"
+            
+
+
+        ></div>
+         <script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
+ 
+    </div>
+
+                    </div>
+
+            </div>
+    </div>
+        <div class="artmet-modal-trigger-wrap clearfix">
+            <a href="javascript:;" class="artmet-modal-trigger js-artmet-modal-trigger at-alm-metrics-modal-trigger" data-article-id="670582"><i class="icon-metrics"></i><span>View Metrics</span></a>
+        </div>
+</div>
+
+
+
+                <div class="artmet-modal js-artmet-modal" id="MetricsModal">
+                    <div class="artmet-modal-contents js-metric-modal-contents at-alm-modal-contents">
+                        <a class="artmet-close-modal js-artmet-close-modal">&#215;</a>
+                    </div>
+                </div>
+        </div>
+ 
+    </div>
+
+    </div>
+
+</div> 
+    </div>
+    <div class="widget-DynamicWidgetLayout widget-instance-Article_RightRailB0B1">
+        <div class="widget widget-dynamic article-article-cited-by article-cited-by" data-count="1">
+    
+
+    <div class="widget-dynamic-inner-wrap">
+
+    <div class="widget-ArticleCitedBy widget-instance-Article_RightRailB0B1article-article-cited-by">
+        <div class="rail-widget_wrap vt-articles-cited-by">
+    <h3 class="article-cited-title">Citing articles via</h3>
+    <div class="widget-links_wrap">
+                    <div class="article-cited-link-wrap google-scholar-url">
+                <a href="http://scholar.google.com/scholar?q=link:https%3A%2F%2Fpubs.aip.org%2Faip%2Facp%2Farticle%2F2174%2F1%2F020180%2F670582" target="_blank">Google Scholar</a>
+            </div>
+            </div>
+</div> 
+    </div>
+
+    </div>
+
+</div> 
+    </div>
+    <div class="widget-DynamicWidgetLayout widget-instance-Article_RightRailB0B2">
+        <div class="widget widget-dynamic " data-count="1">
+    
+
+    <div class="widget-dynamic-inner-wrap">
+
+    <div class="widget-SelfServeContent widget-instance-acp_home-self-serve-content-publish-with-us">
+        
+
+
+
+    <input type="hidden" class="SelfServeContentId" value="home-self-serve-publish-with-us" />
+    <input type="hidden" class="SelfServeVersionId" value="0" />
+
+<div style="display:flex; background-color:#b77a05; align-items: center; max-width:425px;">
+<div style="color:white; width:70%;">
+<h3 style="margin-bottom:0px; color:white;"><center><a href="https://publishing.aip.org/conference-proceedings-questionnaire-ver2/" color="white" class="publish">Publish with us - <br />
+Request a Quote!</a></center></h3>
+</div>
+<div style="width:30%;"><img alt="" src="https://aipp.silverchair-cdn.com/ImageLibrary/Publications/acp/ACP-GRAPHIC-alertbanner.png?versionId=3467" style="float: right; height:100px;" /></div>
+</div>
+<p>
+</p>
+<style type="text/css">
+    a.publish {
+    color: white !important;
+    }
+</style>
+
+
+
+ 
+    </div>
+
+    </div>
+
+</div> 
+    </div>
+    <div class="widget-DynamicWidgetLayout widget-instance-Article_RightRailB0B3">
+        <div class="widget widget-dynamic " data-count="1">
+    
+
+    <div class="widget-dynamic-inner-wrap">
+
+    <div class="widget-AdBlock widget-instance-Article_RightRailB0B3home-pillow-ad">
+            
+
+    <input type="hidden"
+           class="hfAdBlockInfo"
+           data-divid="placement_582598_adBlockMainBodyTop"
+           data-slotname="582598"
+           data-targetname="176720"
+           data-sizes="[[336, 280]]"
+           data-enabled-on-mobile="True"
+           data-adprovider-typeid="2"
+           data-accountid=""
+           data-outofpagead="False"
+           data-sticky-time="5"/>
+    <div class="adblock-wrap js-adblock-wrap vertical-text">
+
+            <div id="placement_582598_adBlockMainBodyTop" adslot="582598" class="adblock-slot-placeholder js-adblock" style="width:336px; height:280px;"></div>
+
+    </div>
+ 
+    </div>
+
+    </div>
+
+</div> 
+    </div>
+    <div class="widget-DynamicWidgetLayout widget-instance-Article_RightRailB0B4">
+        <div class="widget widget-dynamic " data-count="1">
+    
+
+    <div class="widget-dynamic-inner-wrap">
+
+    <div class="widget-ArticleListNewAndPopular widget-instance-Article_RightRailB0B4home-article-list-new-and-popular-combined">
+            <div class="vt-new-and-popular-combined new-and-popular-combined">
+        <ul class="articleListNewAndPopularCombinedView">
+                <li>
+                    <a href="javascript:;" class="js-new-and-popular-mode active" data-mode="MostRead" data-instanceName="Article_RightRailB0B4home-article-list-new-and-popular-combined">Most Read</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="js-new-and-popular-mode " data-mode="MostCited" data-instanceName="Article_RightRailB0B4home-article-list-new-and-popular-combined">Most Cited</a>
+                </li>
+        </ul>
+            <section class="js-new-and-popular-content js-new-and-popular-content-MostRead hasContent">
+
+
+
+
+    <div id="newPopularList-Article_RightRailB0B4home-article-list-new-and-popular-combined" class="fb new-and-popular vt-new-and-popular-Article_RightRailB0B4home-article-list-new-and-popular-combined">
+
+
+        <div class="widget-dynamic-entry-wrap">
+<div class="widget-dynamic-entry">
+    <div class="fb-item-title">
+                <a href="/aip/acp/article/doi/10.1063/5.0053057/636554/Phytochemical-analysis-of-bioactive-compounds-in">Phytochemical analysis of bioactive compounds in ethanolic extract of <em>Sterculia quadrifida</em> R.Br.</a>
+
+
+    </div>
+</div>
+<div class="widget-dynamic-entry">
+    <div class="fb-item-title">
+                <a href="/aip/acp/article/doi/10.1063/5.0033857/740039/Thermal-properties-of-samples-prepared-from">Thermal properties of samples prepared from polylactic acid by 3D printing</a>
+
+
+    </div>
+</div>
+<div class="widget-dynamic-entry">
+    <div class="fb-item-title">
+                <a href="/aip/acp/article/doi/10.1063/5.0030978/724122/MRI-image-processing-method-on-brain-tumors-A">MRI image processing method on brain tumors: A review</a>
+
+
+    </div>
+</div>
+        </div>
+        
+
+
+    </div>
+            </section>
+            <section class="js-new-and-popular-content js-new-and-popular-content-MostCited hide">
+            </section>
+    </div>
+ 
+    </div>
+
+    </div>
+
+</div> 
+    </div>
+    <div class="widget-DynamicWidgetLayout widget-instance-Article_RightRailB0B5">
+        <div class="widget widget-dynamic " data-count="1">
+    
+
+    <div class="widget-dynamic-inner-wrap">
+
+    <div class="widget-RelatedContentSolr widget-instance-Article_RightRailB0B5Article_RightRail_RelatedContentArticles">
+            <div class="vt-related-content related-content_wrap rail-widget_wrap">
+        <h3>Related Content</h3>
+
+        <div class="widget-links_wrap">
+                <div class="article-title">
+                    <a href="/aip/acp/article/2250/1/020014/750958/Neural-network-based-algorithm-for-cardiac-cycles">Neural network based algorithm for cardiac cycles classification with the use of ECG vector representation</a>
+    <div class="content-meta"><span class="j-name">AIP Conference Proceedings</span> <span class="j-date">(July 2020)</span></div>
+
+                </div>
+                <div class="article-title">
+                    <a href="/aip/acp/article/2140/1/020080/604663/Heart-rate-disorders-identification-using">Heart rate disorders identification using superficial ECG and invasive electrogram</a>
+    <div class="content-meta"><span class="j-name">AIP Conference Proceedings</span> <span class="j-date">(August 2019)</span></div>
+
+                </div>
+                <div class="article-title">
+                    <a href="/aip/acp/article/2603/1/030005/2886667/FPGA-Based-ECG-signal-analysis-for-arrhythmia">FPGA - Based ECG signal analysis for arrhythmia detection system using SVM classifier</a>
+    <div class="content-meta"><span class="j-name">AIP Conference Proceedings</span> <span class="j-date">(April 2023)</span></div>
+
+                </div>
+                <div class="article-title">
+                    <a href="/aip/acp/article/2386/1/040018/2820424/Low-computation-heartbeat-classification-based-on">Low computation heartbeat classification based on ECG using artificial neural networks</a>
+    <div class="content-meta"><span class="j-name">AIP Conference Proceedings</span> <span class="j-date">(January 2022)</span></div>
+
+                </div>
+                <div class="article-title">
+                    <a href="/aip/acp/article/2857/1/020071/2907291/Survey-on-analysis-and-noise-removal-techniques-of">Survey on analysis and noise removal techniques of an ECG signal</a>
+    <div class="content-meta"><span class="j-name">AIP Conf. Proc.</span> <span class="j-date">(August 2023)</span></div>
+
+                </div>
+        </div>
+    </div>
+ 
+    </div>
+
+    </div>
+
+</div> 
+    </div>
+
+    </div>
+
+</div> 
+    </div>
+
+    </div>
+
+</div> 
+    </div>
+
+        </div>
+
+    <div class="widget-AdBlock widget-instance-ArticlePageTopMainBodyBottom">
+            
+
+ 
+    </div>
+
+
+
+
+    </div> 
+</div>
+
+
+
+    <div class="widget-Lockss widget-instance-Article_Lockss">
+         
+    </div>
+
+
+
+
+    <div class="widget-VideoListAccess widget-instance-Article_VideoListAccess">
+            <div class="js-cadmore-data hidden" data-embedsource='https://stream.cadmore.media/Scripts/PicturePop.js' 
+         data-videoaccess='[]' data-embedformat='&lt;div style=&quot;width:100%; height:100%; padding:0;&quot; class=&quot;cmpl_picture_pop embed-template&quot; data-delayed=&quot;true&quot; data-altid=&quot;{altId}&quot; data-delayedaccesscode=&quot;{accessCode}&quot;&gt;&lt;/div&gt;'></div>
+ 
+    </div>
+ 
+            </div><!-- /.content-main_content -->
+        </section>
+    </div>
+    <div class="mobile-mask">
+    </div>
+    <section class="footer_wrap vt-site-footer">
+        
+
+
+<div class="ad-banner js-ad-banner ad-banner-footer">
+
+    <div class="widget-AdBlock widget-instance-FooterAd">
+            
+
+ 
+    </div>
+
+</div>
+
+<div class="sticky-footer-ad js-sticky-footer-ad">
+
+    <div class="widget-AdBlock widget-instance-StickyAd">
+            
+
+ 
+    </div>
+
+</div>
+
+
+    <div class="widget-SitePageFooter widget-instance-SitePageFooter">
+            <div class="journal-footer journal-bg">
+        <div class="journal-footer_content clearfix foot-left">
+        </div>
+    <div class="journal-footer-colophon">
+        <ul>
+                <li><span>Online ISSN</span> 1551-7616</li>
+                            <li><span>Print ISSN</span> 0094-243X</li>
+                    </ul>
+    </div>
+    </div>
+ 
+    </div>
+
+
+
+<div class="site-theme-footer">
+        <div class="site-theme-footer_content">
+    <div class="widget-SelfServeContent widget-instance-UmbrellaFooterSelfServe">
+        
+
+
+
+    <input type="hidden" class="SelfServeContentId" value="GlobalFooter_Links" />
+    <input type="hidden" class="SelfServeVersionId" value="0" />
+
+<div class="theme-footer">
+<div class="flex-row">
+<div class="col-8 footer-nav">
+<div class="flex-row">
+<div class="col-2">
+<div class="footer-links-group with-header">
+<h3 class="footer-links-header">Resources</h3>
+<ul class="list-lvl-0">
+    <li class="list-lvl-0">
+    <a href="https://publishing.aip.org/resources/researchers/">For Researchers</a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="https://publishing.aip.org/resources/librarians/">For Librarians</a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="https://publishing.aip.org/resources/commercial-partners/advertising-solutions/">For Advertisers</a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="https://publishing.aip.org/resources/publishing-partners/">Our Publishing Partners</a>&nbsp;</li>
+</ul>
+</div>
+</div>
+<!-- close .col-2-->
+<div class="col-2">
+<div class="footer-links-group with-header">
+<h3 class="footer-links-header">Explore</h3>
+<ul class="list-lvl-0">
+    <li class="list-lvl-0">
+    <a href="/pages/journals">Journals</a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="/aip/physicstoday">Physics Today
+    </a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="/aip/acp">Conference Proceedings</a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="/books">Books</a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="/collections/">Special Topics</a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="/pages/journals">Publishers</a>
+    </li>
+</ul>
+</div>
+</div>
+<!-- close .col-2-->
+<div class="col-2">
+<div class="footer-links-group with-header">
+<h3 class="footer-links-header">pubs.aip.org</h3>
+<ul class="list-lvl-0">
+    <li class="list-lvl-0">
+    <a href="/pages/about">About</a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="https://publishing.aip.org/wp-content/uploads/ContentPlatform_UserGuide_FINAL.pdf" target="_blank" rel="noopener">User Guide</a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="/contact-us">Contact Us</a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="/my-account/register">Register</a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="/pages/help">Help</a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="https://publishing.aip.org/privacy/">Privacy Policy</a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="https://publishing.aip.org/terms-of-use/">Terms of Use</a>
+    </li>
+</ul>
+</div>
+</div>
+<!-- close .col-2-->
+<div class="col-2">
+<div class="footer-links-group with-header">
+<h3 class="footer-links-header">Connect with AIP Publishing</h3>
+<ul class="list-lvl-0">
+    <li class="list-lvl-0">
+    <a href="https://www.facebook.com/AIPPublishing/">Facebook</a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="https://www.linkedin.com/company/aip-publishing/">LinkedIn</a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="https://twitter.com/aip_publishing">Twitter</a>
+    </li>
+    <li class="list-lvl-0">
+    <a href="https://www.youtube.com/user/AIPPublishing">YouTube</a>
+    </li>
+</ul>
+</div>
+</div>
+<!-- close .col-2-->
+<!-- close .col-2-->
+<!-- close .footer-nav .flex-row -->
+</div>
+</div>
+<!-- close .flex-row -->
+</div>
+<!-- close .footer-nav -->
+</div>
+<div class="legal-links-row">
+<div class="legal-links-wrap">
+<ul class="legal-links">
+    <li class="copyright">© Copyright
+    <script>document.write( new Date().getFullYear() );</script>
+    AIP</li>
+</ul>
+</div>
+</div>
+<!-- close .theme-footer -->
+
+
+
+ 
+    </div>
+
+
+
+        </div><!-- /.center-inner-row -->
+</div><!-- /.site-theme-footer -->
+<div class="ss-ui-only">
+
+    <div class="widget-SelfServeContent widget-instance-SSuiOnlySelfServe">
+        
+
+
+
+    <input type="hidden" class="SelfServeContentId" value="SSuiOnly" />
+    <input type="hidden" class="SelfServeVersionId" value="0" />
+
+<style type="text/css">
+    .firefox .site-theme-header-image {
+    height: 26px;
+    }
+    .featured-jobs_wrap .featured-jobs-header h3 {
+    font-weight: 700;
+    font-size: 24px;
+    border-bottom: none !important;
+    }
+    em {
+    font-family: Helvetica,Arial,sans-serif !important;
+    }
+    strong {
+    font-family: Helvetica,Arial,sans-serif !important;
+    }
+    a {
+    font-family: Helvetica,Arial,sans-serif !important;
+    }
+    .cms-post-view .header .header-hero-wrap {
+    display: none;
+    }
+    .metadata-contentlicense {
+    display: none !important;
+    }
+    .article-body p {
+    font-family: Helvetica,Arial,sans-serif !important;
+    }
+    .add-new-alert .new-alert-row .new-alert-title {
+    font-size: 1.5rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    }
+    div#js-contextual-alerts-modal h2 {
+    padding-right: 10px;
+    }
+    .js-alert-details.alert-details {
+    padding-bottom: 10px;
+    }
+    .related-content_wrap .article-title {
+    border-top: 1px solid #dbdbdb;
+    padding: 1.25rem 0 !important;
+    }
+    .related-content_wrap .article-title:first-of-type {
+    border-top: none;
+    padding: 0 0 1.25rem 0 !important;
+    }
+    .tex-math.display-math {
+    display: none !important;
+    }
+    .account-feedback.success-message.offset-wrap.clearfix {
+    padding-left: 0 !important;
+    }
+    img.crossmark-reset.crossmark-popup__logo {
+    display: none !important;
+    }
+</style>
+
+
+
+ 
+    </div>
+
+</div>
+
+<div class="ad-banner js-ad-interstitial">
+
+    <div class="widget-AdBlock widget-instance-Interstitial">
+            
+
+ 
+    </div>
+
+</div>
+    </section>
+
+
+
+
+
+    
+    
+
+
+    <div class="widget-SiteWideModals widget-instance-SiteWideModals">
+        <div id="revealModal" class="reveal-modal" data-reveal>
+    <div id="revealContent"></div>
+    <a class="close-reveal-modal" href="javascript:;"><i class="icon-general-close"><span class="screenreader-text">Close Modal</span></i></a>
+</div>
+
+<div id="globalModalContainer" class="modal-global-container">
+    <div id="globalModalContent">
+        <div class="js-globalModalPlaceholder"></div>
+    </div>
+    <a class="close-modal js-close-modal" href="javascript:;"><i class="icon-general-close"><span class="screenreader-text">Close Modal</span></i></a>
+</div>
+<div id="globalModalOverlay" class="modal-overlay js-modal-overlay"></div>
+
+    <div id="NeedSubscription" class="reveal-modal small" data-reveal>
+        <div class="subscription-needed">
+            <h5 class="modal-heading">This Feature Is Available To Subscribers Only</h5>
+            <p><a class="btn modal-sign_in-btn" href="/sign-in?returnUrl=%2faip%2facp%2farticle-abstract%2f2174%2f1%2f020180%2f670582%2fProgram-for-ECG-signal-analysis-using-MATLAB%3fredirectedFrom%3dfulltext">Sign In</a> or <a class="modal-register-link" href="/my-account/register?siteId=1000005&amp;returnUrl=%2faip%2facp%2farticle-abstract%2f2174%2f1%2f020180%2f670582%2fProgram-for-ECG-signal-analysis-using-MATLAB%3fredirectedFrom%3dfulltext">Create an Account</a></p>
+        </div>
+        <a class="close-reveal-modal" href="javascript:;"><i class="icon-general-close"><span class="screenreader-text">Close Modal</span></i></a>
+    </div>
+
+<div id="noAccessReveal" class="reveal-modal tiny" data-reveal>
+    <a class="close-reveal-modal" href="javascript:;"><i class="icon-general-close"><span class="screenreader-text">Close Modal</span></i></a>
+    <div id="noAccessForm">
+        <div class="spinner"></div>
+    </div>
+</div>
+ 
+    </div>
+
+    
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
+
+    <!-- CookiePro Default Categories -->
+    <!-- When the Cookie Compliance code loads, if cookies for the associated group have consent...
+         it will dynamically change the tag to: script type=text/JavaScript...
+         the code inside the tags will then be recognized and run as normal. -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script type="text/javascript" src="//aipp.silverchair-cdn.com/Themes/Client/app/jsdist/v-638295492224523765/site.min.js"></script>
+
+
+    
+  
+    <script async="async" src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+
+
+
+
+
+
+    
+
+        <script type="text/javascript">
+        $(document).ready(function () {
+            App.SearchAutoComplete.init(["Keywords"]);
+        });
+        </script>
+    
+    
+
+
+
+
+    <div class="ad-banner js-ad-riser ad-banner-riser">
+
+    <div class="widget-AdBlock widget-instance-RiserAd">
+            
+
+ 
+    </div>
+
+    </div>
+
+
+
+    </body>
+</html>
+

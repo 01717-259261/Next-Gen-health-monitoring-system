@@ -1,0 +1,1554 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Signal Classification Using Wavelet-Based Features and Support Vector Machines
+- MATLAB &amp; Simulink Example</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="canonical" href="https://www.mathworks.com/help/wavelet/ug/ecg-classification-using-wavelet-features.html" />
+<link rel="stylesheet" href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/core.min.20230428200114579.css" type="text/css">
+<link rel="stylesheet" href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common.min.20230428200114579.css" type="text/css">
+<link rel="stylesheet" href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/footer.min.20230428200114579.css" type="text/css">
+<link href="/includes_content/responsive/css/site6_offcanvas_v2.css?202307" rel="stylesheet" type="text/css">
+<!-- CRUX 2.0 -->
+<link href="/includes_content/responsive/css/site7_crux.css?202303" rel="stylesheet" type="text/css">
+<script src="/includes_content/responsive/scripts/jquery/jquery-3.6.0.min.js?202305"></script>
+<script src="/includes_content/responsive/scripts/jquery/jquery-migrate.min.js?202305"></script>
+<script src="/includes_content/responsive/scripts/bootstrap/bootstrap.min.js?202303"></script>
+<script src="/includes_content/responsive/scripts/global.js?202307"></script>
+<script src="/etc.clientlibs/mathworks/clientlibs/customer-ui/components/webvitals.min.20230428200114579.js"></script>
+<!-- BEGIN Adobe DTM -->
+<script>(function(g,b,d,f){(function(a,c,d){if(a){var e=b.createElement("style");e.id=c;e.innerHTML=d;a.appendChild(e)}})(b.getElementsByTagName("head")[0],"at-body-style",d);setTimeout(function(){var a=b.getElementsByTagName("head")[0];if(a){var c=b.getElementById("at-body-style");c&&a.removeChild(c)}},f)})(window,document,"[class*='personalization-container']:not([id^='web-application']) {opacity: 0 !important}",2E3);</script>
+<script src="//assets.adobedtm.com/d0cc0600946eb3957f703b9fe43c3590597a8c2c/satelliteLib-e8d23c2e444abadc572df06537e2def59c01db09.js" async></script>
+<!-- END Adobe DTM -->
+<link href="/includes_content/releases/R2023a/css/doc_center.css?202303" rel="stylesheet" type="text/css">
+<link href="/includes_content/releases/R2023a/css/doc_center_print.css?202303" rel="stylesheet" type="text/css" media="print">
+<script src="/includes_content/releases/R2023a/scripts/matlab_dialog.js?202303"></script>
+<script src="/help/releases/R2023a/includes/web/scripts/livecontrolpopoverhandler.js?202303"></script>
+<script src="/help/releases/R2023a/includes/web/scripts/livetaskpopoverhandler.js?202303"></script>
+<script src="https://openwith.mathworks.com/openwith.js?202002"></script>
+<style>
+.examples_short_list a.btn {display: none;}
+</style>
+<script src="https://www.mathworks.com/help/includes/web/scripts//openInBrowser.js"></script>
+<link href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/fonts/roboto/roboto-latin-italic-400.20230428200114579.woff2" rel="preload" as="font" type="font/woff2" crossorigin/>
+<link href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/fonts/roboto/roboto-latin-italic-500.20230428200114579.woff2" rel="preload" as="font" type="font/woff2" crossorigin/>
+<link href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/fonts/roboto/roboto-latin-italic-700.20230428200114579.woff2" rel="preload" as="font" type="font/woff2" crossorigin/>
+<link href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/fonts/roboto/roboto-latin-normal-400.20230428200114579.woff2" rel="preload" as="font" type="font/woff2" crossorigin/>
+<link href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/fonts/roboto/roboto-latin-normal-500.20230428200114579.woff2" rel="preload" as="font" type="font/woff2" crossorigin/>
+<link href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/fonts/roboto/roboto-latin-normal-700.20230428200114579.woff2" rel="preload" as="font" type="font/woff2" crossorigin/>
+<link href="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/fonts/mathworks.20230428200114579.woff" rel="preload" as="font" type="font/woff" crossorigin/>
+<script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "BreadcrumbList",
+"itemListElement":
+[{
+"@type": "ListItem",
+"position": 1,
+"item": {
+"@id": "../index.html",
+"name": "Wavelet Toolbox"
+}
+}
+,
+{
+"@type": "ListItem",
+"position": 2,
+"item": {
+"@id": "../discrete-multiresolution-analysis.html",
+"name": "Discrete Multiresolution Analysis"
+}
+}]
+}</script><script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "BreadcrumbList",
+"itemListElement":
+[{
+"@type": "ListItem",
+"position": 1,
+"item": {
+"@id": "../index.html",
+"name": "Wavelet Toolbox"
+}
+}
+,
+{
+"@type": "ListItem",
+"position": 2,
+"item": {
+"@id": "../ai-for-signals-and-images.html",
+"name": "AI for Signals and Images"
+}
+}
+,
+{
+"@type": "ListItem",
+"position": 3,
+"item": {
+"@id": "../working-with-signals.html",
+"name": "Working with Signals"
+}
+}]
+}</script><script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "ItemList",
+"name": "VisibleBreadcrumbs",
+"itemListElement":
+[
+"discrete-multiresolution-analysis",
+"working-with-signals"
+],
+"itemListOrder": "http://schema.org/ItemListOrderAscending"
+}
+</script><script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "DigitalDocument",
+"headline": "Signal Classification Using Wavelet-Based Features and Support Vector Machines",
+"description": "Classify electrocardiogram signals using features derived from wavelets and an autoregressive model.",
+"thumbnailURL": "../../examples/wavelet/win64/XpwWaveletMLExample_01.png",
+"genre": "Live Script",
+"isBasedOn": {
+"@type": "Product",
+"name": "MATLAB"
+},
+"identifier": "wavelet.XpwWaveletMLExample",
+"name": "XpwWaveletMLExample",
+"url": "ecg-classification-using-wavelet-features.html"
+}</script><script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "PropertyValue",
+"name": "open_command",
+"value": "matlab:openExample('wavelet/XpwWaveletMLExample')"
+}</script><script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "ItemList",
+"name": "ExampleSourceFiles",
+"itemListElement":
+[
+"XpwWaveletMLExample.mlx",
+"helperRandomSplit.m",
+"helperExtractFeatures.m",
+"helperScaleandResample.m",
+"helperSrcECG.m",
+"helperPhysioNetRead.m",
+"helperPrecisionRecall.m",
+"helperPlotRandomRecords.m"
+],
+"itemListOrder": "http://schema.org/ItemListOrderAscending"
+}
+</script>
+<meta xmlns="http://www.w3.org/1999/xhtml" http-equiv="Content-Script-Type" content="text/javascript">
+<meta xmlns="http://www.w3.org/1999/xhtml" name="toctype" itemprop="pagetype" content="fe">
+<meta xmlns="http://www.w3.org/1999/xhtml" name="infotype" itemprop="infotype" content="ex">
+<meta xmlns="http://www.w3.org/1999/xhtml" name="description" itemprop="description" content="Classify electrocardiogram signals using features derived from wavelets and an autoregressive model."><meta xmlns="http://www.w3.org/1999/xhtml" content="../../examples/wavelet/win64/XpwWaveletMLExample_01.png" itemprop="thumbnailUrl">
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/l10n.js?202303060208"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/docscripts.js?202303060208"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/f1help.js?202303060208"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/mw.toc_2.js?202303060208"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/mw.imagescaling.js?202303060208"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/mw.imageanimation.js?202303060208"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/mw.breadcrumb.js?202303060208"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/jquery.highlight.js?202303060208"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/product/scripts/underscore-min.js?202303060208"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/web/scripts/doc_omniture.js?202303060208"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/overload.js?202303060208"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/helpservices.js?202303060208"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/product/scripts/productfilter.js?202303060208"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/product_group.js?202303060208"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/scripts/saxonjs/SaxonJS2.rt.js?202303060208"></script>
+<script xmlns="http://www.w3.org/1999/xhtml">
+window.history.replaceState(window.location.href, null, ""); // Initialize
+window.onload = function() {
+mystylesheetLocation = "/help/releases/R2023a/includes/shared/scripts/product_group-sef.json";
+mysourceLocation = "/help/releases/R2023a/docset.xml";
+product_help_location = "wavelet";
+pagetype = "section";
+doccentertype = "web";
+langcode = "";
+getProductFilteredList(mystylesheetLocation, mysourceLocation, product_help_location, pagetype, doccentertype, langcode);
+}
+</script>
+<!-- Additions/overrides from the doc side -->
+<style>
+.typeahead_container.typeahead_type_grouped { margin-left:0; }
+@media (min-width:768px) {
+#suggestions { margin-left:-100px }
+}
+</style>
+<script type="text/javascript" src="/help/search/R2023a/helpcenter_docsearch.js?20200128"></script>
+<script type="text/javascript" src="/includes_content/nextgen/scripts/jquery/jquery.toggleval.js?201409291140"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2023a/includes/shared/equationrenderer/release/MathRenderer.js"></script>
+<script type="text/javascript" src="/includes_content/nextgen/scripts/jquery/jquery.cookie.js"></script>
+<script type="text/javascript" src="/includes_content/domainSelect/akamai-country-code.js"></script>
+<script type="text/javascript">
+var domainCountryCodeMap = new Map();
+var countryCodeToDomainMap = new Map();
+domainCountryCodeMap.set('www.mathworks.com', 'www');
+countryCodeToDomainMap.set('www','www.mathworks.com')
+domainCountryCodeMap.set('www.mathworks.com', 'www');
+countryCodeToDomainMap.set('www','www.mathworks.com')
+domainCountryCodeMap.set('la.mathworks.com', 'la');
+countryCodeToDomainMap.set('la','la.mathworks.com')
+domainCountryCodeMap.set('au.mathworks.com', 'au');
+countryCodeToDomainMap.set('au','au.mathworks.com')
+domainCountryCodeMap.set('de.mathworks.com', 'de');
+countryCodeToDomainMap.set('de','de.mathworks.com')
+domainCountryCodeMap.set('nl.mathworks.com', 'nl');
+countryCodeToDomainMap.set('nl','nl.mathworks.com')
+domainCountryCodeMap.set('ww2.mathworks.cn', 'ww2');
+countryCodeToDomainMap.set('ww2','ww2.mathworks.cn')
+domainCountryCodeMap.set('se.mathworks.com', 'se');
+countryCodeToDomainMap.set('se','se.mathworks.com')
+domainCountryCodeMap.set('se.mathworks.com', 'se');
+countryCodeToDomainMap.set('se','se.mathworks.com')
+domainCountryCodeMap.set('fr.mathworks.com', 'fr');
+countryCodeToDomainMap.set('fr','fr.mathworks.com')
+domainCountryCodeMap.set('de.mathworks.com', 'de');
+countryCodeToDomainMap.set('de','de.mathworks.com')
+domainCountryCodeMap.set('in.mathworks.com', 'in');
+countryCodeToDomainMap.set('in','in.mathworks.com')
+domainCountryCodeMap.set('uk.mathworks.com', 'uk');
+countryCodeToDomainMap.set('uk','uk.mathworks.com')
+domainCountryCodeMap.set('it.mathworks.com', 'it');
+countryCodeToDomainMap.set('it','it.mathworks.com')
+domainCountryCodeMap.set('jp.mathworks.com', 'jp');
+countryCodeToDomainMap.set('jp','jp.mathworks.com')
+domainCountryCodeMap.set('kr.mathworks.com', 'kr');
+countryCodeToDomainMap.set('kr','kr.mathworks.com')
+domainCountryCodeMap.set('nl.mathworks.com', 'nl');
+countryCodeToDomainMap.set('nl','nl.mathworks.com')
+domainCountryCodeMap.set('nl.mathworks.com', 'nl');
+countryCodeToDomainMap.set('nl','nl.mathworks.com')
+domainCountryCodeMap.set('au.mathworks.com', 'au');
+countryCodeToDomainMap.set('au','au.mathworks.com')
+domainCountryCodeMap.set('se.mathworks.com', 'se');
+countryCodeToDomainMap.set('se','se.mathworks.com')
+domainCountryCodeMap.set('www.mathworks.com', 'www');
+countryCodeToDomainMap.set('www','www.mathworks.com')
+domainCountryCodeMap.set('es.mathworks.com', 'es');
+countryCodeToDomainMap.set('es','es.mathworks.com')
+domainCountryCodeMap.set('se.mathworks.com', 'se');
+countryCodeToDomainMap.set('se','se.mathworks.com')
+domainCountryCodeMap.set('ch.mathworks.com', 'ch');
+countryCodeToDomainMap.set('ch','ch.mathworks.com')
+domainCountryCodeMap.set('uk.mathworks.com', 'uk');
+countryCodeToDomainMap.set('uk','uk.mathworks.com')
+var countrySubdomains = {
+US: {name: 'United States', subdomain: 'www'},
+AD: {name: 'Andorra', subdomain: 'es'},
+AR: {name: 'Argentina', subdomain: 'la'},
+AU: {name: 'Australia', subdomain: 'au'},
+AT: {name: 'Austria', subdomain: 'de'},
+BE: {name: 'Belgium', subdomain: 'nl'},
+BO: {name: 'Bolivia', subdomain: 'la'},
+BV: {name: 'Bouvet Islands', subdomain: 'se'},
+CA: {name: 'Canada', subdomain: 'www'},
+CL: {name: 'Chile', subdomain: 'la'},
+CN: {name: 'China', subdomain: 'cn'},
+CX: {name: 'Christmas Island', subdomain: 'au'},
+CC: {name: 'Cocos-Keeling Islands', subdomain: 'au'},
+CO: {name: 'Colombia', subdomain: 'la'},
+CR: {name: 'Costa Rica', subdomain: 'la'},
+DK: {name: 'Denmark', subdomain: 'se'},
+DO: {name: 'Dominican Republic', subdomain: 'la'},
+EC: {name: 'Ecuador', subdomain: 'la'},
+SV: {name: 'El Salvador', subdomain: 'la'},
+EE: {name: 'Estonia', subdomain: 'se'},
+FO: {name: 'Faroe Islands', subdomain: 'se'},
+FJ: {name: 'Fiji', subdomain: 'au'},
+FI: {name: 'Finland', subdomain: 'se'},
+FR: {name: 'France', subdomain: 'fr'},
+GF: {name: 'French Guiana', subdomain: 'fr'},
+PF: {name: 'French Polynesia', subdomain: 'fr'},
+DE: {name: 'Germany', subdomain: 'de'},
+GL: {name: 'Greenland', subdomain: 'se'},
+GP: {name: 'Guadalupe', subdomain: 'fr'},
+GT: {name: 'Guatemala', subdomain: 'la'},
+HN: {name: 'Honduras', subdomain: 'la'},
+HK: {name: 'Hong Kong', subdomain: 'cn'},
+IS: {name: 'Iceland', subdomain: 'se'},
+IN: {name: 'India', subdomain: 'in'},
+IE: {name: 'Ireland', subdomain: 'uk'},
+IT: {name: 'Italy', subdomain: 'it'},
+JP: {name: 'Japan', subdomain: 'jp'},
+KR: {name: 'Korea', subdomain: 'kr'},
+LV: {name: 'Latvia', subdomain: 'se'},
+LI: {name: 'Liechtenstein', subdomain: 'ch'},
+LT: {name: 'Lithuania', subdomain: 'se'},
+LU: {name: 'Luxembourg', subdomain: 'nl'},
+MO: {name: 'Macau', subdomain: 'cn'},
+MQ: {name: 'Martinique', subdomain: 'fr'},
+YT: {name: 'Mayotte Island', subdomain: 'fr'},
+MX: {name: 'Mexico', subdomain: 'la'},
+MC: {name: 'Monaco', subdomain: 'fr'},
+NL: {name: 'Netherlands', subdomain: 'nl'},
+NC: {name: 'New Caledonia', subdomain: 'fr'},
+NZ: {name: 'New Zealand', subdomain: 'au'},
+NI: {name: 'Nicaragua', subdomain: 'la'},
+NO: {name: 'Norway', subdomain: 'se'},
+PA: {name: 'Panama', subdomain: 'la'},
+PG: {name: 'Papua New Guinea', subdomain: 'au'},
+PY: {name: 'Paraguay', subdomain: 'la'},
+PE: {name: 'Peru', subdomain: 'la'},
+PT: {name: 'Portugal', subdomain: 'www'},
+PR: {name: 'Puerto Rico', subdomain: 'la'},
+RE: {name: 'Reunion Island', subdomain: 'fr'},
+ES: {name: 'Spain', subdomain: 'es'},
+LK: {name: 'Sri Lanka', subdomain: 'in'},
+SE: {name: 'Sweden', subdomain: 'se'},
+CH: {name: 'Switzerland', subdomain: 'ch'},
+GB: {name: 'United Kingdom', subdomain: 'uk'},
+UY: {name: 'Uruguay', subdomain: 'la'},
+VA: {name: 'Vatican City', subdomain: 'it'},
+VE: {name: 'Venezuela', subdomain: 'la'},
+};
+var domainUtils = {
+isExemptUrl: function (url) {
+if(window.overrideDomainSelector){
+return true;
+}
+var exemptions = [
+'/api/parts/',
+'nocookie=true',
+'client=addons',
+'requestedDomain'
+];
+return exemptions.some(function (exemption) {
+return url.indexOf(exemption) != -1;
+});
+},
+endsWith: function( str, suffix ) {
+return str.substring( str.length - suffix.length, str.length ) === suffix;
+},
+getDomain: function (url) {
+var segments = url.split('/');
+return segments[2];
+},
+getSubdomain: function (domain) {
+return domainCountryCodeMap.get(domain);
+},
+setCookies: function (domain, lang) {
+var domainCookie = 'mathworks.com';
+if (this.endsWith(location.host, 'mathworks.cn')) {
+domainCookie = 'mathworks.cn';
+}
+var selectedSubdomain = this.getSubdomain(domain);
+if (this.endsWith(domain, 'mathworks.cn')) {
+selectedSubdomain = 'cn';
+}
+if (selectedSubdomain === 'www') {
+// This is what ePS did in EQUUS and Ruby, so...
+// we're just following suit.
+selectedSubdomain = 'us';
+}
+if (selectedSubdomain !== 'cn' && selectedSubdomain !== 'ch') {
+lang = '';
+}
+var cookieNames = this.getCookieNames(domain);
+var expires = new Date();
+expires.setFullYear(expires.getFullYear() + 68);
+var myJSON = JSON.stringify({
+domain: selectedSubdomain,
+lang: lang,
+v: 2
+});
+$.cookie(cookieNames.mwaPrefsCookieName, myJSON, {path: '/', expires: 20*365, domain: domainCookie});
+},
+getCookieNames: function (domain) {
+var mwaLoginCookieName = 'mwa';
+var mwaPrefsCookieName = 'mwa_prefs';
+var subdomainSuffix = '';
+if (subdomainSuffix != "") {
+mwaLoginCookieName = mwaLoginCookieName + subdomainSuffix;
+mwaPrefsCookieName = mwaPrefsCookieName + subdomainSuffix;
+}
+return {
+mwaLoginCookieName: mwaLoginCookieName,
+mwaPrefsCookieName: mwaPrefsCookieName,
+};
+},
+switchDomain: function (targetDomain, targetLang) {
+var targetUri = location.pathname;
+targetLang = this.getValidLang(this.getSubdomain(targetDomain), targetLang);
+var url = '//' + targetDomain;
+url += targetUri + location.search;
+url = url.replace(/requestedDomain=[a-z]?[a-z]?&?/, '');
+url = url.replace(/\&$/, '');
+url = url.replace(/\?$/, '');
+var requestedDomainParam = 'requestedDomain=' + targetLang;
+if (url.indexOf('?') > -1) {
+url = url + '&' + requestedDomainParam;
+} else {
+url = url + '?' + requestedDomainParam;
+}
+window.location = url;
+},
+getPrefCookie: function(currentDomain) {
+var cookieNames = this.getCookieNames(currentDomain);
+// regex from: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
+var cookieRegex = new RegExp("(?:(?:^|.*;\\s*)"+cookieNames.mwaPrefsCookieName+"\\s*\\=\\s*([^;]*).*$)|^.*$");
+if (document.cookie) {
+var cookieValue = document.cookie.replace(cookieRegex, "$1");
+if (cookieValue) {
+return JSON.parse(decodeURIComponent(cookieValue));
+}
+}
+return "";
+},
+getPrefDomain: function (currentDomain) {
+var mwaPrefsCookieJsonObject = this.getPrefCookie(currentDomain);
+var visitorPrefDomain;
+if (!!mwaPrefsCookieJsonObject) {
+visitorPrefDomain = mwaPrefsCookieJsonObject.domain;
+if (visitorPrefDomain === 'us') {
+visitorPrefDomain = 'www';
+}else if (visitorPrefDomain === 'cn') {
+visitorPrefDomain = 'ww2';
+}
+}
+return countryCodeToDomainMap.get(visitorPrefDomain);
+},
+getPrefLang: function (currentDomain) {
+var mwaPrefsCookieJsonObject = this.getPrefCookie(currentDomain);
+var multilingualDomainLanguageSupport = {};
+multilingualDomainLanguageSupport['ch'] = ['en','de','fr'];
+multilingualDomainLanguageSupport['cn'] = ['zh','en'];
+var currentDomainLangOptions = multilingualDomainLanguageSupport[mwaPrefsCookieJsonObject.domain];
+if (currentDomainLangOptions) {
+var cookiePrefLang = mwaPrefsCookieJsonObject.lang;
+if (currentDomainLangOptions.indexOf(cookiePrefLang) >= 0) {
+return cookiePrefLang;
+} else {
+return currentDomainLangOptions[0];
+}
+}
+return '';
+},
+getCookieVersion: function (currentDomain) {
+var mwaPrefsCookieJsonObject = this.getPrefCookie(currentDomain);
+return mwaPrefsCookieJsonObject.v;
+},
+getTargetDomainForCookies: function() {
+var targetDomain = "";
+if (this.endsWith(location.host, 'mathworks.cn')) {
+targetDomain = window.location.protocol + "//" + countryCodeToDomainMap.get('www');
+}else{
+targetDomain = window.location.protocol + "//" + countryCodeToDomainMap.get('ww2');
+}
+return targetDomain;
+},
+getValidLang: function (subdomain, lang) {
+var multilingualDomainLanguageSupport = {};
+multilingualDomainLanguageSupport['ch'] = ['en','de','fr'];
+multilingualDomainLanguageSupport['cn'] = ['zh','en'];
+multilingualDomainLanguageSupport['ww2'] = ['zh','en'];
+var currentDomainLangOptions = multilingualDomainLanguageSupport[subdomain];
+if (currentDomainLangOptions) {
+if (currentDomainLangOptions.indexOf(lang) >= 0) {
+return lang;
+} else {
+return currentDomainLangOptions[0];
+}
+}
+return '';
+},
+isDefaultLang: function (subdomain, lang) {
+var multilingualDomainLanguageDefault = {};
+multilingualDomainLanguageDefault['ch'] = 'en';
+multilingualDomainLanguageDefault['cn'] = 'zh';
+multilingualDomainLanguageDefault['ww2'] = 'zh';
+var currentDomainLang = multilingualDomainLanguageDefault[subdomain];
+if (currentDomainLang) {
+if (currentDomainLang === lang) {
+return true;
+} else {
+return false;
+}
+} else if (lang) {
+return false;
+}
+return true;
+}
+};
+$(window).on('load', function() {
+var currentUrl = window.location.href;
+var currentDomain = domainUtils.getDomain(currentUrl);
+var currentSubdomain = domainUtils.getSubdomain(currentDomain);
+var requestedDomainLangRegEx = RegExp('[?&]requestedDomain=([^&]*)').exec(window.location.search);
+if (requestedDomainLangRegEx) {
+var setLang = domainUtils.getValidLang(currentSubdomain, requestedDomainLangRegEx[1])
+domainUtils.setCookies(currentDomain, setLang);
+var URLWithoutRequestedDomain = window.location.href.replace(/requestedDomain=[a-z]?[a-z]?&?/, '');
+URLWithoutRequestedDomain = URLWithoutRequestedDomain.replace(/\&$/, '');
+URLWithoutRequestedDomain = URLWithoutRequestedDomain.replace(/\?$/, '');
+history.replaceState({}, document.title, URLWithoutRequestedDomain);
+window.location = URLWithoutRequestedDomain;
+}
+$('body').on('click', '.domain_selector_link', function (e) {
+e.preventDefault();
+var selectedDomain = domainUtils.getDomain(this.href);
+var selectedLang = $(this).data('lang');
+domainUtils.setCookies(selectedDomain, selectedLang);
+domainUtils.switchDomain(selectedDomain, selectedLang);
+});
+var currentCountryText =
+$('a[data-subdomain=\'' + currentSubdomain + '\'][data-default-lang=\'true\'][data-selected-text]')
+.data('selected-text');
+$('#countrySelectorButtonText').text(currentCountryText);
+var visitorPrefDomain = domainUtils.getPrefDomain(currentDomain);
+var visitorPrefLang = domainUtils.getPrefLang(currentDomain);
+var akamaiCountryCode;
+var akamaiprofile = CQ_Analytics.ClientContextMgr.getRegisteredStore('akamaiprofile');
+if (akamaiprofile) {
+akamaiCountryCode = akamaiprofile.getProperty('countryCode');
+}
+var recommendedSubdomain;
+var recommendedLink;
+if (akamaiCountryCode) {
+if (countrySubdomains[akamaiCountryCode] !== undefined) {
+recommendedSubdomain = countrySubdomains[akamaiCountryCode].subdomain;
+} else {
+recommendedSubdomain = 'www';
+}
+if (recommendedSubdomain === 'us') {
+recommendedSubdomain = 'www';
+}else if (recommendedSubdomain === 'cn') {
+recommendedSubdomain = 'ww2';
+}
+recommendedLink = $('a[data-subdomain=\'' + recommendedSubdomain + '\'][data-recommended-text]');
+var countryButtons;
+if(recommendedSubdomain === 'ch') {
+countryButtons = $('.ch-recommendation .recommendation-button');
+$('.ch-recommendation').show();
+$('.zh-recommendation').hide();
+$('.default-recommendation').hide();
+} else if(recommendedSubdomain === 'ww2') {
+countryButtons = $('.zh-recommendation .recommendation-button');
+$('.zh-recommendation').show();
+$('.ch-recommendation').hide();
+$('.default-recommendation').hide();
+}
+} else if (visitorPrefDomain) {
+recommendedSubdomain = domainUtils.getSubdomain(visitorPrefDomain);
+recommendedLink = $('a[data-subdomain=\'' + recommendedSubdomain + '\'][data-recommended-text]');
+var countryButtons;
+if(recommendedSubdomain === 'ch') {
+countryButtons = $('.ch-recommendation .recommendation-button');
+$('.ch-recommendation').show();
+$('.zh-recommendation').hide();
+$('.default-recommendation').hide();
+} else if(recommendedSubdomain === 'ww2') {
+countryButtons = $('.zh-recommendation .recommendation-button');
+$('.zh-recommendation').show();
+$('.ch-recommendation').hide();
+$('.default-recommendation').hide();
+}
+}
+if (!recommendedLink) {
+recommendedSubdomain = 'www';
+recommendedLink = $('a[data-subdomain=\'' + recommendedSubdomain + '\'][data-recommended-text]');
+}
+$('.recommended-country').text(recommendedLink.data('recommended-text'));
+$('#recommended_domain_button').attr('href', recommendedLink.attr('href'));
+$('#recommended_domain_button').attr('data-lang', recommendedLink.attr('data-lang'));
+if(countryButtons !== undefined) {
+countryButtons.click(function(e) {
+e.preventDefault();
+var selectedDomain = domainUtils.getDomain(this.href);
+var selectedLang = $(this).data('lang');
+domainUtils.setCookies(selectedDomain, selectedLang);
+domainUtils.switchDomain(selectedDomain, selectedLang);
+});
+} else {
+var recommendedDomainButton = $('#recommended_domain_button');
+$('.recommended-country-button').text(recommendedLink.data('recommended-text'));
+recommendedDomainButton.attr('href', recommendedLink.attr('href'));
+recommendedDomainButton.data('lang', recommendedLink.data('lang'));
+recommendedDomainButton.click(function (e) {
+e.preventDefault();
+var selectedDomain = domainUtils.getDomain(this.href);
+var selectedLang = $(this).data('lang');
+domainUtils.setCookies(selectedDomain, selectedLang);
+domainUtils.switchDomain(selectedDomain, selectedLang);
+});
+}
+$('a.worldwide_link').attr('href', recommendedLink.attr('href'));
+$('a.worldwide_link').data('lang', recommendedLink.data('lang'));
+$('body').on('click', 'a.worldwide_link', function (e) {
+e.preventDefault();
+var selectedDomain = domainUtils.getDomain(this.href);
+var selectedLang = $(this).data('lang');
+domainUtils.setCookies(selectedDomain, selectedLang);
+var href = e.target.getAttribute('href');
+var worldwideLink = '/company/worldwide.html?s_tid=dmselect_cta&requestedDomain=';
+if(href) {
+location.href = href + worldwideLink;
+}
+});
+if (akamaiCountryCode === 'CN') {
+$('#china_performance_alert').show();
+}
+var crossDomain = "";
+if(domainUtils.endsWith(currentDomain, '.mathworks.cn')){
+crossDomain = countryCodeToDomainMap.get('www');
+}else{
+crossDomain = countryCodeToDomainMap.get('ww2');
+}
+if ((!domainUtils.endsWith(currentDomain, '.mathworks.com') && !domainUtils.endsWith(currentDomain, '.mathworks.cn')) || domainUtils.isExemptUrl(currentUrl)) {
+return;
+}
+if (!visitorPrefDomain) {
+if (akamaiCountryCode) {
+akamaiCountryCode = countrySubdomains[akamaiCountryCode].subdomain;
+var akamaiDeterminedSubdomain = $('a[data-country-code=\'' + akamaiCountryCode.toUpperCase() + '\']').data('subdomain');
+if ((akamaiCountryCode.toLowerCase() === currentSubdomain) || (akamaiDeterminedSubdomain === currentSubdomain)) {
+domainUtils.setCookies(currentDomain, "");
+} else {
+$('#country-unselected').modal('show');
+}
+return;
+}
+if (currentSubdomain === 'www') {
+domainUtils.setCookies(currentDomain, '');
+} else {
+$('#country-unselected').modal('show');
+}
+} else if (akamaiCountryCode === 'CN' && !(visitorPrefDomain === 'CN') && !domainUtils.getCookieVersion(currentDomain)) {
+$('#country-unselected').modal('show');
+}
+});
+</script> <script src="/includes_content/responsive/scripts/mwa/global_nav.js"></script>
+
+                              <script>!function(a){var e="https://s.go-mpulse.net/boomerang/",t="addEventListener";if("False"=="True")a.BOOMR_config=a.BOOMR_config||{},a.BOOMR_config.PageParams=a.BOOMR_config.PageParams||{},a.BOOMR_config.PageParams.pci=!0,e="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="LERXA-6VNES-W6PXS-U8C7F-BXSZH",function(){function n(e){a.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!a.BOOMR||!a.BOOMR.version&&!a.BOOMR.snippetExecuted){a.BOOMR=a.BOOMR||{},a.BOOMR.snippetExecuted=!0;var i,_,o,r=document.createElement("iframe");if(a[t])a[t]("load",n,!1);else if(a.attachEvent)a.attachEvent("onload",n);r.src="javascript:void(0)",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="width:0;height:0;border:0;display:none;",o=document.getElementsByTagName("script")[0],o.parentNode.insertBefore(r,o);try{_=r.contentWindow.document}catch(O){i=document.domain,r.src="javascript:var d=document.open();d.domain='"+i+"';void(0);",_=r.contentWindow.document}_.open()._l=function(){var a=this.createElement("script");if(i)this.domain=i;a.id="boomr-if-as",a.src=e+"LERXA-6VNES-W6PXS-U8C7F-BXSZH",BOOMR_lstart=(new Date).getTime(),this.body.appendChild(a)},_.write("<bo"+'dy onload="document._l();">'),_.close()}}(),"".length>0)if(a&&"performance"in a&&a.performance&&"function"==typeof a.performance.setResourceTimingBufferSize)a.performance.setResourceTimingBufferSize();!function(){if(BOOMR=a.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var e=""=="true"?1:0,t="",n="doj4rzaxemy42zh4jjna-f-dfbb78809-clientnsv4-s.akamaihd.net",i="false"=="true"?2:1,_={"ak.v":"36","ak.cp":"1460359","ak.ai":parseInt("195948",10),"ak.ol":"0","ak.cr":0,"ak.ipv":4,"ak.proto":"h2","ak.rid":"117993ca","ak.r":36326,"ak.a2":e,"ak.m":"x","ak.n":"essl","ak.bpcip":"27.147.200.0","ak.cport":54982,"ak.gh":"23.47.149.79","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.csrc":"-","ak.acc":"","ak.t":"1694255706","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==QF0FLzj+UW/6X70Od71n/7QX9Pk4ePBhoBaCRjyhwgDH8xI4QSLH2TWITXDc8kOl7A3xmOnKMrmyZ6PssnK9FszMhEFl+xix/Ch8xLLkFxLCdZQdNcRfpWK0jIyYEnyNqIezW+mOpMBmBVD69tT9HfaKJHbWM+MNty4OyN+vTm1KyZc7Ayb29D7wJbdTqCM/cgiXM1g1j5lMlsiKClmE7RaU0ria1f0JGUxGYbX1hNsriMJCXD9jDDzTqsPFSrLYdi0n8oDc4sVlfuCehGWklovzRcsqx3/D+QMkhzRqLKuaP2z+I2kEjj+pbwhjMPm1qfhPy5nef9+ANi+JDjADBMjrVYf7/4Z/ZumTmkllO9LCcYqrnw/vWTztlLzOl+uMIAMPCvB0FEVqC7TpjnzdcJK8SGcpR9q3NOcQaO/Ty6w=","ak.pv":"165","ak.dpoabenc":"","ak.tf":i};if(""!==t)_["ak.ruds"]=t;var o={i:!1,av:function(e){var t="http.initiator";if(e&&(!e[t]||"spa_hard"===e[t]))_["ak.feo"]=void 0!==a.aFeoApplied?1:0,BOOMR.addVar(_)},rv:function(){var a=["ak.bpcip","ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(a)}};BOOMR.plugins.AK={akVars:_,akDNSPreFetchDomain:n,init:function(){if(!o.i){var a=BOOMR.subscribe;a("before_beacon",o.av,null,null),a("onbeacon",o.rv,null,null),o.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+
+<body id="responsive_offcanvas">
+  <a class="skip_link sr-only" href="#skip_link_anchor">Skip to content</a>
+
+  <!-- Mobile TopNav: Start -->
+<div class="header visible-xs visible-sm" id="header_mobile" translate="no">
+<nav class="navbar navbar-default" role="navigation">
+<div class="navbar-header">
+<div class="container-fluid">
+<div class="row">
+<div class="col-xs-3">
+<button type="button" class="navbar-toggle topnav_toggle" data-toggle="collapse" data-target="#topnav_collapse">
+<span class="sr-only">Toggle Main Navigation</span>
+<span class="icon-menu"></span>
+</button>
+</div>
+<div class="col-xs-6">
+<div class="text-center">
+<a href="https://www.mathworks.com?s_tid=gn_logo" class="svg_link navbar-brand">
+<img src="/images/responsive/global/pic-header-mathworks-logo.svg" class="mw_logo" alt="MathWorks">
+</a>
+</div>
+</div>
+<div class="col-xs-3">
+<div class="matrix_affordance_container_mobile" id="matrix_affordance_container_mobile"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="container-fluid">
+<div class="row visible-xs visible-sm">
+<div class="col-xs-12">
+<div class="navbar-collapse collapse" id="topnav_collapse">
+<ul class="nav navbar-nav topnav" id="topnav_mobile">
+<li class="topnav_products "><a href="https://www.mathworks.com/products.html?s_tid=gn_ps" >Products</a></li>
+<li class="topnav_solutions "><a href="https://www.mathworks.com/solutions.html?s_tid=gn_sol">Solutions</a></li>
+<li class="topnav_academia "><a href="https://www.mathworks.com/academia.html?s_tid=gn_acad">Academia</a></li>
+<li class="topnav_support "><a href="https://www.mathworks.com/help/?s_tid=gn_supp">Support</a></li>
+<li class="topnav_community "><a href="https://www.mathworks.com/matlabcentral/?s_tid=gn_mlc">Community</a></li>
+<li class="topnav_events "><a href="https://www.mathworks.com/company/events.html?s_tid=gn_ev">Events</a></li>
+<li class="headernav_store"><a href="https://login.mathworks.com/embedded-login/landing.html?cid=getmatlab&s_tid=gn_getml">Get MATLAB</a></li>
+</ul>
+</div>
+<div class="navbar-collapse collapse" id="matrix_collapse">
+<div class="matrix_menu_container_mobile" id="matrix_menu_container_mobile"></div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</div>
+<!-- Mobile TopNav: End -->
+<!-- Desktop TopNav: Start -->
+<div class="header hidden-xs hidden-sm" id="header_desktop" translate="no">
+<nav class="navbar navbar-default" role="navigation">
+<div class="container-fluid">
+<div class="row">
+<div class="col-md-9">
+<div class="navbar-header">
+<div class="logo_container hidden-xs hidden-sm">
+<a href="https://www.mathworks.com?s_tid=gn_logo" class="svg_link pull-left">
+<img src="/images/responsive/global/pic-header-mathworks-logo.svg" class="mw_logo" alt="MathWorks">
+</a>
+</div>
+<div class="navbar-collapse collapse hidden-xs hidden-sm">
+<ul class="nav navbar-nav topnav" id="topnav_desktop">
+<li class="topnav_products "><a href="https://www.mathworks.com/products.html?s_tid=gn_ps" >Products</a></li>
+<li class="topnav_solutions "><a href="https://www.mathworks.com/solutions.html?s_tid=gn_sol">Solutions</a></li>
+<li class="topnav_academia "><a href="https://www.mathworks.com/academia.html?s_tid=gn_acad">Academia</a></li>
+<li class="topnav_support "><a href="https://www.mathworks.com/help/?s_tid=gn_supp">Support</a></li>
+<li class="topnav_community "><a href="https://www.mathworks.com/matlabcentral/?s_tid=gn_mlc">Community</a></li>
+<li class="topnav_events "><a href="https://www.mathworks.com/company/events.html?s_tid=gn_ev">Events</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-3">
+<div class="collapse navbar-collapse" id="headernav_collapse">
+<ul class="nav navbar-nav navbar-right" id="headernav">
+<li class="headernav_store"><a href="https://login.mathworks.com/embedded-login/landing.html?cid=getmatlab&s_tid=gn_getml" class="btn btn_color_blue companion_btn btn-xs">Get MATLAB</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</div>
+<!-- Desktop TopNav: End -->
+<!-- Conjoined Header: Start -->
+<!-- Section Header: Start -->
+<div class="section_header level_3">
+<div class="container-fluid">
+<div class="row" id="mobile_search_row">
+<div class="col-sm-6 col-md-7 has_horizontal_local_nav" id="section_header_title">
+<div class="section_header_content">
+<div class="section_header_title">
+<p class="h1"><a xmlns="http://www.w3.org/1999/xhtml" href="../../index.html" class="coming_from_product">Help Center</a><a xmlns="http://www.w3.org/1999/xhtml" href="../../index.html" class="not_coming_from_product">Help Center</a></p>
+</div>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-5" id="mobile_search">
+<div class="search_nested_content_container">
+<div id="search_scope_support" class="collapse in"> <form id="docsearch_form" action="/support/search.html" method="get" accept-charset="utf-8" data-release="R2023a" data-language="en">
+<div class="input-group">
+<label class="sr-only">Search Help Center</label>
+<input id="suggestion" type="hidden" name="suggestion" value="">
+<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+<input id="docsearch" class="form-control conjoined_search" type="search" name="q" placeholder="Search Help Center" autocomplete="off">
+<div class="input-group-btn">
+<button type="button" class="btn btn_search_adjacent dropdown-toggle" data-toggle="dropdown"><span class="caret"></span><span class="search_scope_label">Help Center</span></button>
+<ul class="dropdown-menu list-unstyled dropdown-menu-right" role="menu">
+<!--<li data-toggle="collapse" data-target="#search_scope_support"><a href="#">Support</a></li>-->
+<li data-toggle="collapse" data-target="#search_scope_site" class="support_search_scope_trigger"><a href="#">MathWorks</a></li>
+</ul>
+<script>$(".support_search_scope_trigger").click(function() {$("#search_scope_support").removeClass("in");$("#query").val($("#search").val());});</script>
+<button type="submit" name="submitsearch" id="support_submitsearch" class="btn icon-search btn_search_adjacent btn_search icon_16"></button>
+</div>
+</div>
+</form>
+</div>
+<div id="search_scope_site" class="collapse"> <form name="search" id="site_search" class="site_search" action="/search/site_search.html" method="get">
+<div class="input-group">
+<label class="sr-only">Search MathWorks.com</label>
+<input type="hidden" name="c[]" value="entire_site">
+<input type="search" name="q" id="query" class="form-control conjoined_search" placeholder="Search MathWorks.com" autocomplete="off">
+<div class="input-group-btn">
+<button type="button" class="btn btn_search_adjacent dropdown-toggle" data-toggle="dropdown"><span class="caret"></span><span class="search_scope_label">MathWorks</span></button>
+<ul class="dropdown-menu list-unstyled dropdown-menu-right" role="menu">
+<li data-toggle="collapse" data-target="#search_scope_support" class="site_search_scope_trigger"><a href="#">Help Center</a></li>
+</ul>
+<script>$(".site_search_scope_trigger").click(function() {$("#search_scope_site").removeClass("in");$("#search").val($("#query").val());});</script>
+<button type="submit" id="searchbutton" class="btn icon-search btn_search_adjacent btn_search icon_16"></button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<button class="btn icon-remove btn_search pull-right icon_32 visible-xs" data-toggle="collapse" href="#mobile_search" aria-expanded="false" aria-controls="mobile_search"><span class="sr-only">Close Mobile Search</span></button>
+</div>
+<div class="visible-xs" id="search_actuator">
+<button class="btn icon-search btn_search pull-right icon_16" data-toggle="collapse" href="#mobile_search" aria-expanded="false" aria-controls="mobile_search"><span class="sr-only">Open Mobile Search</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Section Header: End -->
+<!-- Conjoined Header: End -->
+
+  <div class="row-offcanvas row-offcanvas-left">
+  
+    <div class="sidebar-offcanvas" id="sidebar">
+      <nav class="offcanvas_nav" role="navigation"> 
+      
+        <div class="offcanvas_actuator" data-toggle="offcanvas" data-target="#sidebar" id="nav_toggle">
+          <button type="button" class="btn">
+            <span class="icon-menu"><span class="sr-only">Off-Canvas Navigation Menu Toggle</span></span>
+          </button>
+          <span class="offcanvas_actuator_label" id="translation_icon-menu" tabindex="-1" aria-hidden="true"></span>
+          <!-- <span class="offcanvas_actuator_close" tabindex="-1" aria-hidden="true"></span> -->
+        </div>
+
+          <div class="nav_list_wrapper" id="nav_list_wrapper">
+            <nav class="offcanvas_nav" role="navigation">
+                <ul xmlns="http://www.w3.org/1999/xhtml" class="nav_breadcrumb" id="ul_left_nav_ancestors"><li itemscope="" itemtype="http://www.data-vocabulary.org/Breadcrumb" itemprop="breadcrumb"><a href="../../index.html?s_tid=CRUX_lftnav" itemprop="url"><span itemprop="title">Documentation Home</span></a></li></ul><ul xmlns="http://www.w3.org/1999/xhtml" class="nav_breadcrumb" id="ul_left_nav_productgroups"><li itemscope="" itemtype="http://www.data-vocabulary.org/Breadcrumb" itemprop="breadcrumb"><a href="../../overview/signal-processing.html?s_tid=hc_product_group_bc" itemprop="url"><span itemprop="title">Signal Processing</span></a></li></ul>
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav_disambiguation"><li><a href="../index.html?s_tid=CRUX_lftnav">Wavelet Toolbox</a>
+</li>
+<li itemscope="" itemtype="http://www.data-vocabulary.org/Breadcrumb" itemprop="breadcrumb"><a href="../discrete-multiresolution-analysis.html?s_tid=CRUX_lftnav" itemprop="url"><span itemprop="title">Discrete Multiresolution Analysis</span></a></li></ul><ul xmlns="http://www.w3.org/1999/xhtml" class="nav_disambiguation"><li><a href="../index.html?s_tid=CRUX_lftnav">Wavelet Toolbox</a>
+</li>
+<li><a href="../ai-for-signals-and-images.html?s_tid=CRUX_lftnav">AI for Signals and Images</a></li><li><a href="../working-with-signals.html?s_tid=CRUX_lftnav">Working with Signals</a></li></ul><ul xmlns="http://www.w3.org/1999/xhtml" class="nav_scrollspy nav">
+<li class="nav_scrollspy_function"><a href="#responsive_offcanvas">Signal Classification Using Wavelet-Based Features and Support Vector Machines</a></li>
+<li class="nav_scrollspy_title" id="SSPY810-section">On this page</li>
+<!--ADD_REFENTRY_TITLE_HERE 11--><li><a href="#XpwWaveletMLExample-1" class="intrnllnk">Data Description</a></li><li><a href="#XpwWaveletMLExample-2" class="intrnllnk">Download Data</a></li><li><a href="#XpwWaveletMLExample-3" class="intrnllnk">Load Files</a></li><li><a href="#XpwWaveletMLExample-4" class="intrnllnk">Create Training and Test Data</a></li><li><a href="#XpwWaveletMLExample-5" class="intrnllnk">Plot Samples</a></li><li><a href="#XpwWaveletMLExample-6" class="intrnllnk">Feature Extraction</a></li><li><a href="#XpwWaveletMLExample-7" class="intrnllnk">Signal Classification</a></li><li><a href="#XpwWaveletMLExample-8" class="intrnllnk">Precision, Recall, and F1 Score</a></li><li><a href="#XpwWaveletMLExample-9" class="intrnllnk">Classification on Raw Data and Clustering</a></li><li><a href="#XpwWaveletMLExample-10" class="intrnllnk">Summary</a></li><li><a href="#XpwWaveletMLExample-11" class="intrnllnk">References</a></li><li><a href="#XpwWaveletMLExample-12" class="intrnllnk">Supporting Functions</a></li><li><a href="#d124e31494" class="intrnllnk">See Also</a></li></ul>
+
+            </nav>
+          </div>
+        
+        <script src="/includes_content/responsive/scripts/offcanvas_v2.js?20221031"></script>
+        
+
+      </nav>       
+    </div>
+
+    <!-- MOBILE CTA - Begin -->
+    <!-- MOBILE CTA - End -->
+
+
+    <div class="offcanvas_content_container">
+
+      <div class="sticky_header_container">
+        <div class="horizontal_nav">
+          <div class="horizontal_nav_container">
+            <div class="offcanvas_horizontal_nav">
+              <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-md-7 col-lg-8 hidden-xs">
+                    
+                    <script>
+                      var translateMore = translateMore || {};
+                      translateMore.locale = "More"; 
+                    </script>
+
+                    <nav class="navbar navbar-default" role="navigation" id="subnav">
+                      <div>
+                          <ul class="nav navbar-nav crux_browse">
+                        <li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_documentation" class="crux_resource active">Documentation</li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_example" class="crux_resource"><a href="../examples.html?category=discrete-multiresolution-analysis&amp;s_tid=CRUX_topnav">Examples</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_function" class="crux_resource"><a href="../referencelist.html?type=function&amp;category=discrete-multiresolution-analysis&amp;s_tid=CRUX_topnav">Functions</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_app" class="crux_resource"><a href="../referencelist.html?type=app&amp;category=discrete-multiresolution-analysis&amp;s_tid=CRUX_topnav">Apps</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_videos" class="supplemental_crux_resource"><a href="/support/search.html?fq[]=asset_type_name:video%20category:wavelet/discrete-multiresolution-analysis&amp;s_tid=CRUX_topnav" class="not_coming_from_product">Videos</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_answers" class="supplemental_crux_resource"><a href="/support/search.html?fq[]=asset_type_name:answer%20category:wavelet/discrete-multiresolution-analysis&amp;s_tid=CRUX_topnav" class="not_coming_from_product">Answers</a></li>
+                        </ul>
+                      </div>
+                    </nav>
+                  </div>
+                    <div class="col-md-5 col-lg-4 hidden-xs hidden-sm">
+                      <div class="cta_box">
+<ul class="list-inline">
+<li class="cta_item cta_item_general hidden-sm hidden-xs "><a href="/campaigns/products/trials.html?prodcode=WA&amp;s_iid=doc_trial_WA_tb" class="icon-download">Trial Software</a></li>
+<li class="hidden-lg hidden-md "><a href="/campaigns/products/trials.html?prodcode=WA&amp;s_iid=doc_trial_WA_tb" class="btn btn_color_blue btn-block"><span class="icon-download"></span> Trial Software</a></li>
+<li class="cta_item cta_item_general hidden-sm hidden-xs "><a href="/support/web_downloads_bounce.html?s_cid=1008_degr_docdn_270055" class="icon-download">Product Updates</a></li>
+<li class="hidden-lg hidden-md "><a href="/support/web_downloads_bounce.html?s_cid=1008_degr_docdn_270055" class="btn btn_color_blue btn-block"><span class="icon-download"></span> Product Updates</a></li>
+</ul>
+</div>
+                    </div>
+                  <!-- Mobile CRUX Nav: START -->
+                  <div class="visible-xs">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-xs-9"> 
+                          <div class="mobile_crux_nav_trigger">
+                            <!-- Single button -->
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Resources <span class="icon-arrow-down icon_16"></span>  
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_documentation" class="crux_resource active">Documentation</li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_example" class="crux_resource"><a href="../examples.html?category=discrete-multiresolution-analysis&amp;s_tid=CRUX_topnav">Examples</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_function" class="crux_resource"><a href="../referencelist.html?type=function&amp;category=discrete-multiresolution-analysis&amp;s_tid=CRUX_topnav">Functions</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_app" class="crux_resource"><a href="../referencelist.html?type=app&amp;category=discrete-multiresolution-analysis&amp;s_tid=CRUX_topnav">Apps</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_videos" class="supplemental_crux_resource"><a href="/support/search.html?fq[]=asset_type_name:video%20category:wavelet/discrete-multiresolution-analysis&amp;s_tid=CRUX_topnav" class="not_coming_from_product">Videos</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_answers" class="supplemental_crux_resource"><a href="/support/search.html?fq[]=asset_type_name:answer%20category:wavelet/discrete-multiresolution-analysis&amp;s_tid=CRUX_topnav" class="not_coming_from_product">Answers</a></li>
+                              </ul>
+                            </div>
+                            <!-- Single button -->                      
+                          </div>
+                        </div>
+                        <div class="col-xs-3">
+                          <div class="translate_placeholder"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Mobile CRUX Nav: END -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content_container" id="content_container">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12">
+              <div id="offcanvas_focus_actuator" tabindex="0" class="visible-xs"><span class="sr-only">Main Content</span></div>
+              <main id="skip_link_anchor" tabindex="-1">
+                           
+
+
+
+
+
+                         
+    
+                                       
+<div xmlns="http://www.w3.org/1999/xhtml" id="product_info_alert"></div><section xmlns="http://www.w3.org/1999/xhtml" id="doc_center_content" itemprop="content" lang="en" data-language="en"><div id="pgtype-example">                
+
+       
+<section itemprop="content"><div class="example_icon"></div><h1 class="r2023a" itemprop="title content" id="mw_7b96e2d1-3e9f-4244-9975-57eb3061c1c4">Signal Classification Using Wavelet-Based Features and Support Vector Machines</h1><div class="examples_short_list hidden_ios_android"><div data-pane="metadata" class="panel metadata_container panel-default"><div class="panel-body metadata_content"><p class="add_margin_5">This example uses:</p><ul class="list-unstyled add_border_bottom example_product_list" itemprop="requiredprods"><li><a class="coming_from_product" href="matlab:matlab.internal.language.introspective.showAddon('SG')">Signal Processing Toolbox</a><a class="not_coming_from_product" href="../../signal/index.html">Signal Processing Toolbox</a></li><li><a class="coming_from_product" href="matlab:matlab.internal.language.introspective.showAddon('ST')">Statistics and Machine Learning Toolbox</a><a class="not_coming_from_product" href="../../stats/index.html">Statistics and Machine Learning Toolbox</a></li><li><a class="coming_from_product" href="matlab:matlab.internal.language.introspective.showAddon('WA')">Wavelet Toolbox</a><a class="not_coming_from_product" href="../../wavelet/index.html">Wavelet Toolbox</a></li></ul><a class="btn btn_secondary btn-block" href="matlab:openExample('wavelet/XpwWaveletMLExample')" data-ex-genre="Live Script">Open Live Script</a></div></div></div><div itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/Example" itemprop="example" class="em_example"><meta itemprop="exampleid" content="wavelet-XpwWaveletMLExample"><meta itemprop="exampletitle" content="Signal Classification Using WaveletBased Features and Support Vector Machines"></div><span id="XpwWaveletMLExample" class="anchor_target"></span><p class="shortdesc">This example shows how to classify human electrocardiogram (ECG) signals using wavelet-based feature extraction and a support vector machine (SVM) classifier. The problem of signal classification is simplified by transforming the raw ECG signals into a much smaller set of features that serve in aggregate to differentiate different classes. You must have Wavelet Toolbox&#8482;, Signal Processing Toolbox&#8482;, and Statistics and Machine Learning Toolbox&#8482; to run this example. The data used in this example are publicly available from <a href="https://physionet.org" target="_blank">PhysioNet</a>.</p><div class="procedure"><h3 class="title" id="XpwWaveletMLExample-1">Data Description</h3><p>This example uses ECG data obtained from three groups, or classes, of people: persons with cardiac arrhythmia, persons with congestive heart failure, and persons with normal sinus rhythms. The example uses 162 ECG recordings from three PhysioNet databases: <a href="https://www.physionet.org/physiobank/database/mitdb/" target="_blank">MIT-BIH Arrhythmia Database</a> [3][7], <a href="https://www.physionet.org/physiobank/database/nsrdb/" target="_blank">MIT-BIH Normal Sinus Rhythm Database</a> [3], and <a href="https://www.physionet.org/physiobank/database/chfdb/" target="_blank">The BIDMC Congestive Heart Failure Database</a> [1][3]. In total, there are 96 recordings from persons with arrhythmia, 30 recordings from persons with congestive heart failure, and 36 recordings from persons with normal sinus rhythms. The goal is to train a classifier to distinguish between arrhythmia (ARR), congestive heart failure (CHF), and normal sinus rhythm (NSR).</p><h3 class="title" id="XpwWaveletMLExample-2">Download Data</h3><p>The first step is to download the data from the <a href="https://github.com/mathworks/physionet_ECG_data/" target="_blank">GitHub repository</a>. To download the data, click <code class="literal">Code</code> and select <code class="literal">Download ZIP</code>. Save the file <code class="literal">physionet_ECG_data-main.zip</code> in a folder where you have write permission. The instructions for this example assume you have downloaded the file to your temporary directory, (<code class="literal">tempdir</code> in MATLAB). Modify the subsequent instructions for unzipping and loading the data if you choose to download the data in folder different from <code class="literal">tempdir</code>.</p><p>The file <code class="literal">physionet_ECG_data-main.zip</code> contains</p><div class="itemizedlist"><ul><li><p>ECGData.zip</p></li><li><p>README.md</p></li></ul></div><p>and ECGData.zip contains</p><div class="itemizedlist"><ul><li><p>ECGData.mat</p></li><li><p>Modified_physionet_data.txt</p></li><li><p>License.txt.</p></li></ul></div><p>ECGData.mat holds the data used in this example. The .txt file, Modified_physionet_data.txt, is required by PhysioNet's copying policy and provides the source attributions for the data as well as a description of the pre-processing steps applied to each ECG recording.</p><h3 class="title" id="XpwWaveletMLExample-3">Load Files</h3><p>If you followed the download instructions in the previous section, enter the following commands to unzip the two archive files.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>unzip(fullfile(tempdir,<span style="color:#A020F0">'physionet_ECG_data-main.zip'</span>),tempdir)
+unzip(fullfile(tempdir,<span style="color:#A020F0">'physionet_ECG_data-main'</span>,<span style="color:#A020F0">'ECGData.zip'</span>),<span style="color:#0000FF">...</span>
+    fullfile(tempdir,<span style="color:#A020F0">'ECGData'</span>))</pre></div></div></div><p>After you unzip the ECGData.zip file, load the data into MATLAB.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>load(fullfile(tempdir,<span style="color:#A020F0">'ECGData'</span>,<span style="color:#A020F0">'ECGData.mat'</span>))</pre></div></div></div><p><code class="literal">ECGData</code> is a structure array with two fields: <code class="literal">Data</code> and <code class="literal">Labels</code>. <code class="literal">Data</code> is a 162-by-65536 matrix where each row is an ECG recording sampled at 128 hertz. <code class="literal">Labels</code> is a 162-by-1 cell array of diagnostic labels, one for each row of <code class="literal">Data</code>. The three diagnostic categories are: 'ARR' (arrhythmia), 'CHF' (congestive heart failure), and 'NSR' (normal sinus rhythm).</p><h3 class="title" id="XpwWaveletMLExample-4">Create Training and Test Data</h3><p>Randomly split the data into two sets - training and test data sets. The helper function <code class="literal">helperRandomSplit</code> performs the random split. <code class="literal">helperRandomSplit</code> accepts the desired split percentage for the training data and  <code class="literal">ECGData</code>. The <code class="literal">helperRandomSplit</code> function outputs two data sets along with a set of labels for each. Each row of <code class="literal">trainData</code> and <code class="literal">testData</code> is an ECG signal. Each element of <code class="literal">trainLabels</code> and <code class="literal">testLabels</code> contains the class label for the corresponding row of the data matrices. In this example, we randomly assign 70% percent of the data in each class to the training set. The remaining 30% is held out for testing (prediction) and are assigned to the test set.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>percent_train = 70;
+[trainData,testData,trainLabels,testLabels] = <span style="color:#0000FF">...</span>
+    helperRandomSplit(percent_train,ECGData);</pre></div></div></div><p>There are 113 records in the <code class="literal">trainData</code> set and 49 records in <code class="literal">testData</code>. By design the training data contains 69.75% (113/162) of the data. Recall that the ARR class represents 59.26% of the data (96/162), the CHF class represents 18.52% (30/162), and the NSR class represents 22.22% (36/162). Examine the percentage of each class in the training and test sets. The percentages in each are consistent with the overall class percentages in the data set.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>Ctrain = countcats(categorical(trainLabels))./numel(trainLabels).*100</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>Ctrain = <span class="emphasis"><em>3×1</em></span>
+
+   59.2920
+   18.5841
+   22.1239
+
+</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>Ctest = countcats(categorical(testLabels))./numel(testLabels).*100</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>Ctest = <span class="emphasis"><em>3×1</em></span>
+
+   59.1837
+   18.3673
+   22.4490
+
+</pre></div></div></div><h3 class="title" id="XpwWaveletMLExample-5">Plot Samples</h3><p>Plot the first few thousand samples of four randomly selected records from <code class="literal">ECGData</code>. The helper function <code class="literal">helperPlotRandomRecords</code> does this. <code class="literal">helperPlotRandomRecords</code> accepts <code class="literal">ECGData</code> and a random seed as input. The initial seed is set at 14 so that at least one record from each class is plotted. You can execute <code class="literal">helperPlotRandomRecords</code> with <code class="literal">ECGData</code> as the only input argument as many times as you wish to get a sense of the variety of ECG waveforms associated with each class. You can find the source code for this helper function in the Supporting Functions section at the end of this example.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>helperPlotRandomRecords(ECGData,14)</pre></div></div></div><div class="informalfigure"><div id="d124e31216" class="mediaobject"><p><img src="../../examples/wavelet/win64/XpwWaveletMLExample_01.png" width="560"></p></div></div><h3 class="title" id="XpwWaveletMLExample-6">Feature Extraction</h3><p>Extract the features used in the signal classification for each signal. This example uses the following features extracted on 8 blocks of each signal approximately one minute in duration (8192 samples):</p><div class="itemizedlist"><ul><li><p>Autoregressive model (AR) coefficients of order 4 [8].</p></li><li><p>Shannon entropy (SE) values for the maximal overlap discrete wavelet packet transform (MODPWT) at level 4 [5].</p></li><li><p>Multifractal wavelet leader estimates of the second cumulant of the scaling exponents and the range of Holder exponents, or singularity spectrum [4].</p></li></ul></div><p>Additionally, multiscale wavelet variance estimates are extracted for each signal over the entire data length [6]. An unbiased estimate of the wavelet variance is used. This requires that only levels with at least one wavelet coefficient unaffected by boundary conditions are used in the variance estimates. For a signal length of 2^16 (65,536) and the 'db2' wavelet this results in 14 levels.</p><p>These features were selected based on published research demonstrating their effectiveness in classifying ECG waveforms. This is not intended to be an exhaustive or optimized list of features.</p><p>The AR coefficients for each window are estimated using the Burg method, <code class="literal">arburg</code>. In [8], the authors used model order selection methods to determine that an AR(4) model provided the best fit for ECG waveforms in a similar classification problem. In [5], an information theoretic measure, the Shannon entropy, was computed on the terminal nodes of a wavelet packet tree and used with a random forest classifier. Here we use the nondecimated wavelet packet transform, <code class="literal">modwpt</code>, down to level 4.</p><p>The definition of the Shannon entropy for the undecimated wavelet packet transform following [5] is given by: <span class="inlineequation"><math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:mwmmlx="https://www.mathworks.com/namespace/MathMLextensions" mwmmlx:extension="true" display="block"><mrow><mi>S</mi><msub><mrow><mi>E</mi></mrow><mrow><mi>j</mi></mrow></msub><mo>=</mo><mo>-</mo><munderover><mrow><mo>∑</mo></mrow><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>N</mi></mrow></munderover><msub><mrow><mi>p</mi></mrow><mrow><mi>j</mi><mo>,</mo><mi>k</mi></mrow></msub><mo>*</mo><mi mathvariant="normal">log</mi><mrow><msub><mrow><mi>p</mi></mrow><mrow><mi>j</mi><mo>,</mo><mi>k</mi></mrow></msub></mrow></mrow></math></span> where <span class="inlineequation"><math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:mwmmlx="https://www.mathworks.com/namespace/MathMLextensions" mwmmlx:extension="true" display="block"><mrow><mi>N</mi></mrow></math></span> is the number of the corresponding coefficients in the j-th node and <span class="inlineequation"><math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:mwmmlx="https://www.mathworks.com/namespace/MathMLextensions" mwmmlx:extension="true" display="block"><mrow><msub><mrow><mi>p</mi></mrow><mrow><mi>j</mi><mo>,</mo><mi>k</mi></mrow></msub></mrow></math></span> are the normalized squares of the wavelet packet coefficients in the j-th terminal node.</p><p>Two fractal measures estimated by wavelet methods are used as features. Following [4], we use the width of the singularity spectrum obtained from <code class="literal">dwtleader</code> as a measure of the multifractal nature of the ECG signal. We also use the second cumulant of the scaling exponents. The scaling exponents are scale-based exponents describing power-law behavior in the signal at different resolutions. The second cumulant broadly represents the departure of the scaling exponents from linearity.</p><p>The wavelet variance for the entire signal is obtained using <code class="literal">modwtvar</code>. Wavelet variance measures variability in a signal by scale, or equivalently variability in a signal over octave-band frequency intervals.</p><p>In total there are 190 features: 32 AR features (4 coefficients per block), 128 Shannon entropy values (16 values per block), 16 fractal estimates (2 per block), and 14 wavelet variance estimates.</p><p>The <code class="literal">helperExtractFeatures</code> function computes these features and concatenates them into a feature vector for each signal. You can find the source code for this helper function in the Supporting Functions section at the end of this example.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>timeWindow = 8192;
+ARorder = 4;
+MODWPTlevel = 4;
+[trainFeatures,testFeatures,featureindices] = <span style="color:#0000FF">...</span>
+    helperExtractFeatures(trainData,testData,timeWindow,ARorder,MODWPTlevel);</pre></div></div></div><p><code class="literal">trainFeatures</code> and <code class="literal">testFeatures</code> are 113-by-190 and 49-by-190 matrices, respectively. Each row of these matrices is a feature vector for the corresponding ECG data in <code class="literal">trainData</code> and <code class="literal">testData</code>, respectively. In creating feature vectors, the data is reduced from 65536 samples to 190 element vectors. This is a significant reduction in data, but the goal is not just a reduction in data. The goal is to reduce the data to a much smaller set of features which captures the difference between the classes so that a classifier can accurately separate the signals. The indices for the features, which make up both <code class="literal">trainFeatures</code> and <code class="literal">testFeatures</code> are contained in the structure array, <code class="literal">featureindices</code>. You can use these indices to explore features by group. As an example, examine the range of Holder exponents in the singularity spectra for the first time window. Plot the data for the entire data set.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>allFeatures = [trainFeatures;testFeatures];
+allLabels = [trainLabels;testLabels];
+figure
+boxplot(allFeatures(:,featureindices.HRfeatures(1)),allLabels,<span style="color:#A020F0">'notch'</span>,<span style="color:#A020F0">'on'</span>)
+ylabel(<span style="color:#A020F0">'Holder Exponent Range'</span>)
+title(<span style="color:#A020F0">'Range of Singularity Spectrum by Group (First Time Window)'</span>)
+grid <span style="color:#A020F0">on</span></pre></div></div></div><div class="informalfigure"><div id="d124e31329" class="mediaobject"><p><img src="../../examples/wavelet/win64/XpwWaveletMLExample_02.png" width="560"></p></div></div><p>You can perform a one-way analysis of variance on this feature and confirm what appears in the boxplot, namely that the ARR and NSR groups have a significantly larger range than the CHF group.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>[p,anovatab,st] = anova1(allFeatures(:,featureindices.HRfeatures(1)),<span style="color:#0000FF">...</span>
+    allLabels);</pre></div></div></div><div class="informalfigure"><div id="d124e31336" class="mediaobject"><p><img src="../../examples/wavelet/win64/XpwWaveletMLExample_03.png" width="560"></p></div></div><div class="informalfigure"><div id="d124e31340" class="mediaobject"><p><img src="../../examples/wavelet/win64/XpwWaveletMLExample_04.png" width="560"></p></div></div><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>c = multcompare(st,<span style="color:#A020F0">'display'</span>,<span style="color:#A020F0">'off'</span>)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>c = <span class="emphasis"><em>3×6</em></span>
+
+    1.0000    2.0000    0.0176    0.1144    0.2112    0.0155
+    1.0000    3.0000   -0.1591   -0.0687    0.0218    0.1764
+    2.0000    3.0000   -0.2975   -0.1831   -0.0687    0.0005
+
+</pre></div></div></div><p>As an additional example, consider the difference in variance in the second-lowest frequency (second-largest scale) wavelet subband for the three groups.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>boxplot(allFeatures(:,featureindices.WVARfeatures(end-1)),allLabels,<span style="color:#A020F0">'notch'</span>,<span style="color:#A020F0">'on'</span>)
+ylabel(<span style="color:#A020F0">'Wavelet Variance'</span>)
+title(<span style="color:#A020F0">'Wavelet Variance by Group'</span>)
+grid <span style="color:#A020F0">on</span></pre></div></div></div><div class="informalfigure"><div id="d124e31354" class="mediaobject"><p><img src="../../examples/wavelet/win64/XpwWaveletMLExample_05.png" width="560"></p></div></div><p>If you perform an analysis of variance on this feature, you find that the NSR group has significantly lower variance in this wavelet subband than the ARR and CHF groups. These examples are just intended to illustrate how individual features serve to separate the classes. While one feature alone is not sufficient, the goal is to obtain a rich enough feature set to enable a classifier to separate all three classes.</p><h3 class="title" id="XpwWaveletMLExample-7">Signal Classification</h3><p>Now that the data has been reduced to a feature vector for each signal, the next step is to use these feature vectors for classifying the ECG signals. You can use the Classification Learner app to quickly evaluate a large number of classifiers. In this example, a multi-class SVM with a quadratic kernel is used. Two analyses are performed. First we use the entire dataset (training and testing sets) and estimate the misclassification rate and confusion matrix using 5-fold cross-validation.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>features = [trainFeatures; testFeatures];
+rng(1)
+template = templateSVM(<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'KernelFunction'</span>,<span style="color:#A020F0">'polynomial'</span>,<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'PolynomialOrder'</span>,2,<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'KernelScale'</span>,<span style="color:#A020F0">'auto'</span>,<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'BoxConstraint'</span>,1,<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'Standardize'</span>,true);
+model = fitcecoc(<span style="color:#0000FF">...</span>
+    features,<span style="color:#0000FF">...</span>
+    [trainLabels;testLabels],<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'Learners'</span>,template,<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'Coding'</span>,<span style="color:#A020F0">'onevsone'</span>,<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'ClassNames'</span>,{<span style="color:#A020F0">'ARR'</span>,<span style="color:#A020F0">'CHF'</span>,<span style="color:#A020F0">'NSR'</span>});
+kfoldmodel = crossval(model,<span style="color:#A020F0">'KFold'</span>,5);
+classLabels = kfoldPredict(kfoldmodel);
+loss = kfoldLoss(kfoldmodel)*100</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>loss = 8.0247
+</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>[confmatCV,grouporder] = confusionmat([trainLabels;testLabels],classLabels);</pre></div></div></div><p>The 5-fold classification error is 8.02% (91.98% correct). The confusion matrix, <code class="literal">confmatCV</code>, shows which records were misclassified. <code class="literal">grouporder</code> gives the ordering of the groups. Two of the ARR group were misclassified as CHF, eight of the CHF group were misclassified as ARR and one as NSR, and two from the NSR group were misclassified as ARR.</p><h3 class="title" id="XpwWaveletMLExample-8">Precision, Recall, and F1 Score</h3><p>In a classification task, the precision for a class is the number of correct positive results divided by the number of positive results. In other words, of all the records that the classifier assigns a given label, what proportion actually belong to the class. Recall is defined as the number of correct labels divided by the number of labels for a given class. Specifically, of all the records belonging to a class, what proportion did our classifier label as that class. In judging the accuracy your machine learning system, you ideally want to do well on both precision and recall. For example, suppose we had a classifier that labeled every single record as ARR. Then our recall for the ARR class would be 1 (100%). All records belonging to the ARR class would be labeled ARR. However, the precision would be low. Because our classifier labeled all records as ARR, there would be 66 false positives in this case for a precision of 96/162, or 0.5926. The F1 score is the harmonic mean of precision and recall and therefore provides a single metric that summarizes the classifier performance in terms of both recall and precision. The following helper function computes the precision, recall, and F1 scores for the three classes. You can see how <code class="literal">helperPrecisionRecall</code> computes precision, recall, and the F1 score based on the confusion matrix by examining the code in the Supporting Functions section.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>CVTable = helperPrecisionRecall(confmatCV);</pre></div></div></div><p>You can display the table returned by <code class="literal">helperPrecisionRecall</code> with the following command.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>disp(CVTable)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>           Precision    Recall    F1_Score
+           _________    ______    ________
+
+    ARR     90.385      97.917         94 
+    CHF     91.304          70     79.245 
+    NSR     97.143      94.444     95.775 
+</pre></div></div></div><p>Both precision and recall are good for the ARR and NSR classes, while recall is significantly lower for the CHF class.</p><p>For the next analysis, we fit a multi-class quadratic SVM to the training data only (70%) and then use that model to make predictions on the 30% of the data held out for testing. There are 49 data records in the test set.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>model = fitcecoc(<span style="color:#0000FF">...</span>
+     trainFeatures,<span style="color:#0000FF">...</span>
+     trainLabels,<span style="color:#0000FF">...</span>
+     <span style="color:#A020F0">'Learners'</span>,template,<span style="color:#0000FF">...</span>
+     <span style="color:#A020F0">'Coding'</span>,<span style="color:#A020F0">'onevsone'</span>,<span style="color:#0000FF">...</span>
+     <span style="color:#A020F0">'ClassNames'</span>,{<span style="color:#A020F0">'ARR'</span>,<span style="color:#A020F0">'CHF'</span>,<span style="color:#A020F0">'NSR'</span>});
+predLabels = predict(model,testFeatures);</pre></div></div></div><p>Use the following to determine the number of correct predictions and obtain the confusion matrix.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>correctPredictions = strcmp(predLabels,testLabels);
+testAccuracy = sum(correctPredictions)/length(testLabels)*100</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>testAccuracy = 97.9592
+</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>[confmatTest,grouporder] = confusionmat(testLabels,predLabels);</pre></div></div></div><p>The classification accuracy on the test dataset is approximately 98% and the confusion matrix shows that one CHF record was misclassified as NSR.</p><p>Similar to what was done in the cross-validation analysis, obtain precision, recall, and the F1 scores for the test set.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>testTable = helperPrecisionRecall(confmatTest);
+disp(testTable)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>           Precision    Recall    F1_Score
+           _________    ______    ________
+
+    ARR        100         100        100 
+    CHF        100      88.889     94.118 
+    NSR     91.667         100     95.652 
+</pre></div></div></div><h3 class="title" id="XpwWaveletMLExample-9">Classification on Raw Data and Clustering</h3><p>Two natural questions arise from the previous analysis. Is feature extraction necessary in order to achieve good classification results? Is a classifier necessary, or can these features separate the groups without a classifier? To address the first question, repeat the cross-validation results for the raw time series data. Note that the following is a computationally expensive step because we are applying the SVM to a 162-by-65536 matrix. If you do not wish to run this step yourself, the results are described in the next paragraph.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>rawData = [trainData;testData];
+Labels = [trainLabels;testLabels];
+rng(1)
+template = templateSVM(<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'KernelFunction'</span>,<span style="color:#A020F0">'polynomial'</span>, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'PolynomialOrder'</span>,2, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'KernelScale'</span>,<span style="color:#A020F0">'auto'</span>, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'BoxConstraint'</span>,1, <span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'Standardize'</span>,true);
+model = fitcecoc(<span style="color:#0000FF">...</span>
+    rawData,<span style="color:#0000FF">...</span>
+    [trainLabels;testLabels],<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'Learners'</span>,template,<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'Coding'</span>,<span style="color:#A020F0">'onevsone'</span>,<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'ClassNames'</span>,{<span style="color:#A020F0">'ARR'</span>,<span style="color:#A020F0">'CHF'</span>,<span style="color:#A020F0">'NSR'</span>});
+kfoldmodel = crossval(model,<span style="color:#A020F0">'KFold'</span>,5);
+classLabels = kfoldPredict(kfoldmodel);
+loss = kfoldLoss(kfoldmodel)*100</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>loss = 33.3333
+</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>[confmatCVraw,grouporder] = confusionmat([trainLabels;testLabels],classLabels);
+rawTable = helperPrecisionRecall(confmatCVraw);
+disp(rawTable)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>           Precision    Recall    F1_Score
+           _________    ______    ________
+
+    ARR        64          100     78.049 
+    CHF       100       13.333     23.529 
+    NSR       100       22.222     36.364 
+</pre></div></div></div><p>The misclassification rate for the raw time series data is 33.3%. Repeating the precision, recall, and F1 score analysis reveals very poor F1 scores for both the CHF (23.52) and NSR groups (36.36). Obtain the magnitude discrete Fourier transform (DFT) coefficients for each signal to perform the analysis in frequency domain. Because the data are real-valued, we can achieve some data reduction using the DFT by exploiting the fact that Fourier magnitudes are an even function.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>rawDataDFT = abs(fft(rawData,[],2));
+rawDataDFT = rawDataDFT(:,1:2^16/2+1);
+rng(1)
+template = templateSVM(<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'KernelFunction'</span>,<span style="color:#A020F0">'polynomial'</span>,<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'PolynomialOrder'</span>,2,<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'KernelScale'</span>,<span style="color:#A020F0">'auto'</span>,<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'BoxConstraint'</span>,1,<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'Standardize'</span>,true);
+model = fitcecoc(<span style="color:#0000FF">...</span>
+    rawDataDFT,<span style="color:#0000FF">...</span>
+    [trainLabels;testLabels],<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'Learners'</span>,template,<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'Coding'</span>,<span style="color:#A020F0">'onevsone'</span>,<span style="color:#0000FF">...</span>
+    <span style="color:#A020F0">'ClassNames'</span>,{<span style="color:#A020F0">'ARR'</span>,<span style="color:#A020F0">'CHF'</span>,<span style="color:#A020F0">'NSR'</span>});
+kfoldmodel = crossval(model,<span style="color:#A020F0">'KFold'</span>,5);
+classLabels = kfoldPredict(kfoldmodel);
+loss = kfoldLoss(kfoldmodel)*100</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>loss = 19.1358
+</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>[confmatCVDFT,grouporder] = confusionmat([trainLabels;testLabels],classLabels);
+dftTable = helperPrecisionRecall(confmatCVDFT);
+disp(dftTable)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>           Precision    Recall    F1_Score
+           _________    ______    ________
+
+    ARR     76.423      97.917     85.845 
+    CHF        100      26.667     42.105 
+    NSR     93.548      80.556     86.567 
+</pre></div></div></div><p>Using the DFT magnitudes reduces the misclassification rate to 19.13% but that is still more than twice the error rate obtained with our 190 features. These analyses demonstrate that the classifier has benefited from a careful selection of features. </p><p>To answer the question concerning the role of the classifier, attempt to cluster the data using only the feature vectors. Use k-means clustering along with the gap statistic to determine both the optimal number of clusters and cluster assignment. Allow for the possibility of 1 to 6 clusters for the data.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>rng <span style="color:#A020F0">default</span>
+eva = evalclusters(features,<span style="color:#A020F0">'kmeans'</span>,<span style="color:#A020F0">'gap'</span>,<span style="color:#A020F0">'KList'</span>,[1:6]);
+eva</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>eva = 
+  GapEvaluation with properties:
+
+    NumObservations: 162
+         InspectedK: [1 2 3 4 5 6]
+    CriterionValues: [1.2777 1.3539 1.3644 1.3570 1.3591 1.3752]
+           OptimalK: 3
+
+</pre></div></div></div><p>The gap statistic indicates that the optimal number of clusters is three. However, if you look at the number of records in each of the three clusters, you see that the k-means clustering based on the feature vectors has done a poor job of separating the three diagnostic categories.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>countcats(categorical(eva.OptimalY))</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>ans = <span class="emphasis"><em>3×1</em></span>
+
+    61
+    74
+    27
+
+</pre></div></div></div><p>Recall that there are 96 persons in the ARR class, 30 in the CHF class, and 36 in the NSR class.</p><h3 class="title" id="XpwWaveletMLExample-10">Summary</h3><p>This example used signal processing to extract wavelet features from ECG signals and used those features to classify ECG signals into three classes. Not only did the feature extraction result in a significant amount of data reduction, it also captured the differences between the ARR, CHF, and NSR classes as demonstrated by the cross-validation results and the performance of the SVM classifier on the test set. The example further demonstrated that applying a SVM classifier to the raw data resulted in poor performance as did clustering the feature vectors without using a classifier. Neither the classifier nor the features alone were sufficient to separate the classes. However, when feature extraction was used as a data reduction step prior to the use of a classifier, the three classes were well separated.</p><h3 class="title" id="XpwWaveletMLExample-11">References</h3><div class="orderedlist"><ol style="list-style: decimal;"><li><p>Baim DS, Colucci WS, Monrad ES, Smith HS, Wright RF, Lanoue A, Gauthier DF, Ransil BJ, Grossman W, Braunwald E. Survival of patients with severe congestive heart failure treated with oral milrinone. J American College of Cardiology 1986 Mar; 7(3):661-670.</p></li><li><p>Engin, M., 2004. ECG beat classification using neuro-fuzzy network. Pattern Recognition Letters, 25(15), pp.1715-1722.</p></li><li><p>Goldberger AL, Amaral LAN, Glass L, Hausdorff JM, Ivanov PCh, Mark RG, Mietus JE, Moody GB, Peng C-K, Stanley HE. PhysioBank, PhysioToolkit,and PhysioNet: Components of a New Research Resource for Complex Physiologic Signals. <span class="emphasis"><em>Circulation</em></span>. Vol. 101, No. 23, 13 June 2000, pp. e215-e220. <code class="literal">http://circ.ahajournals.org/content/101/23/e215.full</code></p></li><li><p>Leonarduzzi, R.F., Schlotthauer, G., and Torres. M.E. 2010. Wavelet leader based multifractal analysis of heart rate variability during myocardial ischaemia. Engineering in Medicine and Biology Society (EMBC), 2010 Annual International Conference of the IEEE.</p></li><li><p>Li, T. and Zhou, M., 2016. ECG classification using wavelet packet entropy and random forests. Entropy, 18(8), p.285.</p></li><li><p>Maharaj, E.A. and Alonso, A.M. 2014. Discriminant analysis of multivariate time series: Application to diagnosis based on ECG signals. Computational Statistics and Data Analysis, 70, pp. 67-87.</p></li><li><p>Moody GB, Mark RG. The impact of the MIT-BIH Arrhythmia Database. IEEE Eng in Med and Biol 20(3):45-50 (May-June 2001). (PMID: 11446209)</p></li><li><p>Zhao, Q. and Zhang, L., 2005. ECG feature extraction and classification using wavelet transform and support vector machines. IEEE International Conference on Neural Networks and Brain,2, pp. 1089-1092.</p></li></ol></div><h3 class="title" id="XpwWaveletMLExample-12">Supporting Functions</h3><p><strong class="emphasis bold">helperPlotRandomRecords</strong> Plots four ECG signals randomly chosen from <code class="literal">ECGData</code>.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre><span style="color:#0000FF">function</span> helperPlotRandomRecords(ECGData,randomSeed)
+<span style="color:#228B22">% This function is only intended to support the XpwWaveletMLExample. It may</span>
+<span style="color:#228B22">% change or be removed in a future release.</span>
+
+<span style="color:#0000FF">if</span> nargin==2
+    rng(randomSeed)
+<span style="color:#0000FF">end</span>
+
+M = size(ECGData.Data,1);
+idxsel = randperm(M,4);
+<span style="color:#0000FF">for</span> numplot = 1:4
+    subplot(2,2,numplot)
+    plot(ECGData.Data(idxsel(numplot),1:3000))
+    ylabel(<span style="color:#A020F0">'Volts'</span>)
+    <span style="color:#0000FF">if</span> numplot &gt; 2
+        xlabel(<span style="color:#A020F0">'Samples'</span>)
+    <span style="color:#0000FF">end</span>
+    title(ECGData.Labels{idxsel(numplot)})
+<span style="color:#0000FF">end</span>
+
+<span style="color:#0000FF">end</span></pre></div></div></div><p><strong class="emphasis bold">helperExtractFeatures</strong> Extracts the wavelet features and AR coefficients for blocks of the data of a specified size. The features are concatenated into feature vectors.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre><span style="color:#0000FF">function</span> [trainFeatures, testFeatures,featureindices] = helperExtractFeatures(trainData,testData,T,AR_order,level)
+<span style="color:#228B22">% This function is only in support of XpwWaveletMLExample. It may change or</span>
+<span style="color:#228B22">% be removed in a future release.</span>
+trainFeatures = [];
+testFeatures = [];
+
+<span style="color:#0000FF">for</span> idx =1:size(trainData,1)
+    x = trainData(idx,:);
+    x = detrend(x,0);
+    arcoefs = blockAR(x,AR_order,T);
+    se = shannonEntropy(x,T,level);
+    [cp,rh] = leaders(x,T);
+    wvar = modwtvar(modwt(x,<span style="color:#A020F0">'db2'</span>),<span style="color:#A020F0">'db2'</span>);
+    trainFeatures = [trainFeatures; arcoefs se cp rh wvar']; <span style="color:#228B22">%#ok&lt;AGROW&gt;</span>
+    
+<span style="color:#0000FF">end</span>
+
+<span style="color:#0000FF">for</span> idx =1:size(testData,1)
+    x1 = testData(idx,:);
+    x1 = detrend(x1,0);
+    arcoefs = blockAR(x1,AR_order,T);
+    se = shannonEntropy(x1,T,level);
+    [cp,rh] = leaders(x1,T);
+    wvar = modwtvar(modwt(x1,<span style="color:#A020F0">'db2'</span>),<span style="color:#A020F0">'db2'</span>);
+    testFeatures = [testFeatures;arcoefs se cp rh wvar']; <span style="color:#228B22">%#ok&lt;AGROW&gt;</span>
+    
+<span style="color:#0000FF">end</span>
+
+featureindices = struct();
+<span style="color:#228B22">% 4*8</span>
+featureindices.ARfeatures = 1:32;
+startidx = 33;
+endidx = 33+(16*8)-1;
+featureindices.SEfeatures = startidx:endidx;
+startidx = endidx+1;
+endidx = startidx+7;
+featureindices.CP2features = startidx:endidx;
+startidx = endidx+1;
+endidx = startidx+7;
+featureindices.HRfeatures = startidx:endidx;
+startidx = endidx+1;
+endidx = startidx+13;
+featureindices.WVARfeatures = startidx:endidx;
+<span style="color:#0000FF">end</span>
+
+
+<span style="color:#0000FF">function</span> se = shannonEntropy(x,numbuffer,level)
+numwindows = numel(x)/numbuffer;
+y = buffer(x,numbuffer);
+se = zeros(2^level,size(y,2));
+<span style="color:#0000FF">for</span> kk = 1:size(y,2)
+    wpt = modwpt(y(:,kk),level);
+    <span style="color:#228B22">% Sum across time</span>
+    E = sum(wpt.^2,2);
+    Pij = wpt.^2./E;
+    <span style="color:#228B22">% The following is eps(1)</span>
+    se(:,kk) = -sum(Pij.*log(Pij+eps),2);
+<span style="color:#0000FF">end</span>
+se = reshape(se,2^level*numwindows,1);
+se = se';
+<span style="color:#0000FF">end</span>
+
+
+<span style="color:#0000FF">function</span> arcfs = blockAR(x,order,numbuffer)
+numwindows = numel(x)/numbuffer;
+y = buffer(x,numbuffer);
+arcfs = zeros(order,size(y,2));
+<span style="color:#0000FF">for</span> kk = 1:size(y,2)
+    artmp =  arburg(y(:,kk),order);
+    arcfs(:,kk) = artmp(2:end);
+<span style="color:#0000FF">end</span>
+arcfs = reshape(arcfs,order*numwindows,1);
+arcfs = arcfs';
+<span style="color:#0000FF">end</span>
+
+
+<span style="color:#0000FF">function</span> [cp,rh] = leaders(x,numbuffer)
+y = buffer(x,numbuffer);
+cp = zeros(1,size(y,2));
+rh = zeros(1,size(y,2));
+<span style="color:#0000FF">for</span> kk = 1:size(y,2)
+    [~,h,cptmp] = dwtleader(y(:,kk));
+    cp(kk) = cptmp(2);
+    rh(kk) = range(h);
+<span style="color:#0000FF">end</span>
+<span style="color:#0000FF">end</span></pre></div></div></div><p><strong class="emphasis bold">helperPrecisionRecall</strong> returns the precision, recall, and F1 scores based on the confusion matrix. Outputs the results as a MATLAB table.</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre><span style="color:#0000FF">function</span> PRTable = helperPrecisionRecall(confmat)
+<span style="color:#228B22">% This function is only in support of XpwWaveletMLExample. It may change or</span>
+<span style="color:#228B22">% be removed in a future release.</span>
+precisionARR = confmat(1,1)/sum(confmat(:,1))*100;
+precisionCHF = confmat(2,2)/sum(confmat(:,2))*100 ;
+precisionNSR = confmat(3,3)/sum(confmat(:,3))*100 ;
+recallARR = confmat(1,1)/sum(confmat(1,:))*100;
+recallCHF = confmat(2,2)/sum(confmat(2,:))*100;
+recallNSR = confmat(3,3)/sum(confmat(3,:))*100;
+F1ARR = 2*precisionARR*recallARR/(precisionARR+recallARR);
+F1CHF = 2*precisionCHF*recallCHF/(precisionCHF+recallCHF);
+F1NSR = 2*precisionNSR*recallNSR/(precisionNSR+recallNSR);
+<span style="color:#228B22">% Construct a MATLAB Table to display the results.</span>
+PRTable = array2table([precisionARR recallARR F1ARR;<span style="color:#0000FF">...</span>
+    precisionCHF recallCHF F1CHF; precisionNSR recallNSR<span style="color:#0000FF">...</span>
+    F1NSR],<span style="color:#A020F0">'VariableNames'</span>,{<span style="color:#A020F0">'Precision'</span>,<span style="color:#A020F0">'Recall'</span>,<span style="color:#A020F0">'F1_Score'</span>},<span style="color:#A020F0">'RowNames'</span>,<span style="color:#0000FF">...</span>
+    {<span style="color:#A020F0">'ARR'</span>,<span style="color:#A020F0">'CHF'</span>,<span style="color:#A020F0">'NSR'</span>});
+
+<span style="color:#0000FF">end</span></pre></div></div></div></div>
+            <h2 id="d124e31494">See Also</h2><h3>Functions</h3><ul class="list-unstyled margined_10"><li><span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="../ref/modwt.html"><span itemprop="name"><code class="function">modwt</code></span></a></span> | <span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="../ref/modwtvar.html"><span itemprop="name"><code class="function">modwtvar</code></span></a></span> | <span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="../ref/modwpt.html"><span itemprop="name"><code class="function">modwpt</code></span></a></span> | <span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="../ref/wentropy.html"><span itemprop="name"><code class="function">wentropy</code></span></a></span></li></ul><h3>Apps</h3><ul class="list-unstyled margined_10"><li><span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="../../stats/classification-learner-app.html"><span itemprop="name">Classification Learner App</span></a> (Statistics and Machine Learning Toolbox)</span></li></ul>
+            
+            
+        </section>
+    </div>
+<div class="modal fade" id="open-example-dialog" tabindex="-1" role="dialog" aria-labelledby="openExampleDialogLabel" aria-hidden="true"> 
+  <div class="modal-dialog"> 
+    <div class="modal-content"> 
+      <div class="modal-header"> 
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#215;</span></button> 
+        <h2 class="modal-title">Open Example</h2> 
+      </div> 
+      <div class="modal-body" id="dialog-body"> 
+        <p>You have a modified version of this example. Do you want to open this example with your edits?</p> 
+      </div> 
+      <div class="modal-footer"> 
+        <a id="open-example-dialog-replace" class="btn btn_color_blue companion_btn" data-dismiss="modal">No, overwrite the modified version</a>
+        <a id="open-example-dialog-continue" class="btn btn_color_blue" data-dismiss="modal">Yes</a>
+      </div> 
+    </div> 
+  </div> 
+</div>
+<div class="clearfix"></div>
+<div align="center" class="feedbackblock" id="mw_docsurvey"><script src="/help/docsurvey/docfeedback.js?202303060208"></script>
+<script>loadSurveyHidden();</script>
+<link rel="stylesheet" href="/help/docsurvey/release/index-css.css" type="text/css">
+<script src="/help/docsurvey/release/bundle.index.js?202303060208"></script>
+
+<script>initDocSurvey();</script></div></section>
+<div class="modal fade" id="matlab-command-dialog" tabindex="-1" role="dialog" aria-labelledby="matlabCommandDialogLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title">MATLAB Command</h2>
+      </div>
+      <div class="modal-body" id="dialog-body">
+        <p>You clicked a link that corresponds to this MATLAB command: </p>
+        <pre id="dialog-matlab-command"></pre>
+        <p>Run the command by entering it in the MATLAB Command Window.
+        Web browsers do not support MATLAB commands.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn_secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+<div id="location_content" style="display:none;"></div>
+
+
+<div class="modal fade" id="country-unselected" tabindex="-1" role="dialog" aria-labelledby="country-unselected-title" translate="no">
+<div id="country-select-container">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <img alt="MathWorks" src="/images/responsive/global/pic-header-mathworks-logo2.svg" style="width:167px; height:auto;">
+      </div>
+      <div class="modal-body">
+        <div class="row add_margin_40">
+          <div class="col-xs-12">
+            <p class="h1 icon-globe icon_color_secondary" id="country-unselected-title">Select a Web Site</p>
+            <p>Choose a web site to get translated content where available and see local events and offers. Based on your location, we recommend that you select: <strong class="recommended-country"></strong>.</p>
+						<div class="default-recommendation">
+							<a href="#" id="recommended_domain_button"
+								class="btn btn_color_blue containsResourceName resourceClass-button"><span
+								class="recommended-country"></span></a>
+						</div>
+						<div class="ch-recommendation" style="display:none;">
+							<ul class="list-inline">
+								<li class="add_display_block_xs add_margin_10_xs"><a href="https://ch.mathworks.com" class="recommendation-button btn btn_color_blue btn-md add_display_block_xs" data-subdomain="ch" data-lang="en" data-recommended-text="Switzerland" data-default-lang="true" data-do-not-rewrite="true" x-cq-linkchecker="skip">Switzerland (English)</a></li>
+								<li class="add_display_block_xs add_margin_10_xs"><a href="https://ch.mathworks.com" class="recommendation-button btn companion_btn btn-md add_display_block_xs" data-subdomain="ch" data-lang="de" data-recommended-text="Schweiz" data-do-not-rewrite="true" x-cq-linkchecker="skip">Switzerland (Deutsch)</a></li>
+								<li class="add_display_block_xs"><a href="https://ch.mathworks.com" class="recommendation-button btn companion_btn btn-md add_display_block_xs" data-subdomain="ch" data-lang="fr" data-recommended-text="Suisse" data-do-not-rewrite="true" x-cq-linkchecker="skip">Switzerland (Français)</a></li>
+							</ul>
+						</div>
+						<div class="zh-recommendation" style="display:none;">
+							<ul class="list-inline">
+								<li class="add_display_block_xs add_margin_10_xs"><a href="https://ww2.mathworks.cn" class="recommendation-button btn btn_color_blue btn-md add_display_block_xs" data-subdomain="ww2" data-lang="zh" data-recommended-text="中国" data-default-lang="true" data-do-not-rewrite="true" x-cq-linkchecker="skip">中国 (简体中文)</a></li>
+								<li class="add_display_block_xs"><a href="https://ww2.mathworks.cn" class="recommendation-button btn companion_btn btn-md add_display_block_xs" data-subdomain="ww2" data-lang="en" data-recommended-text="China" data-do-not-rewrite="true" x-cq-linkchecker="skip">中国 (English)</a></li>
+							</ul>
+						</div>
+          </div>
+        </div>
+        <p>You can also select a web site from the following list:</p>
+				<div class="alert alert-warning" id="china_performance_alert" style="display:none;"> <span class="alert_icon icon-alert-warning"></span>
+					<h2>How to Get Best Site Performance</h2>
+					<p>Select the China site (in Chinese or English) for best site performance. Other MathWorks country sites are not optimized for visits from your location.</p>
+				</div>
+        <div class="row add_margin_30">
+          <div class="col-sm-4 col-md-3">
+            <h3 class="add_bottom_rule">Americas</h3>
+            <ul class="list-unstyled">
+              <li><a href="https://la.mathworks.com" class="domain_selector_link" data-country-code="LA" data-subdomain="la" data-lang="es" data-default-lang="true" data-selected-text="América Latina" data-recommended-text="América Latina" data-do-not-rewrite="true">Am&eacute;rica Latina</a> (Español)</li>
+              <li><a href="https://www.mathworks.com" class="domain_selector_link" data-country-code="CA" data-subdomain="www" data-lang="en" data-do-not-rewrite="true">Canada</a> (English)</li>
+              <li><a href="https://www.mathworks.com" class="domain_selector_link" data-country-code="US" data-subdomain="www" data-lang="en" data-default-lang="true" data-selected-text="United States" data-recommended-text="United States" data-do-not-rewrite="true">United States</a> (English)</li>
+            </ul>
+          </div>
+          <div class="col-sm-4 col-md-6">
+            <h3 class="add_bottom_rule">Europe</h3>
+            <div class="row">
+              <div class="col-xs-6 col-sm-12 col-md-6">
+                <ul class="list-unstyled add_margin_0_sm">
+                  <li><a href="https://nl.mathworks.com" class="domain_selector_link" data-country-code="BE" data-subdomain="nl" data-lang="en" data-do-not-rewrite="true">Belgium</a> (English)</li>
+                  <li><a href="https://se.mathworks.com" class="domain_selector_link" data-country-code="DK" data-subdomain="se" data-lang="en" data-do-not-rewrite="true">Denmark</a> (English)</li>
+                  <li><a href="https://de.mathworks.com" class="domain_selector_link" data-country-code="DE" data-subdomain="de" data-lang="de" data-default-lang="true" data-selected-text="Deutschland" data-recommended-text="Deutschland" data-do-not-rewrite="true">Deutschland</a> (Deutsch)</li>
+                  <li><a href="https://es.mathworks.com" class="domain_selector_link" data-country-code="ES" data-subdomain="es" data-lang="es" data-default-lang="true" data-selected-text="España" data-recommended-text="España" data-do-not-rewrite="true">España</a> (Español)</li>
+                  <li><a href="https://se.mathworks.com"  class="domain_selector_link" data-country-code="FI" data-subdomain="se" data-lang="en" data-do-not-rewrite="true">Finland</a> (English)</li>
+                  <li><a href="https://fr.mathworks.com" class="domain_selector_link" data-country-code="FR" data-subdomain="fr" data-lang="fr" data-default-lang="true" data-selected-text="France" data-recommended-text="France" data-do-not-rewrite="true">France</a> (Français)</li>
+                  <li><a href="https://uk.mathworks.com" class="domain_selector_link" data-country-code="IE" data-subdomain="uk" data-lang="en" data-do-not-rewrite="true">Ireland</a> (English)</li>
+                  <li><a href="https://it.mathworks.com" class="domain_selector_link" data-country-code="IT" data-subdomain="it" data-lang="it" data-default-lang="true" data-selected-text="Italia" data-recommended-text="Italia" data-do-not-rewrite="true">Italia</a> (Italiano)</li>
+                  <li><a href="https://nl.mathworks.com" class="domain_selector_link" data-country-code="LU" data-subdomain="nl" data-lang="en" data-do-not-rewrite="true">Luxembourg</a> (English)</li>
+                </ul>
+              </div>
+              <div class="col-xs-6 col-sm-12 col-md-6">
+                <ul class="list-unstyled">
+                  <li><a href="https://nl.mathworks.com" class="domain_selector_link" data-country-code="NL" data-subdomain="nl" data-lang="en" data-default-lang="true" data-selected-text="Benelux" data-recommended-text="Netherlands" data-do-not-rewrite="true">Netherlands</a> (English)</li>
+                  <li><a href="https://se.mathworks.com" class="domain_selector_link" data-country-code="NO" data-subdomain="se" data-lang="en" data-do-not-rewrite="true">Norway</a> (English)</li>
+                  <li><a href="https://de.mathworks.com" class="domain_selector_link" data-country-code="AT" data-subdomain="de" data-lang="de" data-do-not-rewrite="true">Österreich</a> (Deutsch)</li>
+                  <li><a href="https://www.mathworks.com" class="domain_selector_link" data-country-code="PT" data-subdomain="www" data-lang="en" data-do-not-rewrite="true">Portugal</a> (English)</li>
+                  <li><a href="https://se.mathworks.com" class="domain_selector_link" data-country-code="Sweden" data-subdomain="se" data-lang="en" data-default-lang="true" data-selected-text="Nordic" data-recommended-text="Sweden" data-do-not-rewrite="true">Sweden</a> (English)</li>
+                  <li>Switzerland
+                    <ul class="list-unstyled add_indent_20">
+                      <li><a href="https://ch.mathworks.com" class="domain_selector_link" data-country-code="CH" data-subdomain="ch" data-lang="de" data-selected-text="Schweiz" data-recommended-text="Schweiz" data-do-not-rewrite="true">Deutsch</a></li>
+                      <li><a href="https://ch.mathworks.com" id="swiss_english" class="domain_selector_link" data-country-code="CH" data-subdomain="ch" data-lang="en" data-default-lang="true" data-selected-text="Switzerland" data-recommended-text="Switzerland" data-do-not-rewrite="true">English</a></li>
+                      <li><a href="https://ch.mathworks.com" class="domain_selector_link" data-country-code="CH" data-subdomain="ch" data-lang="fr" data-selected-text="Suisse" data-recommended-text="Suisse" data-do-not-rewrite="true">Français</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="https://uk.mathworks.com" class="domain_selector_link" data-country-code="GB" data-subdomain="uk" data-lang="en" data-default-lang="true" data-selected-text="United Kingdom" data-recommended-text="United Kingdom" data-do-not-rewrite="true">United Kingdom</a> (English)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-md-3">
+            <h3 class="add_bottom_rule">Asia Pacific</h3>
+            <ul class="list-unstyled">
+              <li><a href="https://au.mathworks.com" class="domain_selector_link" data-country-code="AU" data-subdomain="au" data-lang="en" data-default-lang="true" data-selected-text="Australia" data-recommended-text="Australia" data-do-not-rewrite="true">Australia</a> (English)</li>
+              <li><a href="https://in.mathworks.com" class="domain_selector_link" data-country-code="IN" data-subdomain="in" data-lang="en" data-default-lang="true" data-selected-text="India" data-recommended-text="India" data-do-not-rewrite="true">India</a> (English)</li>
+              <li><a href="https://au.mathworks.com" class="domain_selector_link" data-country-code="NZ" data-subdomain="au" data-lang="en" data-do-not-rewrite="true">New Zealand</a> (English)</li>
+              <li>中国
+                    <ul class="list-unstyled add_indent_20">
+                      <li><a href="https://ww2.mathworks.cn" class="domain_selector_link" data-country-code="CN" data-subdomain="ww2" data-lang="zh" data-default-lang="true" data-selected-text="中国" data-recommended-text="中国" data-do-not-rewrite="true">简体中文</a></li>
+                      <li><a href="https://ww2.mathworks.cn" class="domain_selector_link" data-country-code="CN" data-subdomain="ww2" data-lang="en" data-default-lang="true" data-selected-text="China" data-recommended-text="China" data-do-not-rewrite="true">English</a></li>
+                    </ul>
+               </li>
+              <li><a href="https://jp.mathworks.com" class="domain_selector_link" data-country-code="JP" data-subdomain="jp" data-lang="ja" data-default-lang="true" data-selected-text="日本" data-recommended-text="日本" data-do-not-rewrite="true">日本</a> (日本語)</li>
+              <li><a href="https://kr.mathworks.com" class="domain_selector_link" data-country-code="KR" data-subdomain="kr" data-lang="ko" data-default-lang="true" data-selected-text="한국" data-recommended-text="한국" data-do-not-rewrite="true">한국</a> (한국어)</li>
+            </ul>
+          </div>
+        </div>
+        <p class="text-center"><a href="#" class="worldwide_link">Contact your local office</a></p>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+  
+
+              </main>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE CTA - Begin -->
+      <div class="cta_container_mobile visible-sm visible-xs">
+        <div class="container-fluid">      
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="cta_box">
+<ul class="list-inline">
+<li class="cta_item cta_item_general hidden-sm hidden-xs "><a href="/campaigns/products/trials.html?prodcode=WA&amp;s_iid=doc_trial_WA_tb" class="icon-download">Trial Software</a></li>
+<li class="hidden-lg hidden-md "><a href="/campaigns/products/trials.html?prodcode=WA&amp;s_iid=doc_trial_WA_tb" class="btn btn_color_blue btn-block"><span class="icon-download"></span> Trial Software</a></li>
+<li class="cta_item cta_item_general hidden-sm hidden-xs "><a href="/support/web_downloads_bounce.html?s_cid=1008_degr_docdn_270055" class="icon-download">Product Updates</a></li>
+<li class="hidden-lg hidden-md "><a href="/support/web_downloads_bounce.html?s_cid=1008_degr_docdn_270055" class="btn btn_color_blue btn-block"><span class="icon-download"></span> Product Updates</a></li>
+</ul>
+</div> 
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- MOBILE CTA - End -->
+
+
+      <footer id="footer" class="bs-footer">
+          <!-- FAT FOOTER - Begin --> 
+          <div class="container-fluid">
+            <div class="fat_footer_container">
+              <div class="fat_footer">
+<div class="execmatlabweb"> <!--Requried for Doc Test -->
+<div class="row">
+<div class="col-xs-12 col-md-12 col-lg-3 add_margin_20">
+<p class="h4 add_margin_0"><span translate="no">MathWorks</span></p>
+<p><em>Accelerating the pace of engineering and science</em></p>
+<p class="hidden-xs"><span translate="no">MathWorks</span> is the leading developer of mathematical computing software for engineers and scientists.</p>
+<p class="hidden-xs"><a href="/discovery.html?s_tid=all_disc_mw_ff">Discover...</a></p>
+</div>
+<div class="col-xs-12 col-md-12 col-lg-9">
+<div class="row">
+<div class="col-xs-12 col-sm-2">
+<p class="ff_section_title"><a href="#fatfooter_products" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="fatfooter_products">Explore Products <span class="caret"></span></a></p>
+<div class="collapse" id="fatfooter_products">
+<ul class="list-unstyled">
+<li><a href="/products/matlab.html?s_tid=hp_ff_p_matlab">MATLAB</a></li>
+<li><a href="/products/simulink.html?s_tid=hp_ff_p_simulink">Simulink</a></li>
+<li><a href="/products/matlab/student.html?s_tid=hp_ff_p_student">Student Software</a></li>
+<li><a href="/hardware-support/home.html?s_tid=hp_ff_p_hwsupport">Hardware Support</a></li>
+<li><a href="/matlabcentral/fileexchange/?s_tid=hp_ff_p_fx">File Exchange</a></li>
+</ul>
+</div>
+</div>
+<div class="col-xs-12 col-sm-2">
+<p class="ff_section_title"><a href="#fatfooter_buy" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="fatfooter_buy">Try or Buy <span class="caret"></span></a></p>
+<div class="collapse" id="fatfooter_buy">
+<ul class="list-unstyled">
+<li><a href="/downloads/web_downloads/?s_iid=hp_ff_t_downloads">Downloads</a></li>
+<li><a href="/campaigns/products/trials.html?s_iid=hp_ff_p_trial">Trial Software</a></li>
+<li><a href="/company/aboutus/contact_us/contact_sales.html?s_iid=hp_ff_t_sales">Contact Sales</a></li>
+<li><a href="/pricing-licensing.html?s_iid=hp_ff_t_pricing">Pricing and Licensing</a></li>
+<li><a href="/store/?s_tid=hp_ff_t_buy">How to Buy</a></li>
+</ul>
+</div>
+</div>
+<div class="col-xs-12 col-sm-2">
+<p class="ff_section_title"><a role="button" data-toggle="collapse" href="#fatfooter_use" aria-expanded="false" aria-controls="fatfooter_use">Learn to Use <span class="caret"></span></a></p>
+<div class="collapse" id="fatfooter_use">
+<ul class="list-unstyled">
+<li><a href="/help/?s_tid=hp_ff_l_doc">Documentation</a></li>
+<li><a href="/support/learn-with-matlab-tutorials.html?s_tid=hp_ff_l_tutorials">Tutorials</a></li>
+<li><a href="/help/examples.html?s_tid=hp_ff_l_examples">Examples</a></li>
+<li><a href="/videos.html?s_tid=hp_ff_l_videos">Videos and Webinars</a></li>
+<li><a href="/learn/training.html?s_tid=hp_ff_l_training">Training</a></li>
+</ul>
+</div>
+</div>
+<div class="clearfix" id="offcanvas_clearfix" style="display:none"></div>
+<div class="col-xs-12 col-sm-2">
+<p class="ff_section_title"><a href="#fatfooter_support" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="fatfooter_support">Get Support <span class="caret"></span></a></p>
+<div class="collapse" id="fatfooter_support">
+<ul class="list-unstyled">
+<li><a href="/help/install/?s_tid=hp_ff_s_install">Installation Help</a></li>
+<li><a href="/matlabcentral/answers/index?s_tid=hp_ff_s_answers">Answers</a></li>
+<li><a href="/services/consulting.html?s_tid=hp_ff_s_consulting">Consulting</a></li>
+<li><a href="/licensecenter/?s_tid=hp_ff_s_license">License Center</a></li>
+<li><a href="/support/contact_us.html?s_tid=hp_ff_s_support">Contact Support</a></li>
+</ul>
+</div>
+</div>
+<div class="col-xs-12 col-sm-2">
+<p class="ff_section_title"><a role="button" data-toggle="collapse" href="#fatfooter_about" aria-expanded="false" aria-controls="fatfooter_about">About <span translate="no">MathWorks</span> <span class="caret"></span></a></p>
+<div class="collapse" id="fatfooter_about">
+<ul class="list-unstyled">
+<li><a href="/company/jobs/opportunities.html?s_tid=hp_ff_a_careers">Careers</a></li>
+<li><a href="/company/newsroom.html?s_tid=hp_ff_a_newsroom">Newsroom</a></li>
+<li><a href="/company/aboutus/soc_mission.html?s_tid=hp_ff_a_socialmission">Social Mission</a></li>
+<li><a href="/company/customer-stories.html?s_tid=hp_ff_a_customerstories">Customer Stories</a></li>
+<li><a href="/company.html?s_tid=hp_ff_a_company">About <span translate="no">MathWorks</span></a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+            </div>
+          </div>
+          <!-- FAT FOOTER - End -->
+        <div class="container-fluid">
+         <div class="footer" translate="no">
+<div class="row">
+<div class="col-xs-12 col-md-9">
+<ul class="countrynav" id="countrynav">
+<li class="footernav_country">
+<a href="#" data-toggle="modal" data-target="#country-unselected">
+<span class="icon-globe icon_color_quinary icon_16"></span>United States
+</a>
+</li>
+</ul>
+<div class="clearfix"></div>
+<ul class="footernav">
+<li class="footernav_patents"><a href="https://www.mathworks.com/company/aboutus/policies_statements/trust-center.html?s_tid=gf_tc">Trust Center</a></li>
+<li class="footernav_trademarks"><a href="https://www.mathworks.com/company/aboutus/policies_statements/trademarks.html?s_tid=gf_trd">Trademarks</a></li>
+<li class="footernav_privacy"><a href="https://www.mathworks.com/company/aboutus/policies_statements.html?s_tid=gf_priv">Privacy Policy</a></li>
+<li class="footernav_piracy"><a href="https://www.mathworks.com/company/aboutus/policies_statements/piracy.html?s_tid=gf_pir">Preventing Piracy</a></li>
+<li class="footernav_status"><a href="https://status.mathworks.com/?s_tid=gf_application">Application Status</a></li>
+</ul>
+<div class="clearfix"></div>
+<div class="clearfix"></div>
+<p class="copyright" translate="no">&copy; 1994-2023 The MathWorks, Inc.</p>
+</div>
+<div class="clearfix visible-sm add_margin_10"></div>
+<div class="col-xs-12 col-md-3">
+<div class="social_media">
+<ul class="social_media_icons">
+<li>
+<a href="https://www.facebook.com/MATLAB" target="_blank" rel="nofollow noopener noreferrer" class="svg_link">
+<img src="/images/responsive/global/ico-facebook.svg" alt="Facebook" class="ico_facebook">
+</a>
+</li>
+<li>
+<a href="https://twitter.com/MATLAB" target="_blank" rel="nofollow noopener noreferrer" class="svg_link">
+<img src="/images/responsive/global/ico-twitter.svg" alt="Twitter" class="ico_twitter">
+</a>
+</li>
+<li>
+<a href="https://www.instagram.com/matlab/" class="svg_link" target="_blank" rel="nofollow noopener noreferrer">
+<img class="ico_instagram" alt="Instagram" src="/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/images/ico-instagram.svg">
+</a>
+</li>
+<li>
+<a href="https://www.youtube.com/user/MATLAB" class="svg_link" target="_blank" rel="nofollow noopener noreferrer">
+<img class="ico_youtube" alt="YouTube" src="/images/responsive/global/ico-youtube.svg">
+</a>
+</li>
+<li>
+<a href="https://www.linkedin.com/company/the-mathworks_2" target="_blank" rel="nofollow noopener noreferrer" class="svg_link">
+<img src="/images/responsive/global/ico-linkedin.svg" alt="LinkedIn" class="ico_linkedin">
+</a>
+</li>
+<li>
+<a href="https://www.mathworks.com/company/rss.html" class="svg_link">
+<img src="/images/responsive/global/ico-rss.svg" alt="RSS" class="ico_rss">
+</a>
+</li>
+</ul>
+<div class="clearfix"></div>
+<p><em>Join the conversation</em></p>
+</div>
+</div>
+</div>
+</div>
+        </div>
+      </footer>
+
+    </div>
+  
+  </div>
+
+
+<!-- CRUX 2.0 -->
+<script src="/includes_content/responsive/scripts/crux_nav_truncate.js?202303"></script>
+
+<!-- Mirror Search Queries on Scope Change : g2611494 -->
+<script>
+$('#search_scope_support').on('show.bs.collapse', function () {
+  if ($('#search_scope_site #query').val()) {
+    var site_search_value = $('#search_scope_site #query').val();
+    $('#search_scope_support #docsearch').val(site_search_value); 
+  }
+})
+$('#search_scope_site').on('show.bs.collapse', function () {
+  if ($('#search_scope_support #docsearch').val()) {
+    var support_search_value = $('#search_scope_support #docsearch').val();
+    $('#search_scope_site #query').val(support_search_value); 
+  }  
+})
+</script>
+<script type="text/javascript"  src="/ME81c1M_N7VH/9d/fn5JQFj58_/Eta7QckrzGJ71p/WRZ9AQ/JDY/WGSgjBls"></script></body>
+</html>
